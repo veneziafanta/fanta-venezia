@@ -15,7 +15,8 @@ window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
 const pdfs = [
   { name: "Fanta Venezia - Regolamento.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
   { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
-  ];
+  { name: "Lista Squadre 2025.pdf", link: "https://drive.google.com/uc?export=download&id=1AbC2dE3fGhIjKlMnOpQrStUvWxYz..." }
+];
 
 // Invia form (da configurare al prossimo passo)
 form.onsubmit = async (e) => {
@@ -55,5 +56,6 @@ function showDownloads() {
   }
 
 }
+
 
 
