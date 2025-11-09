@@ -21,7 +21,7 @@ form.onsubmit = async (e) => {
 
   const formData = new FormData(form);
   try {
-    const res = await fetch("https://formspree.io/f/DA_CONFIGURARE", {
+    const res = await fetch("https://formspree.io/f/xkgkwppk", {
       method: "POST",
       body: formData,
       headers: { 'Accept': 'application/json' }
@@ -50,4 +50,5 @@ function showDownloads() {
       pdfList.appendChild(li);
     });
   }
+
 }
