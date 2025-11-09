@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fanta Venezia</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <img src="https://via.placeholder.com/800x400.png?text=Fanta+Venezia" alt="Immagine principale" class="main-img" />
+    
+    <button id="openModal" class="btn">Accedi al Download</button>
+  </div>
+
+  <!-- MODAL TERMINI -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span id="closeModal" class="close">×</span>
+      <h2>Termini e Condizioni</h2>
+      <iframe src="termini.html" width="100%" height="200"></iframe>
+      <form id="registerForm">
+        <input type="text" name="nome" placeholder="Nome" required />
+        <input type="text" name="cognome" placeholder="Cognome" required />
+        <input type="email" name="email" placeholder="Email" required />
+        <label><input type="checkbox" required> Accetto i termini</label>
+        <button type="submit">Invia e Accedi</button>
+      </form>
+      <p id="status"></p>
+    </div>
+  </div>
+
+  <!-- SEZIONE DOWNLOAD (nascosta) -->
+  <div id="downloadSection" class="hidden">
+    <h2>Scarica i PDF</h2>
+    <ul id="pdfList"></ul>
+    <button onclick="location.reload()" class="btn">Esci</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
