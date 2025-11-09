@@ -13,8 +13,9 @@ window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; }
 
 // PDF (da aggiornare dopo)
 const pdfs = [
-  { name: "Fanta Venezia - Regolamento.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" }
-];
+  { name: "Fanta Venezia - Regolamento.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
+  { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
+  ];
 
 // Invia form (da configurare al prossimo passo)
 form.onsubmit = async (e) => {
@@ -54,4 +55,5 @@ function showDownloads() {
   }
 
 }
+
 
