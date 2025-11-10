@@ -471,9 +471,26 @@
             showAuthSection();
         }
 
+        // ==================== GESTIONE RESET PASSWORD ====================
+        async function handlePasswordReset() {
+            const urlParams = new URLSearchParams(window.location.hash.substring(1));
+            const type = urlParams.get('type');
+            const accessToken = urlParams.get('access_token');
+            
+            if (type === 'recovery' && accessToken) {
+                // Se è un ritorno dal reset password, fai logout automatico
+                await supabase.auth.signOut();
+                showAuthSection();
+                showMessage('loginMessage', '✅ Password cambiata con successo! Ora puoi accedere con la nuova password.', 'success');
+                // Pulisci l'URL
+                window.location.hash = '';
+            }
+        }
+
         // ==================== INIZIALIZZAZIONE ====================
         document.addEventListener('DOMContentLoaded', function() {
             checkAuth();
+            handlePasswordReset(); // Gestisce il ritorno dal reset password
             
             // Enter key per i form
             document.getElementById('loginPassword').addEventListener('keypress', function(e) {
