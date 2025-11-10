@@ -37,19 +37,19 @@
   <div class="container">
     <h1>Fantacalcio Venezia</h1>
    
-    <!-- PULSANTI PRINCIPALI (VISIBILI DI DEFAULT) -->
+    <!-- PULSANTI PRINCIPALI -->
     <div id="authButtons">
       <button id="openLogin">ACCEDI</button>
       <button id="openRegister">REGISTRATI</button>
     </div>
 
-    <!-- INFO UTENTE (NASCOSTO DI DEFAULT) -->
+    <!-- INFO UTENTE -->
     <div id="userInfo" class="hidden user-info">
       <p>Benvenuto, <strong id="userName"></strong>!</p>
       <button id="logoutBtn" class="secondary">Esci</button>
     </div>
 
-    <!-- DOWNLOAD PDF (NASCOSTO DI DEFAULT) -->
+    <!-- DOWNLOAD PDF -->
     <div id="downloadSection" class="hidden">
       <h2>Scarica i PDF</h2>
       <ul id="pdfList"></ul>
@@ -140,19 +140,18 @@
       });
     }
 
-    // === STATO UTENTE (CORRETTO!) ===
+    // STATO UTENTE
     auth.onAuthStateChanged(async (user) => {
       if (user && user.emailVerified) {
         const doc = await db.collection("users").doc(user.uid).get();
         if (doc.exists) {
           const data = doc.data();
           userName.textContent = data.username;
-          authButtons.classList.add("hidden");     // Nascondi pulsanti
-          userInfo.classList.remove("hidden");     // Mostra benvenuto
-          showDownloads();                         // Mostra PDF
+          authButtons.classList.add("hidden");
+          userInfo.classList.remove("hidden");
+          showDownloads();
         }
       } else {
-        // UTENTE NON LOGGATO → MOSTRA PULSANTI
         authButtons.classList.remove("hidden");
         userInfo.classList.add("hidden");
         downloadSection.classList.add("hidden");
@@ -178,7 +177,7 @@
       }
     };
 
-    // REGISTRAZIONE
+    // === REGISTRAZIONE CON DEBUG EMAILJS ===
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -191,13 +190,18 @@
         return;
       }
 
+      status.innerHTML = "Controllo username...";
+
       const snap = await db.collection("users").where("username", "==", username).get();
       if (!snap.empty) {
         status.innerHTML = "<span style='color:red'>Username già preso!</span>";
         return;
       }
 
+      status.innerHTML = "Creazione account...";
+
       try {
+        // 1. CREA UTENTE FIREBASE
         const userCred = await auth.createUserWithEmailAndPassword(email, pwd);
         await db.collection("users").doc(userCred.user.uid).set({
           username: username,
@@ -205,7 +209,11 @@
           verified: false
         });
 
+        // 2. INVIA EMAIL VERIFICA FIREBASE
         await userCred.user.sendEmailVerification();
+        status.innerHTML = "Email Firebase inviata...";
+
+        // 3. INVIA EMAILJS CON LINK PERSONALIZZATO
         const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?uid=${userCred.user.uid}`;
         await emailjs.send("service_eh1l8ai", "template_zth5v29", {
           username: username,
@@ -213,10 +221,17 @@
           verify_link: verifyLink
         });
 
-        status.innerHTML = "<span style='color:green'>Mail inviata! Controlla la posta.</span>";
-        setTimeout(() => registerModal.style.display = "none", 3000);
+        // SUCCESSO!
+        status.innerHTML = "<span style='color:green'>Mail inviata! Controlla la posta (anche Spam).</span>";
+        setTimeout(() => registerModal.style.display = "none", 4000);
+
       } catch (err) {
-        status.innerHTML = `<span style='color:red'>${err.message}</span>`;
+        console.error("ERRORE:", err);
+        if (err.text) {
+          status.innerHTML = `<span style='color:red'>EmailJS: ${err.text}</span>`;
+        } else {
+          status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
+        }
       }
     };
   </script>
