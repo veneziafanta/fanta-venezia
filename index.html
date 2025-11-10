@@ -27,73 +27,158 @@
     .success { color: green; font-size: 14px; font-weight: bold; }
     .forgot-link { color: #1a5fb4; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
     .info-box { background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #1a5fb4; }
+    
+    /* Stili per le pagine di verifica e reset */
+    .verification-page, .reset-page { 
+      display: none; 
+      background: linear-gradient(135deg, #1a5fb4, #0d47a1);
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      justify-content: center; 
+      align-items: center; 
+      z-index: 1000;
+    }
+    .verification-content, .reset-content { 
+      background: white; 
+      padding: 40px; 
+      border-radius: 15px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+      text-align: center; 
+      max-width: 500px;
+      margin: 20px;
+    }
+    .success-icon {
+      font-size: 80px;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+    .countdown {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1a5fb4;
+      margin: 20px 0;
+    }
+    .loader {
+      width: 100%;
+      height: 4px;
+      background: #f0f0f0;
+      border-radius: 2px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%;
+      background: #4CAF50;
+      width: 0%;
+      transition: width 3s linear;
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Fantacalcio Venezia</h1>
-   
-    <div id="authButtons">
-      <button id="openLogin">ACCEDI</button>
-      <button id="openRegister">REGISTRATI</button>
+  <!-- PAGINA PRINCIPALE -->
+  <div id="mainPage">
+    <div class="container">
+      <h1>Fantacalcio Venezia</h1>
+     
+      <div id="authButtons">
+        <button id="openLogin">ACCEDI</button>
+        <button id="openRegister">REGISTRATI</button>
+      </div>
+
+      <div id="userInfo" class="hidden user-info">
+        <p id="welcomeMessage">Benvenuto!</p>
+        <button id="logoutBtn" class="secondary">Esci</button>
+      </div>
+
+      <div id="downloadSection" class="hidden">
+        <h2>Scarica i documenti</h2>
+        <ul id="pdfList"></ul>
+      </div>
     </div>
 
-    <div id="userInfo" class="hidden user-info">
-      <p id="welcomeMessage">Benvenuto!</p>
-      <button id="logoutBtn" class="secondary">Esci</button>
+    <!-- MODAL LOGIN -->
+    <div id="loginModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeLogin">x</span>
+        <h2>Accedi</h2>
+        <form id="loginForm">
+          <input type="email" id="loginEmail" placeholder="Email" required />
+          <input type="password" id="loginPassword" placeholder="Password" required />
+          <button type="submit">Entra</button>
+          <p id="loginStatus" class="error"></p>
+        </form>
+        <div class="forgot-link" id="openReset">Hai dimenticato la password?</div>
+      </div>
     </div>
 
-    <div id="downloadSection" class="hidden">
-      <h2>Scarica i documenti</h2>
-      <ul id="pdfList"></ul>
+    <!-- MODAL REGISTRAZIONE -->
+    <div id="registerModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeRegister">x</span>
+        <h2>Registrati</h2>
+        
+        <div class="info-box">
+          <strong>Informazione importante:</strong><br>
+          Dopo la registrazione riceverai un'email di verifica. Dovrai cliccare il link nell'email per attivare il tuo account.
+        </div>
+        
+        <form id="registerForm">
+          <input type="email" id="regEmail" placeholder="Email" required />
+          <input type="password" id="regPassword" placeholder="Password (min. 6 caratteri)" required />
+          <input type="password" id="regConfirm" placeholder="Conferma Password" required />
+          <button type="submit">Crea Account</button>
+          <p id="registerStatus"></p>
+        </form>
+      </div>
+    </div>
+
+    <!-- MODAL RESET PASSWORD -->
+    <div id="resetModal" class="modal">
+      <div class="modal-content">
+        <span class="close" id="closeReset">x</span>
+        <h2>Recupera Password</h2>
+        <p>Inserisci la tua email per resettare la password:</p>
+        <input type="email" id="resetEmail" placeholder="Email" required />
+        <button id="sendReset">Reset Password</button>
+        <p id="resetStatus"></p>
+      </div>
     </div>
   </div>
 
-  <!-- MODAL LOGIN -->
-  <div id="loginModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeLogin">x</span>
-      <h2>Accedi</h2>
-      <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="Email" required />
-        <input type="password" id="loginPassword" placeholder="Password" required />
-        <button type="submit">Entra</button>
-        <p id="loginStatus" class="error"></p>
-      </form>
-      <div class="forgot-link" id="openReset">Hai dimenticato la password?</div>
-    </div>
-  </div>
-
-  <!-- MODAL REGISTRAZIONE -->
-  <div id="registerModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeRegister">x</span>
-      <h2>Registrati</h2>
+  <!-- PAGINA DI VERIFICA ACCOUNT (nascosta) -->
+  <div id="verificationPage" class="verification-page">
+    <div class="verification-content">
+      <div class="success-icon">✅</div>
+      <h1>Account Verificato con Successo!</h1>
+      <p>Il tuo account è stato verificato correttamente. Ora puoi accedere a tutti i contenuti di Fantacalcio Venezia.</p>
       
-      <div class="info-box">
-        <strong>Informazione importante:</strong><br>
-        Dopo la registrazione riceverai un'email di verifica. Dovrai cliccare il link nell'email per attivare il tuo account.
+      <div class="loader">
+        <div class="loader-bar" id="loaderBar"></div>
       </div>
       
-      <form id="registerForm">
-        <input type="email" id="regEmail" placeholder="Email" required />
-        <input type="password" id="regPassword" placeholder="Password (min. 6 caratteri)" required />
-        <input type="password" id="regConfirm" placeholder="Conferma Password" required />
-        <button type="submit">Crea Account</button>
-        <p id="registerStatus"></p>
-      </form>
+      <div class="countdown" id="countdown">Reindirizzamento tra: 3 secondi</div>
+      
+      <button onclick="redirectToMain()">Accedi Subito</button>
     </div>
   </div>
 
-  <!-- MODAL RESET PASSWORD -->
-  <div id="resetModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeReset">x</span>
-      <h2>Recupera Password</h2>
-      <p>Inserisci la tua email per resettare la password:</p>
-      <input type="email" id="resetEmail" placeholder="Email" required />
-      <button id="sendReset">Reset Password</button>
-      <p id="resetStatus"></p>
+  <!-- PAGINA DI RESET PASSWORD (nascosta) -->
+  <div id="resetPasswordPage" class="reset-page">
+    <div class="reset-content">
+      <h1>Imposta Nuova Password</h1>
+      <p>Inserisci la tua nuova password qui sotto. Assicurati che sia di almeno 6 caratteri.</p>
+      
+      <form id="resetPasswordForm">
+        <input type="password" id="newPassword" placeholder="Nuova password" required />
+        <input type="password" id="confirmNewPassword" placeholder="Conferma nuova password" required />
+        <button type="submit" id="submitResetBtn">Salva Nuova Password</button>
+      </form>
+      
+      <p id="resetPasswordStatus"></p>
+      <button onclick="redirectToMain()" class="secondary" style="margin-top: 15px;">Torna alla Homepage</button>
     </div>
   </div>
 
@@ -105,6 +190,10 @@
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Elementi UI
+    const mainPage = document.getElementById("mainPage");
+    const verificationPage = document.getElementById("verificationPage");
+    const resetPasswordPage = document.getElementById("resetPasswordPage");
+    
     const authButtons = document.getElementById("authButtons");
     const userInfo = document.getElementById("userInfo");
     const welcomeMessage = document.getElementById("welcomeMessage");
@@ -177,17 +266,79 @@
       }
     }
 
-    // Gestisce il ritorno dalla verifica email o reset password
+    // Gestisce i redirect di verifica e reset
     async function handleAuthRedirect() {
       const urlParams = new URLSearchParams(window.location.hash.substring(1));
       const type = urlParams.get('type');
       const accessToken = urlParams.get('access_token');
+      const refreshToken = urlParams.get('refresh_token');
       
-      if (type === 'recovery' && accessToken) {
-        // Se è un ritorno dal reset password, reindirizza alla pagina di reset
-        window.location.href = 'reset-password.html' + window.location.hash;
-        return;
+      if (type === 'signup' && accessToken) {
+        // VERIFICA ACCOUNT
+        try {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
+          
+          if (!error) {
+            showVerificationPage();
+          }
+        } catch (error) {
+          console.error('Errore verifica:', error);
+        }
+      } else if (type === 'recovery' && accessToken) {
+        // RESET PASSWORD
+        try {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
+          
+          if (!error) {
+            showResetPasswordPage();
+          }
+        } catch (error) {
+          console.error('Errore reset:', error);
+        }
       }
+    }
+
+    // Mostra pagina di verifica
+    function showVerificationPage() {
+      mainPage.style.display = 'none';
+      verificationPage.style.display = 'flex';
+      
+      let countdown = 3;
+      const countdownElement = document.getElementById('countdown');
+      const loaderBar = document.getElementById('loaderBar');
+      
+      loaderBar.style.width = '100%';
+      
+      const timer = setInterval(() => {
+        countdown--;
+        countdownElement.textContent = `Reindirizzamento tra: ${countdown} secondi`;
+        
+        if (countdown <= 0) {
+          clearInterval(timer);
+          redirectToMain();
+        }
+      }, 1000);
+    }
+
+    // Mostra pagina di reset password
+    function showResetPasswordPage() {
+      mainPage.style.display = 'none';
+      resetPasswordPage.style.display = 'flex';
+    }
+
+    // Torna alla pagina principale
+    function redirectToMain() {
+      mainPage.style.display = 'block';
+      verificationPage.style.display = 'none';
+      resetPasswordPage.style.display = 'none';
+      window.location.hash = '';
+      checkSession();
     }
 
     // Login
@@ -239,11 +390,12 @@
         return;
       }
 
+      // USA L'URL CORRETTO PER GITHUB PAGES
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
         options: {
-          emailRedirectTo: window.location.origin + '/verify-success.html'
+          emailRedirectTo: window.location.origin + window.location.pathname
         }
       });
 
@@ -272,8 +424,9 @@
       const email = document.getElementById("resetEmail").value;
       const status = document.getElementById("resetStatus");
 
+      // USA L'URL CORRETTO PER GITHUB PAGES
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: window.location.origin + '/reset-password.html',
+        redirectTo: window.location.origin + window.location.pathname,
       });
 
       if (error) {
@@ -291,6 +444,56 @@
           resetModal.style.display = "none";
           status.textContent = "";
         }, 5000);
+      }
+    };
+
+    // RESET PASSWORD - CAMBIO PASSWORD
+    document.getElementById("resetPasswordForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmNewPassword").value;
+      const status = document.getElementById("resetPasswordStatus");
+      const submitBtn = document.getElementById("submitResetBtn");
+
+      if (newPassword.length < 6) {
+        status.textContent = "La password deve essere di almeno 6 caratteri";
+        status.style.color = "red";
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        status.textContent = "Le password non coincidono";
+        status.style.color = "red";
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Salvataggio in corso...';
+
+      try {
+        const { data, error } = await supabase.auth.updateUser({
+          password: newPassword
+        });
+
+        if (error) {
+          status.textContent = 'Errore durante il salvataggio: ' + error.message;
+          status.style.color = 'red';
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Salva Nuova Password';
+        } else {
+          status.textContent = '✅ Password cambiata con successo!';
+          status.style.color = 'green';
+          
+          // Reindirizza dopo 2 secondi
+          setTimeout(() => {
+            redirectToMain();
+          }, 2000);
+        }
+      } catch (error) {
+        status.textContent = 'Errore di connessione. Riprova.';
+        status.style.color = 'red';
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Salva Nuova Password';
       }
     };
 
