@@ -34,23 +34,22 @@
   </style>
 </head>
 <body>
-
   <div class="container">
     <h1>Fantacalcio Venezia</h1>
-    
-    <!-- PULSANTI PRINCIPALI -->
+   
+    <!-- PULSANTI PRINCIPALI (VISIBILI DI DEFAULT) -->
     <div id="authButtons">
       <button id="openLogin">ACCEDI</button>
       <button id="openRegister">REGISTRATI</button>
     </div>
 
-    <!-- INFO UTENTE -->
+    <!-- INFO UTENTE (NASCOSTO DI DEFAULT) -->
     <div id="userInfo" class="hidden user-info">
       <p>Benvenuto, <strong id="userName"></strong>!</p>
       <button id="logoutBtn" class="secondary">Esci</button>
     </div>
 
-    <!-- DOWNLOAD PDF -->
+    <!-- DOWNLOAD PDF (NASCOSTO DI DEFAULT) -->
     <div id="downloadSection" class="hidden">
       <h2>Scarica i PDF</h2>
       <ul id="pdfList"></ul>
@@ -108,7 +107,6 @@
     const logoutBtn = document.getElementById("logoutBtn");
     const downloadSection = document.getElementById("downloadSection");
     const pdfList = document.getElementById("pdfList");
-
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
     const openLogin = document.getElementById("openLogin");
@@ -142,18 +140,19 @@
       });
     }
 
-    // STATO UTENTE
+    // === STATO UTENTE (CORRETTO!) ===
     auth.onAuthStateChanged(async (user) => {
       if (user && user.emailVerified) {
         const doc = await db.collection("users").doc(user.uid).get();
         if (doc.exists) {
           const data = doc.data();
           userName.textContent = data.username;
-          authButtons.classList.add("hidden");
-          userInfo.classList.remove("hidden");
-          showDownloads();
+          authButtons.classList.add("hidden");     // Nascondi pulsanti
+          userInfo.classList.remove("hidden");     // Mostra benvenuto
+          showDownloads();                         // Mostra PDF
         }
       } else {
+        // UTENTE NON LOGGATO → MOSTRA PULSANTI
         authButtons.classList.remove("hidden");
         userInfo.classList.add("hidden");
         downloadSection.classList.add("hidden");
