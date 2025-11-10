@@ -5,10 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fantacalcio Venezia</title>
   
-  <!-- FIREBASE -->
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
   <style>
     body { font-family: Arial; background: #f0f2f5; margin: 0; padding: 20px; }
     .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
@@ -27,8 +23,6 @@
     .error { color: red; font-size: 14px; }
     .success { color: green; font-size: 14px; }
     .forgot-link { color: #1a5fb4; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
-    .loading { color: #1a5fb4 !important; font-weight: bold; }
-    .admin-section { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -41,20 +35,13 @@
     </div>
 
     <div id="userInfo" class="hidden user-info">
-      <p>Benvenuto!</p>
+      <p id="welcomeMessage">Benvenuto!</p>
       <button id="logoutBtn" class="secondary">Esci</button>
     </div>
 
     <div id="downloadSection" class="hidden">
       <h2>Scarica i documenti</h2>
       <ul id="pdfList"></ul>
-      
-      <!-- SEZIONE ADMIN PER RESET MANUALE -->
-      <div id="adminSection" class="admin-section hidden">
-        <h3>Problemi con la password?</h3>
-        <button id="manualResetBtn" class="secondary">Reset Password Manuale</button>
-        <p style="font-size: 12px; color: #666;">Contatta l'amministratore se hai dimenticato la password</p>
-      </div>
     </div>
   </div>
 
@@ -80,9 +67,9 @@
       <h2>Registrati</h2>
       <form id="registerForm">
         <input type="email" id="regEmail" placeholder="Email" required />
-        <input type="password" id="regPassword" placeholder="Password" required />
+        <input type="password" id="regPassword" placeholder="Password (min. 6 caratteri)" required />
         <input type="password" id="regConfirm" placeholder="Conferma Password" required />
-        <button type="button" id="submitReg">Crea Account</button>
+        <button type="submit">Crea Account</button>
         <p id="registerStatus" class="error"></p>
       </form>
     </div>
@@ -93,113 +80,65 @@
     <div class="modal-content">
       <span class="close" id="closeReset">x</span>
       <h2>Recupera Password</h2>
-      <p>Inserisci la tua email per resettare la password.</p>
-      <input type="email" id="resetEmail" placeholder="Email" required />
-      <button id="sendReset">Reset Password</button>
-      <p id="resetStatus"></p>
-      
-      <!-- SOLUZIONE ALTERNATIVA -->
-      <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 5px;">
-        <h4>📧 Problemi con l'email?</h4>
-        <p style="font-size: 14px; margin: 10px 0;">Se non ricevi l'email:</p>
-        <ol style="text-align: left; font-size: 14px;">
-          <li>Controlla la cartella SPAM</li>
-          <li>Assicurati che l'email sia corretta</li>
-          <li>Contatta l'amministratore</li>
-        </ol>
-        <button id="contactAdminBtn" class="secondary" style="margin-top: 10px;">Contatta Assistenza</button>
+      <p>Contatta l'amministratore per resettare la password:</p>
+      <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0;">
+        <p><strong>Email:</strong> admin@fantacalciovenezia.it</p>
+        <p><strong>Telefono:</strong> 123-4567890</p>
       </div>
-    </div>
-  </div>
-
-  <!-- MODAL RESET MANUALE (PER ADMIN) -->
-  <div id="manualResetModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeManualReset">x</span>
-      <h2>Reset Password Manuale</h2>
-      <p>Inserisci la tua email per reimpostare la password:</p>
-      <input type="email" id="manualResetEmail" placeholder="La tua email" required />
-      <input type="password" id="newPassword" placeholder="Nuova password" required />
-      <input type="password" id="confirmNewPassword" placeholder="Conferma nuova password" required />
-      <button id="confirmManualReset">Imposta Nuova Password</button>
-      <p id="manualResetStatus"></p>
+      <button onclick="window.location.href='mailto:admin@fantacalciovenezia.it?subject=Reset Password Fantacalcio Venezia'">Invia Email</button>
     </div>
   </div>
 
   <script>
-    // === FIREBASE CONFIG ===
-    const firebaseConfig = {
-      apiKey: "AIzaSyC7sfnaK_Kv_7rNMm0-wmSGlPRHB032mn0",
-      authDomain: "fantacalcio-venezia-584bc.firebaseapp.com",
-      projectId: "fantacalcio-venezia-584bc",
-      storageBucket: "fantacalcio-venezia-584bc.firebasestorage.app",
-      messagingSenderId: "313303722171",
-      appId: "1:313303722171:web:7258ce9473ef6bd3cd619e"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // === ELEMENTI ===
+    // === SISTEMA SEMPLICE - SALVA DATI NEL BROWSER ===
+    
+    // Elementi
     const authButtons = document.getElementById("authButtons");
     const userInfo = document.getElementById("userInfo");
+    const welcomeMessage = document.getElementById("welcomeMessage");
     const logoutBtn = document.getElementById("logoutBtn");
     const downloadSection = document.getElementById("downloadSection");
     const pdfList = document.getElementById("pdfList");
-    const adminSection = document.getElementById("adminSection");
+    
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
     const resetModal = document.getElementById("resetModal");
-    const manualResetModal = document.getElementById("manualResetModal");
     
-    // Bottoni
     const openLogin = document.getElementById("openLogin");
     const openRegister = document.getElementById("openRegister");
     const closeLogin = document.getElementById("closeLogin");
     const closeRegister = document.getElementById("closeRegister");
     const closeReset = document.getElementById("closeReset");
-    const closeManualReset = document.getElementById("closeManualReset");
     const openReset = document.getElementById("openReset");
-    const sendReset = document.getElementById("sendReset");
-    const manualResetBtn = document.getElementById("manualResetBtn");
-    const contactAdminBtn = document.getElementById("contactAdminBtn");
-    const confirmManualReset = document.getElementById("confirmManualReset");
 
-    // === APRI/CHIUDI MODAL ===
-    openLogin.onclick = () => loginModal.style.display = "flex";
-    openRegister.onclick = () => registerModal.style.display = "flex";
-    
-    openReset.onclick = () => {
-      loginModal.style.display = "none";
-      resetModal.style.display = "flex";
-    };
-
-    manualResetBtn.onclick = () => manualResetModal.style.display = "flex";
-    contactAdminBtn.onclick = () => {
-      alert("Contatta l'amministratore: \nEmail: [inserisci email qui]\nTelefono: [inserisci telefono qui]");
-    };
-
-    // Chiudi modal
-    closeLogin.onclick = () => loginModal.style.display = "none";
-    closeRegister.onclick = () => registerModal.style.display = "none";
-    closeReset.onclick = () => resetModal.style.display = "none";
-    closeManualReset.onclick = () => manualResetModal.style.display = "none";
-
-    window.onclick = (e) => {
-      if (e.target == loginModal) loginModal.style.display = "none";
-      if (e.target == registerModal) registerModal.style.display = "none";
-      if (e.target == resetModal) resetModal.style.display = "none";
-      if (e.target == manualResetModal) manualResetModal.style.display = "none";
-    };
-
-    // === LISTA PDF ===
+    // PDF
     const pdfs = [
       { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
       { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
     ];
 
-    function showDownloads() {
+    // Apri/Chiudi Modal
+    openLogin.onclick = () => loginModal.style.display = "flex";
+    openRegister.onclick = () => registerModal.style.display = "flex";
+    openReset.onclick = () => {
+      loginModal.style.display = "none";
+      resetModal.style.display = "flex";
+    };
+
+    closeLogin.onclick = () => loginModal.style.display = "none";
+    closeRegister.onclick = () => registerModal.style.display = "none";
+    closeReset.onclick = () => resetModal.style.display = "none";
+
+    window.onclick = (e) => {
+      if (e.target == loginModal) loginModal.style.display = "none";
+      if (e.target == registerModal) registerModal.style.display = "none";
+      if (e.target == resetModal) resetModal.style.display = "none";
+    };
+
+    // Mostra download
+    function showDownloads(email) {
       downloadSection.classList.remove("hidden");
-      adminSection.classList.remove("hidden");
+      welcomeMessage.textContent = `Benvenuto ${email}!`;
       pdfList.innerHTML = "";
       pdfs.forEach(pdf => {
         const li = document.createElement("li");
@@ -208,152 +147,92 @@
       });
     }
 
-    // === CONTROLLO ACCESSO ===
-    auth.onAuthStateChanged((user) => {
-      if (user) {
+    // Controlla se l'utente è già loggato
+    function checkLoggedIn() {
+      const userEmail = localStorage.getItem('fantacalcio_user');
+      if (userEmail) {
         authButtons.classList.add("hidden");
         userInfo.classList.remove("hidden");
-        showDownloads();
-      } else {
-        authButtons.classList.remove("hidden");
-        userInfo.classList.add("hidden");
-        downloadSection.classList.add("hidden");
+        showDownloads(userEmail);
+        return true;
       }
-    });
+      return false;
+    }
 
-    // === LOGOUT ===
-    logoutBtn.onclick = () => auth.signOut();
-
-    // === LOGIN ===
-    document.getElementById("loginForm").onsubmit = async (e) => {
+    // Login
+    document.getElementById("loginForm").onsubmit = (e) => {
       e.preventDefault();
       const email = document.getElementById("loginEmail").value;
-      const pwd = document.getElementById("loginPassword").value;
+      const password = document.getElementById("loginPassword").value;
       const status = document.getElementById("loginStatus");
 
-      try {
-        await auth.signInWithEmailAndPassword(email, pwd);
-        status.innerHTML = "Accesso OK!";
+      // Controlla se l'utente esiste
+      const users = JSON.parse(localStorage.getItem('fantacalcio_users') || '{}');
+      
+      if (users[email] && users[email] === password) {
+        localStorage.setItem('fantacalcio_user', email);
+        status.textContent = "Accesso effettuato!";
         status.style.color = "green";
-        setTimeout(() => loginModal.style.display = "none", 1000);
-      } catch (err) {
-        status.innerHTML = "Email o password errata";
+        setTimeout(() => {
+          loginModal.style.display = "none";
+          checkLoggedIn();
+        }, 1000);
+      } else {
+        status.textContent = "Email o password errati!";
         status.style.color = "red";
       }
     };
 
-    // === REGISTRAZIONE ===
-    document.getElementById("submitReg").onclick = async () => {
-      const email = document.getElementById("regEmail").value.trim();
-      const pwd = document.getElementById("regPassword").value;
+    // Registrazione
+    document.getElementById("registerForm").onsubmit = (e) => {
+      e.preventDefault();
+      const email = document.getElementById("regEmail").value;
+      const password = document.getElementById("regPassword").value;
       const confirm = document.getElementById("regConfirm").value;
       const status = document.getElementById("registerStatus");
 
-      if (pwd !== confirm) {
-        status.innerHTML = "Le password non coincidono";
+      if (password.length < 6) {
+        status.textContent = "La password deve essere di almeno 6 caratteri";
         status.style.color = "red";
         return;
       }
 
-      if (pwd.length < 6) {
-        status.innerHTML = "La password deve essere di almeno 6 caratteri";
+      if (password !== confirm) {
+        status.textContent = "Le password non coincidono";
         status.style.color = "red";
         return;
       }
 
-      try {
-        await auth.createUserWithEmailAndPassword(email, pwd);
-        status.innerHTML = "Registrazione completata!";
-        status.style.color = "green";
-        setTimeout(() => registerModal.style.display = "none", 2000);
-      } catch (err) {
-        if (err.code === 'auth/email-already-in-use') {
-          status.innerHTML = "Email già usata";
-        } else if (err.code === 'auth/invalid-email') {
-          status.innerHTML = "Email non valida";
-        } else {
-          status.innerHTML = "Errore durante la registrazione";
-        }
+      const users = JSON.parse(localStorage.getItem('fantacalcio_users') || '{}');
+      
+      if (users[email]) {
+        status.textContent = "Questo account esiste già!";
         status.style.color = "red";
-      }
-    };
-
-    // === RESET PASSWORD FIREBASE ===
-    sendReset.onclick = async () => {
-      const email = document.getElementById("resetEmail").value.trim();
-      const status = document.getElementById("resetStatus");
-
-      if (!email) {
-        status.innerHTML = "Inserisci la tua email";
-        status.style.color = "red";
-        return;
-      }
-
-      status.innerHTML = "Invio email in corso...";
-      status.style.color = "#1a5fb4";
-      sendReset.disabled = true;
-
-      try {
-        await auth.sendPasswordResetEmail(email);
-        status.innerHTML = "✅ Email inviata! Controlla la tua posta (anche spam).";
-        status.style.color = "green";
-        document.getElementById("resetEmail").value = "";
-      } catch (err) {
-        console.error("Errore reset:", err);
-        if (err.code === 'auth/user-not-found') {
-          status.innerHTML = "❌ Nessun account con questa email";
-        } else if (err.code === 'auth/invalid-email') {
-          status.innerHTML = "❌ Email non valida";
-        } else {
-          status.innerHTML = "❌ Errore. Usa il reset manuale qui sotto.";
-        }
-        status.style.color = "red";
-      } finally {
-        sendReset.disabled = false;
-      }
-    };
-
-    // === RESET PASSWORD MANUALE (ALTERNATIVA) ===
-    confirmManualReset.onclick = async () => {
-      const email = document.getElementById("manualResetEmail").value.trim();
-      const newPwd = document.getElementById("newPassword").value;
-      const confirmPwd = document.getElementById("confirmNewPassword").value;
-      const status = document.getElementById("manualResetStatus");
-
-      if (newPwd !== confirmPwd) {
-        status.innerHTML = "Le password non coincidono";
-        status.style.color = "red";
-        return;
-      }
-
-      if (newPwd.length < 6) {
-        status.innerHTML = "La password deve essere di almeno 6 caratteri";
-        status.style.color = "red";
-        return;
-      }
-
-      try {
-        // Prima prova a fare login per verificare l'account
-        const user = auth.currentUser;
+      } else {
+        users[email] = password;
+        localStorage.setItem('fantacalcio_users', JSON.stringify(users));
+        localStorage.setItem('fantacalcio_user', email);
         
-        if (user && user.email === email) {
-          // Se l'utente è loggato, cambia la password
-          await user.updatePassword(newPwd);
-          status.innerHTML = "✅ Password cambiata con successo!";
-          status.style.color = "green";
-          setTimeout(() => {
-            manualResetModal.style.display = "none";
-            alert("Password aggiornata! Ora puoi fare login con la nuova password.");
-          }, 2000);
-        } else {
-          status.innerHTML = "❌ Devi prima fare login per usare questa funzione";
-          status.style.color = "red";
-        }
-      } catch (err) {
-        status.innerHTML = "❌ Errore: " + err.message;
-        status.style.color = "red";
+        status.textContent = "Registrazione completata!";
+        status.style.color = "green";
+        
+        setTimeout(() => {
+          registerModal.style.display = "none";
+          checkLoggedIn();
+        }, 1000);
       }
     };
+
+    // Logout
+    logoutBtn.onclick = () => {
+      localStorage.removeItem('fantacalcio_user');
+      authButtons.classList.remove("hidden");
+      userInfo.classList.add("hidden");
+      downloadSection.classList.add("hidden");
+    };
+
+    // Controlla al caricamento della pagina
+    checkLoggedIn();
   </script>
 </body>
 </html>
