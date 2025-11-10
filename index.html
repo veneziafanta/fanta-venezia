@@ -3,8 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fantacalcio Venezia - Registrazione</title>
+  <title>Fantacalcio Venezia</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   <!-- EMAILJS -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
@@ -13,17 +17,16 @@
     })();
   </script>
   <style>
-    body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+    body { font-family: Arial; background: #f0f2f5; margin: 0; padding: 20px; }
     .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
-    button { padding: 12px 20px; background: #1a5fb4; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    button { padding: 12px 20px; background: #1a5fb4; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 10px; }
     button:hover { background: #0d47a1; }
     input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-    .modal { display Closes: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
     .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 500px; }
     .close { float: right; font-size: 24px; cursor: pointer; }
     .hidden { display: none; }
     #pdfList { list-style: none; padding: 0; }
-    #pdfList li { margin: 10px 0; }
     #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
   </style>
 </head>
@@ -31,14 +34,13 @@
 
   <div class="container">
     <h1>Fantacalcio Venezia</h1>
-    <button id="openModal">REGISTRATI ORA</button>
+    <button id="openModal">REGISTRATI</button>
     <div id="downloadSection" class="hidden">
       <h2>Scarica i PDF</h2>
       <ul id="pdfList"></ul>
     </div>
   </div>
 
-  <!-- MODAL -->
   <div id="modal" class="modal">
     <div class="modal-content">
       <span class="close" id="closeModal">×</span>
@@ -55,6 +57,19 @@
   </div>
 
   <script>
+    // === CONFIG FIREBASE (LA TUA!) ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7sfnaK_Kv_7rNMm0-wmSGlPRHB032mn0",
+      authDomain: "fantacalcio-venezia-584bc.firebaseapp.com",
+      projectId: "fantacalcio-venezia-584bc",
+      storageBucket: "fantacalcio-venezia-584bc.firebasestorage.app",
+      messagingSenderId: "313303722171",
+      appId: "1:313303722171:web:7258ce9473ef6bd3cd619e"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
     const modal = document.getElementById("modal");
     const openBtn = document.getElementById("openModal");
     const closeBtn = document.getElementById("closeModal");
@@ -62,12 +77,10 @@
     const downloadSection = document.getElementById("downloadSection");
     const pdfList = document.getElementById("pdfList");
 
-    // Apri/chiudi modal
     openBtn.onclick = () => modal.style.display = "flex";
     closeBtn.onclick = () => modal.style.display = "none";
     window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
 
-    // PDF
     const pdfs = [
       { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
       { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
@@ -82,53 +95,60 @@
       });
     }
 
-    // REGISTRAZIONE SICURA
+    // MOSTRA PDF SE UTENTE VERIFICATO
+    auth.onAuthStateChanged(async (user) => {
+      if (user && user.emailVerified) {
+        const doc = await db.collection("users").doc(user.uid).get();
+        if (doc.exists && doc.data().verified) {
+          showDownloads();
+        }
+      }
+    });
+
+    // REGISTRAZIONE
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
       const pwd = document.getElementById("regPassword").value;
       const confirm = document.getElementById("regConfirm").value;
 
-      status.innerHTML = "";
-
       if (pwd !== confirm) {
-        status.innerHTML = "<span style='color:red'>Le password non coincidono</span>";
+        status.innerHTML = "<span style='color:red'>Password diverse</span>";
         return;
       }
 
-      // CONTROLLO UTENTE ESISTENTE
-      if (localStorage.getItem("user_" + username)) {
-        status.innerHTML = "<span style='color:red'>Username già registrato!</span>";
+      status.innerHTML = "Controllo username...";
+
+      // Controlla se username esiste
+      const snap = await db.collection("users").where("username", "==", username).get();
+      if (!snap.empty) {
+        status.innerHTML = "<span style='color:red'>Username già preso!</span>";
         return;
       }
-
-      // CONTROLLO PENDING
-      for (let i = 0; i < localStorage.length; i++) {
-        const key = localStorage.key(i);
-        if (key.startsWith("pending_")) {
-          const data = JSON.parse(localStorage.getItem(key));
-          if (data.username === username) {
-            status.innerHTML = "<span style='color:orange'>Registrazione in corso... controlla la mail!</span>";
-            return;
-          }
-        }
-      }
-
-      // GENERA TOKEN
-      const token = btoa(username + Date.now());
-      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`;
-      localStorage.setItem("pending_" + token, JSON.stringify({ username, email, pwd }));
 
       try {
+        const userCred = await auth.createUserWithEmailAndPassword(email, pwd);
+        await db.collection("users").doc(userCred.user.uid).set({
+          username: username,
+          email: email,
+          verified: false
+        });
+
+        // Invia email di verifica Firebase
+        await userCred.user.sendEmailVerification();
+
+        // Invia email EmailJS con link personalizzato
+        const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?uid=${userCred.user.uid}`;
         await emailjs.send("service_eh1l8ai", "template_zth5v29", {
           username: username,
           to_email: email,
           verify_link: verifyLink
         });
+
         status.innerHTML = "<span style='color:green'>Mail inviata! Controlla la posta.</span>";
         setTimeout(() => modal.style.display = "none", 3000);
       } catch (err) {
-        status.innerHTML = `<span style='color:red'>Errore: ${err.text || err.message}</span>`;
+        status.innerHTML = `<span style='color:red'>${err.message}</span>`;
       }
     };
   </script>
