@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Verifica Account</title>
+  <meta charset="UTF-8">
+  <style>
+    body { font-family: Arial; text-align: center; padding: 50px; background: #f0f2f5; }
+    .box { background: white; padding: 30px; border-radius: 10px; max-width: 500px; margin: 0 auto; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .success { color: green; font-size: 20px; }
+    .error { color: red; }
+    a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>Verifica in corso...</h2>
+    <p id="msg">Attendere...</p>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(location.search);
+    const token = params.get('token');
+    const data = JSON.parse(localStorage.getItem("pending_" + token));
+    const msg = document.getElementById("msg");
+
+    if (data && token) {
+      localStorage.setItem("user_" + data.username, JSON.stringify(data));
+      localStorage.removeItem("pending_" + token);
+      msg.innerHTML = `<span class="success">Account verificato! Benvenuto <strong>${data.username}</strong>!</span><br><br>
+                       <a href="index.html">Torna al login</a>`;
+    } else {
+      msg.innerHTML = `<span class="error">Link non valido o scaduto.</span>`;
+    }
+  </script>
+</body>
+</html>
