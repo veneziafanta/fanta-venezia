@@ -50,13 +50,13 @@
     </div>
   </div>
 
-  <!-- MODAL LOGIN -->
+  <!-- MODAL LOGIN (USERNAME + PASSWORD) -->
   <div id="loginModal" class="modal">
     <div class="modal-content">
       <span class="close" id="closeLogin">x</span>
       <h2>Accedi</h2>
       <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="Email" required />
+        <input type="text" id="loginUsername" placeholder="Username" required />
         <input type="password" id="loginPassword" placeholder="Password" required />
         <button type="submit">Entra</button>
         <p id="loginStatus"></p>
@@ -134,7 +134,7 @@
       });
     }
 
-    // STATO UTENTE
+    // === STATO UTENTE (CORRETTO!) ===
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         const doc = await db.collection("users").doc(user.uid).get();
@@ -143,7 +143,7 @@
           userName.textContent = data.username;
           authButtons.classList.add("hidden");
           userInfo.classList.remove("hidden");
-          showDownloads();
+          showDownloads(); // PDF SEMPRE VISIBILI DOPO LOGIN
         }
       } else {
         authButtons.classList.remove("hidden");
@@ -155,23 +155,35 @@
     // LOGOUT
     logoutBtn.onclick = () => auth.signOut();
 
-    // LOGIN
+    // === LOGIN CON USERNAME ===
     document.getElementById("loginForm").onsubmit = async (e) => {
       e.preventDefault();
-      const email = document.getElementById("loginEmail").value;
+      const username = document.getElementById("loginUsername").value.trim();
       const pwd = document.getElementById("loginPassword").value;
       const status = document.getElementById("loginStatus");
 
       try {
+        // Trova utente con username
+        const snap = await db.collection("users").where("username", "==", username).limit(1).get();
+        if (snap.empty) {
+          status.innerHTML = "<span style='color:red'>Username non trovato</span>";
+          return;
+        }
+
+        const userData = snap.docs[0].data();
+        const email = userData.email;
+
+        // Login con email + password
         await auth.signInWithEmailAndPassword(email, pwd);
         status.innerHTML = "<span style='color:green'>Accesso OK!</span>";
         setTimeout(() => loginModal.style.display = "none", 1000);
+
       } catch (err) {
-        status.innerHTML = `<span style='color:red'>${err.message}</span>`;
+        status.innerHTML = `<span style='color:red'>Password errata o errore</span>`;
       }
     };
 
-    // === REGISTRAZIONE SEMPLICE (SENZA EMAIL) ===
+    // === REGISTRAZIONE SEMPLICE ===
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -184,7 +196,6 @@
         return;
       }
 
-      // Controlla username
       const snap = await db.collection("users").where("username", "==", username).get();
       if (!snap.empty) {
         status.innerHTML = "<span style='color:red'>Username già occupato!</span>";
@@ -192,18 +203,14 @@
       }
 
       try {
-        // Crea utente
         const userCred = await auth.createUserWithEmailAndPassword(email, pwd);
         await db.collection("users").doc(userCred.user.uid).set({
           username: username,
           email: email
         });
 
-        // MESSAGGIO DI SUCCESSO
         status.innerHTML = "<span class='success'>Il tuo account è stato creato con successo!</span>";
-        setTimeout(() => {
-          registerModal.style.display = "none";
-        }, 2000);
+        setTimeout(() => registerModal.style.display = "none", 2000);
 
       } catch (err) {
         status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
