@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fantacalcio Venezia - Accesso</title>
   <link rel="stylesheet" href="style.css" />
-  <!-- EMAILJS -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
     (function(){
-      emailjs.init("Q43lIRoGk8Gy3AuET"); // ← LA TUA PUBLIC KEY
+      emailjs.init("Q43lIRoGk8Gy3AuET");
     })();
   </script>
 </head>
@@ -17,7 +16,6 @@
   <div class="container">
     <img src="https://via.placeholder.com/800x300.png?text=Fantacalcio+Venezia" alt="Logo" class="main-img" />
     <h1>Fantacalcio Venezia</h1>
-    
     <div class="btn-group">
       <button id="loginBtn" class="btn primary">ACCEDI</button>
       <button id="registerBtn" class="btn secondary">REGISTRATI</button>
@@ -49,14 +47,13 @@
         <input type="email" id="regEmail" placeholder="Email" required />
         <input type="password" id="regPassword" placeholder="Password" required />
         <input type="password" id="regConfirm" placeholder="Conferma Password" required />
-        <button type="submit">Invia Richiesta</button>
+        <button type="button" id="submitReg">Invia Richiesta</button>
         <p id="registerStatus"></p>
       </form>
     </div>
   </div>
 
   <script>
-    // MODAL
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
     document.getElementById("loginBtn").onclick = () => loginModal.style.display = "block";
@@ -65,7 +62,6 @@
       loginModal.style.display = registerModal.style.display = "none";
     });
 
-    // LOGIN
     document.getElementById("loginForm").onsubmit = (e) => {
       e.preventDefault();
       const username = document.getElementById("loginUsername").value.trim();
@@ -80,9 +76,7 @@
       }
     };
 
-    // REGISTRAZIONE
-    document.getElementById("registerForm").onsubmit = async (e) => {
-      e.preventDefault();
+    document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
       const pwd = document.getElementById("regPassword").value;
@@ -95,22 +89,22 @@
       }
 
       const token = btoa(username + Date.now());
-      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`;
+      const verifyLink = `https://veneziafanta.github.io/fanta-vene-GitHub/verify.html?token=${token}`;
       localStorage.setItem("pending_" + token, JSON.stringify({ username, email, pwd }));
 
-      emailjs.send("service_eh1l8ai", "template_zth5v29", {
-        username: username,
-        to_email: email,
-        verify_link: verifyLink
-      }).then(() => {
+      try {
+        await emailjs.send("service_eh1l8ai", "template_zth5v29", {
+          username: username,
+          to_email: email,
+          verify_link: verifyLink
+        });
         status.innerHTML = `<span style="color:green">Mail inviata! Controlla la posta.</span>`;
         setTimeout(() => registerModal.style.display = "none", 3000);
-      }).catch(err => {
-        status.innerHTML = `<span style="color:red">Errore: ${err.text}</span>`;
-      });
+      } catch (err) {
+        status.innerHTML = `<span style="color:red">Errore: ${err.text || err.message}</span>`;
+      }
     };
 
-    // RECUPERA PASSWORD
     document.getElementById("forgotPwd").onclick = () => {
       const email = prompt("Inserisci la tua email:");
       if (email) alert("Email di recupero inviata a " + email);
