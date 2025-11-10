@@ -3,103 +3,120 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fantacalcio Venezia - Accesso</title>
+  <title>Fantacalcio Venezia - Registrazione</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- EMAILJS -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
     (function(){
       emailjs.init("Q43lIRoGk8Gy3AuET");
     })();
   </script>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
+    .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+    button { padding: 12px 20px; background: #1a5fb4; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; }
+    button:hover { background: #0d47a1; }
+    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+    .modal { display Closes: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 500px; }
+    .close { float: right; font-size: 24px; cursor: pointer; }
+    .hidden { display: none; }
+    #pdfList { list-style: none; padding: 0; }
+    #pdfList li { margin: 10px 0; }
+    #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
+  </style>
 </head>
 <body>
+
   <div class="container">
-    <img src="https://via.placeholder.com/800x300.png?text=Fantacalcio+Venezia" alt="Logo" class="main-img" />
     <h1>Fantacalcio Venezia</h1>
-    <div class="btn-group">
-      <button id="loginBtn" class="btn primary">ACCEDI</button>
-      <button id="registerBtn" class="btn secondary">REGISTRATI</button>
+    <button id="openModal">REGISTRATI ORA</button>
+    <div id="downloadSection" class="hidden">
+      <h2>Scarica i PDF</h2>
+      <ul id="pdfList"></ul>
     </div>
   </div>
 
-  <!-- MODAL LOGIN -->
-  <div id="loginModal" class="modal">
+  <!-- MODAL -->
+  <div id="modal" class="modal">
     <div class="modal-content">
-      <span class="close">×</span>
-      <h2>Accedi</h2>
-      <form id="loginForm">
-        <input type="text" id="loginUsername" placeholder="Username" required />
-        <input type="password" id="loginPassword" placeholder="Password" required />
-        <button type="submit">Entra</button>
-        <p class="link" id="forgotPwd">Recupera password</p>
-        <p id="loginStatus"></p>
-      </form>
-    </div>
-  </div>
-
-  <!-- MODAL REGISTRAZIONE -->
-  <div id="registerModal" class="modal">
-    <div class="modal-content">
-      <span class="close">×</span>
-      <h2>Registrati</h2>
+      <span class="close" id="closeModal">×</span>
+      <h2>Registrazione</h2>
       <form id="registerForm">
         <input type="text" id="regUsername" placeholder="Username" required />
         <input type="email" id="regEmail" placeholder="Email" required />
         <input type="password" id="regPassword" placeholder="Password" required />
         <input type="password" id="regConfirm" placeholder="Conferma Password" required />
-        <button type="button" id="submitReg">Invia Richiesta</button>
-        <p id="registerStatus"></p>
+        <button type="button" id="submitReg">Invia</button>
+        <p id="status"></p>
       </form>
     </div>
   </div>
 
   <script>
-    const loginModal = document.getElementById("loginModal");
-    const registerModal = document.getElementById("registerModal");
-    document.getElementById("loginBtn").onclick = () => loginModal.style.display = "block";
-    document.getElementById("registerBtn").onclick = () => registerModal.style.display = "block";
-    document.querySelectorAll(".close").forEach(btn => btn.onclick = () => {
-      loginModal.style.display = registerModal.style.display = "none";
-    });
+    const modal = document.getElementById("modal");
+    const openBtn = document.getElementById("openModal");
+    const closeBtn = document.getElementById("closeModal");
+    const status = document.getElementById("status");
+    const downloadSection = document.getElementById("downloadSection");
+    const pdfList = document.getElementById("pdfList");
 
-    // LOGIN
-    document.getElementById("loginForm").onsubmit = (e) => {
-      e.preventDefault();
-      const username = document.getElementById("loginUsername").value.trim();
-      const pwd = document.getElementById("loginPassword").value;
-      const status = document.getElementById("loginStatus");
-      const user = JSON.parse(localStorage.getItem("user_" + username));
-      if (user && user.pwd === pwd) {
-        status.innerHTML = `<span style="color:green">Accesso OK!</span>`;
-        setTimeout(() => window.location.href = "dashboard.html", 1000);
-      } else {
-        status.innerHTML = `<span style="color:red">Username o password errati</span>`;
-      }
-    };
+    // Apri/chiudi modal
+    openBtn.onclick = () => modal.style.display = "flex";
+    closeBtn.onclick = () => modal.style.display = "none";
+    window.onclick = (e) => { if (e.target == modal) modal.style.display = "none"; };
 
-    // REGISTRAZIONE
+    // PDF
+    const pdfs = [
+      { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
+      { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
+    ];
+
+    function showDownloads() {
+      downloadSection.classList.remove("hidden");
+      pdfs.forEach(pdf => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${pdf.link}" target="_blank">${pdf.name}</a>`;
+        pdfList.appendChild(li);
+      });
+    }
+
+    // REGISTRAZIONE SICURA
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
       const pwd = document.getElementById("regPassword").value;
       const confirm = document.getElementById("regConfirm").value;
-      const status = document.getElementById("registerStatus");
 
-      // Controllo password
+      status.innerHTML = "";
+
       if (pwd !== confirm) {
-        status.innerHTML = `<span style="color:red">Le password non coincidono</span>`;
+        status.innerHTML = "<span style='color:red'>Le password non coincidono</span>";
         return;
       }
 
-      // CONTROLLA SE L'UTENTE ESISTE GIÀ
+      // CONTROLLO UTENTE ESISTENTE
       if (localStorage.getItem("user_" + username)) {
-        status.innerHTML = `<span style="color:red">Username già registrato!</span>`;
+        status.innerHTML = "<span style='color:red'>Username già registrato!</span>";
         return;
       }
 
-      // Genera token
+      // CONTROLLO PENDING
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith("pending_")) {
+          const data = JSON.parse(localStorage.getItem(key));
+          if (data.username === username) {
+            status.innerHTML = "<span style='color:orange'>Registrazione in corso... controlla la mail!</span>";
+            return;
+          }
+        }
+      }
+
+      // GENERA TOKEN
       const token = btoa(username + Date.now());
-      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`; // ← LINK CORRETTO!
+      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`;
       localStorage.setItem("pending_" + token, JSON.stringify({ username, email, pwd }));
 
       try {
@@ -108,16 +125,11 @@
           to_email: email,
           verify_link: verifyLink
         });
-        status.innerHTML = `<span style="color:green">Mail inviata! Controlla la posta.</span>`;
-        setTimeout(() => registerModal.style.display = "none", 3000);
+        status.innerHTML = "<span style='color:green'>Mail inviata! Controlla la posta.</span>";
+        setTimeout(() => modal.style.display = "none", 3000);
       } catch (err) {
-        status.innerHTML = `<span style="color:red">Errore: ${err.text || err.message}</span>`;
+        status.innerHTML = `<span style='color:red'>Errore: ${err.text || err.message}</span>`;
       }
-    };
-
-    document.getElementById("forgotPwd").onclick = () => {
-      const email = prompt("Inserisci la tua email:");
-      if (email) alert("Email di recupero inviata a " + email);
     };
   </script>
 </body>
