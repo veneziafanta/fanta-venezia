@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fantacalcio Venezia</title>
-  <link rel="stylesheet" href="style.css" />
   
   <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -29,6 +28,7 @@
     .success { color: green; font-size: 14px; }
     .forgot-link { color: #1a5fb4; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
     .loading { color: #1a5fb4 !important; font-weight: bold; }
+    .admin-section { background: #f8f9fa; padding: 15px; border-radius: 5px; margin-top: 20px; }
   </style>
 </head>
 <body>
@@ -48,6 +48,13 @@
     <div id="downloadSection" class="hidden">
       <h2>Scarica i documenti</h2>
       <ul id="pdfList"></ul>
+      
+      <!-- SEZIONE ADMIN PER RESET MANUALE -->
+      <div id="adminSection" class="admin-section hidden">
+        <h3>Problemi con la password?</h3>
+        <button id="manualResetBtn" class="secondary">Reset Password Manuale</button>
+        <p style="font-size: 12px; color: #666;">Contatta l'amministratore se hai dimenticato la password</p>
+      </div>
     </div>
   </div>
 
@@ -90,6 +97,32 @@
       <input type="email" id="resetEmail" placeholder="Email" required />
       <button id="sendReset">Reset Password</button>
       <p id="resetStatus"></p>
+      
+      <!-- SOLUZIONE ALTERNATIVA -->
+      <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 5px;">
+        <h4>📧 Problemi con l'email?</h4>
+        <p style="font-size: 14px; margin: 10px 0;">Se non ricevi l'email:</p>
+        <ol style="text-align: left; font-size: 14px;">
+          <li>Controlla la cartella SPAM</li>
+          <li>Assicurati che l'email sia corretta</li>
+          <li>Contatta l'amministratore</li>
+        </ol>
+        <button id="contactAdminBtn" class="secondary" style="margin-top: 10px;">Contatta Assistenza</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL RESET MANUALE (PER ADMIN) -->
+  <div id="manualResetModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeManualReset">x</span>
+      <h2>Reset Password Manuale</h2>
+      <p>Inserisci la tua email per reimpostare la password:</p>
+      <input type="email" id="manualResetEmail" placeholder="La tua email" required />
+      <input type="password" id="newPassword" placeholder="Nuova password" required />
+      <input type="password" id="confirmNewPassword" placeholder="Conferma nuova password" required />
+      <button id="confirmManualReset">Imposta Nuova Password</button>
+      <p id="manualResetStatus"></p>
     </div>
   </div>
 
@@ -112,16 +145,24 @@
     const logoutBtn = document.getElementById("logoutBtn");
     const downloadSection = document.getElementById("downloadSection");
     const pdfList = document.getElementById("pdfList");
+    const adminSection = document.getElementById("adminSection");
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
     const resetModal = document.getElementById("resetModal");
+    const manualResetModal = document.getElementById("manualResetModal");
+    
+    // Bottoni
     const openLogin = document.getElementById("openLogin");
     const openRegister = document.getElementById("openRegister");
     const closeLogin = document.getElementById("closeLogin");
     const closeRegister = document.getElementById("closeRegister");
     const closeReset = document.getElementById("closeReset");
+    const closeManualReset = document.getElementById("closeManualReset");
     const openReset = document.getElementById("openReset");
     const sendReset = document.getElementById("sendReset");
+    const manualResetBtn = document.getElementById("manualResetBtn");
+    const contactAdminBtn = document.getElementById("contactAdminBtn");
+    const confirmManualReset = document.getElementById("confirmManualReset");
 
     // === APRI/CHIUDI MODAL ===
     openLogin.onclick = () => loginModal.style.display = "flex";
@@ -132,14 +173,22 @@
       resetModal.style.display = "flex";
     };
 
+    manualResetBtn.onclick = () => manualResetModal.style.display = "flex";
+    contactAdminBtn.onclick = () => {
+      alert("Contatta l'amministratore: \nEmail: [inserisci email qui]\nTelefono: [inserisci telefono qui]");
+    };
+
+    // Chiudi modal
     closeLogin.onclick = () => loginModal.style.display = "none";
     closeRegister.onclick = () => registerModal.style.display = "none";
     closeReset.onclick = () => resetModal.style.display = "none";
+    closeManualReset.onclick = () => manualResetModal.style.display = "none";
 
     window.onclick = (e) => {
       if (e.target == loginModal) loginModal.style.display = "none";
       if (e.target == registerModal) registerModal.style.display = "none";
       if (e.target == resetModal) resetModal.style.display = "none";
+      if (e.target == manualResetModal) manualResetModal.style.display = "none";
     };
 
     // === LISTA PDF ===
@@ -150,7 +199,8 @@
 
     function showDownloads() {
       downloadSection.classList.remove("hidden");
-      pdfList.innerHTML = ""; // Pulisci la lista
+      adminSection.classList.remove("hidden");
+      pdfList.innerHTML = "";
       pdfs.forEach(pdf => {
         const li = document.createElement("li");
         li.innerHTML = `<a href="${pdf.link}" target="_blank">${pdf.name}</a>`;
@@ -228,7 +278,7 @@
       }
     };
 
-    // === RESET PASSWORD CORRETTO ===
+    // === RESET PASSWORD FIREBASE ===
     sendReset.onclick = async () => {
       const email = document.getElementById("resetEmail").value.trim();
       const status = document.getElementById("resetStatus");
@@ -239,27 +289,15 @@
         return;
       }
 
-      // Mostra "caricamento"
-      status.innerHTML = "Invio in corso...";
+      status.innerHTML = "Invio email in corso...";
       status.style.color = "#1a5fb4";
       sendReset.disabled = true;
 
       try {
-        // INVIA EMAIL DI RESET
         await auth.sendPasswordResetEmail(email);
-        
         status.innerHTML = "✅ Email inviata! Controlla la tua posta (anche spam).";
         status.style.color = "green";
-        
-        // Reset campo email
         document.getElementById("resetEmail").value = "";
-        
-        // Chiudi automaticamente dopo 5 secondi
-        setTimeout(() => {
-          resetModal.style.display = "none";
-          status.innerHTML = "";
-        }, 5000);
-        
       } catch (err) {
         console.error("Errore reset:", err);
         if (err.code === 'auth/user-not-found') {
@@ -267,11 +305,53 @@
         } else if (err.code === 'auth/invalid-email') {
           status.innerHTML = "❌ Email non valida";
         } else {
-          status.innerHTML = "❌ Errore. Riprova più tardi.";
+          status.innerHTML = "❌ Errore. Usa il reset manuale qui sotto.";
         }
         status.style.color = "red";
       } finally {
         sendReset.disabled = false;
+      }
+    };
+
+    // === RESET PASSWORD MANUALE (ALTERNATIVA) ===
+    confirmManualReset.onclick = async () => {
+      const email = document.getElementById("manualResetEmail").value.trim();
+      const newPwd = document.getElementById("newPassword").value;
+      const confirmPwd = document.getElementById("confirmNewPassword").value;
+      const status = document.getElementById("manualResetStatus");
+
+      if (newPwd !== confirmPwd) {
+        status.innerHTML = "Le password non coincidono";
+        status.style.color = "red";
+        return;
+      }
+
+      if (newPwd.length < 6) {
+        status.innerHTML = "La password deve essere di almeno 6 caratteri";
+        status.style.color = "red";
+        return;
+      }
+
+      try {
+        // Prima prova a fare login per verificare l'account
+        const user = auth.currentUser;
+        
+        if (user && user.email === email) {
+          // Se l'utente è loggato, cambia la password
+          await user.updatePassword(newPwd);
+          status.innerHTML = "✅ Password cambiata con successo!";
+          status.style.color = "green";
+          setTimeout(() => {
+            manualResetModal.style.display = "none";
+            alert("Password aggiornata! Ora puoi fare login con la nuova password.");
+          }, 2000);
+        } else {
+          status.innerHTML = "❌ Devi prima fare login per usare questa funzione";
+          status.style.color = "red";
+        }
+      } catch (err) {
+        status.innerHTML = "❌ Errore: " + err.message;
+        status.style.color = "red";
       }
     };
   </script>
