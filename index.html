@@ -24,7 +24,6 @@
     #pdfList { list-style: none; padding: 0; }
     #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
     .user-info { margin-top: 20px; font-size: 14px; color: #555; }
-    .success { color: green; font-weight: bold; font-size: 18px; padding: 10px; background: #e6f7e6; border-radius: 5px; margin: 10px 0; }
   </style>
 </head>
 <body>
@@ -181,7 +180,7 @@
       }
     };
 
-    // === REGISTRAZIONE CON MESSAGGIO VERDE + RICARICA ===
+    // === REGISTRAZIONE DIRETTA: CHIUDI E MOSTRA PDF ===
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -207,13 +206,14 @@
           email: email
         });
 
-        // MESSAGGIO VERDE BEN VISIBILE
-        status.innerHTML = "<div class='success'>Il tuo account è stato creato con successo!</div>";
+        // CHIUDI MODAL
+        registerModal.style.display = "none";
 
-        // RICARICA DOPO 2.5 SECONDI
-        setTimeout(() => {
-          location.reload();
-        }, 2500);
+        // MOSTRA PDF SUBITO
+        userName.textContent = username;
+        authButtons.classList.add("hidden");
+        userInfo.classList.remove("hidden");
+        showDownloads();
 
       } catch (err) {
         status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
