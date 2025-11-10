@@ -24,8 +24,9 @@
     #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
     .user-info { margin-top: 20px; font-size: 14px; color: #555; }
     .error { color: red; font-size: 14px; }
-    .success { color: green; font-size: 14px; }
+    .success { color: green; font-size: 14px; font-weight: bold; }
     .forgot-link { color: #1a5fb4; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
+    .info-box { background: #e8f4fd; padding: 15px; border-radius: 5px; margin: 15px 0; border-left: 4px solid #1a5fb4; }
   </style>
 </head>
 <body>
@@ -68,12 +69,18 @@
     <div class="modal-content">
       <span class="close" id="closeRegister">x</span>
       <h2>Registrati</h2>
+      
+      <div class="info-box">
+        <strong>Informazione importante:</strong><br>
+        Dopo la registrazione riceverai un'email di verifica. Dovrai cliccare il link nell'email per attivare il tuo account.
+      </div>
+      
       <form id="registerForm">
         <input type="email" id="regEmail" placeholder="Email" required />
         <input type="password" id="regPassword" placeholder="Password (min. 6 caratteri)" required />
         <input type="password" id="regConfirm" placeholder="Conferma Password" required />
         <button type="submit">Crea Account</button>
-        <p id="registerStatus" class="error"></p>
+        <p id="registerStatus"></p>
       </form>
     </div>
   </div>
@@ -90,13 +97,24 @@
     </div>
   </div>
 
+  <!-- MODAL CAMBIA PASSWORD -->
+  <div id="changePasswordModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeChangePassword">x</span>
+      <h2>Imposta Nuova Password</h2>
+      <p>Inserisci la tua nuova password:</p>
+      <input type="password" id="newPassword" placeholder="Nuova password (min. 6 caratteri)" required />
+      <input type="password" id="confirmNewPassword" placeholder="Conferma nuova password" required />
+      <button id="confirmPasswordChange">Salva Nuova Password</button>
+      <p id="changePasswordStatus"></p>
+    </div>
+  </div>
+
   <script>
     // === SUPABASE CONFIG ===
-    // QUESTI SONO I TUOI DATI - FUNZIONANO SUBITO!
     const SUPABASE_URL = 'https://norfhoxpzdnbainkbwlw.supabase.co';
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
     
-    // Crea il client Supabase
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     // Elementi UI
@@ -110,14 +128,17 @@
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
     const resetModal = document.getElementById("resetModal");
+    const changePasswordModal = document.getElementById("changePasswordModal");
     
     const openLogin = document.getElementById("openLogin");
     const openRegister = document.getElementById("openRegister");
     const closeLogin = document.getElementById("closeLogin");
     const closeRegister = document.getElementById("closeRegister");
     const closeReset = document.getElementById("closeReset");
+    const closeChangePassword = document.getElementById("closeChangePassword");
     const openReset = document.getElementById("openReset");
     const sendReset = document.getElementById("sendReset");
+    const confirmPasswordChange = document.getElementById("confirmPasswordChange");
 
     // PDF
     const pdfs = [
@@ -136,11 +157,13 @@
     closeLogin.onclick = () => loginModal.style.display = "none";
     closeRegister.onclick = () => registerModal.style.display = "none";
     closeReset.onclick = () => resetModal.style.display = "none";
+    closeChangePassword.onclick = () => changePasswordModal.style.display = "none";
 
     window.onclick = (e) => {
       if (e.target == loginModal) loginModal.style.display = "none";
       if (e.target == registerModal) registerModal.style.display = "none";
       if (e.target == resetModal) resetModal.style.display = "none";
+      if (e.target == changePasswordModal) changePasswordModal.style.display = "none";
     };
 
     // Mostra download
@@ -172,6 +195,31 @@
       }
     }
 
+    // Gestisce il ritorno dalla verifica email
+    async function handleEmailVerification() {
+      const urlParams = new URLSearchParams(window.location.hash.substring(1));
+      const type = urlParams.get('type');
+      const accessToken = urlParams.get('access_token');
+      
+      if (type === 'recovery' && accessToken) {
+        // Se è un ritorno dal reset password, apri il modal per cambiare password
+        changePasswordModal.style.display = "flex";
+        window.location.hash = '';
+      } else if (type === 'signup' && accessToken) {
+        // Se è un ritorno dalla verifica account
+        const { data, error } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: urlParams.get('refresh_token')
+        });
+        
+        if (!error) {
+          // Mostra messaggio di successo
+          alert('✅ Account verificato con successo! Ora puoi accedere al sito.');
+          window.location.href = window.location.origin + window.location.pathname;
+        }
+      }
+    }
+
     // Login
     document.getElementById("loginForm").onsubmit = async (e) => {
       e.preventDefault();
@@ -185,7 +233,11 @@
       });
 
       if (error) {
-        status.textContent = "Email o password errati!";
+        if (error.message === 'Email not confirmed') {
+          status.textContent = "Account non verificato. Controlla la tua email per il link di verifica.";
+        } else {
+          status.textContent = "Email o password errati!";
+        }
         status.style.color = "red";
       } else {
         status.textContent = "Accesso effettuato!";
@@ -220,40 +272,91 @@
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
+        options: {
+          emailRedirectTo: window.location.origin + window.location.pathname
+        }
       });
 
       if (error) {
         status.textContent = "Errore: " + error.message;
         status.style.color = "red";
       } else {
-        status.textContent = "Registrazione completata! Puoi ora fare il login.";
+        status.textContent = "✅ Email di verifica inviata! Controlla la tua casella di posta e clicca il link per attivare il tuo account.";
         status.style.color = "green";
+        
+        // Pulisci il form
+        document.getElementById("regEmail").value = "";
+        document.getElementById("regPassword").value = "";
+        document.getElementById("regConfirm").value = "";
+        
+        // Chiudi il modal dopo 5 secondi
         setTimeout(() => {
           registerModal.style.display = "none";
-        }, 3000);
+          status.textContent = "";
+        }, 5000);
       }
     };
 
-    // RESET PASSWORD - QUESTA VOLTA FUNZIONA!
+    // RESET PASSWORD - INVIO EMAIL
     sendReset.onclick = async () => {
       const email = document.getElementById("resetEmail").value;
       const status = document.getElementById("resetStatus");
 
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://veneziafanta.github.io/fanta-venezia/',
+        redirectTo: window.location.origin + window.location.pathname,
       });
 
       if (error) {
         status.textContent = "Errore: " + error.message;
         status.style.color = "red";
       } else {
-        status.textContent = "✅ Email di reset inviata! Controlla la tua posta.";
+        status.textContent = "✅ Email di reset inviata! Controlla la tua posta e clicca il link per impostare una nuova password.";
         status.style.color = "green";
         
-        // Chiudi il modal dopo 3 secondi
+        // Pulisci il campo email
+        document.getElementById("resetEmail").value = "";
+        
+        // Chiudi il modal dopo 5 secondi
         setTimeout(() => {
           resetModal.style.display = "none";
           status.textContent = "";
+        }, 5000);
+      }
+    };
+
+    // CAMBIO PASSWORD DOPO RESET
+    confirmPasswordChange.onclick = async () => {
+      const newPassword = document.getElementById("newPassword").value;
+      const confirmPassword = document.getElementById("confirmNewPassword").value;
+      const status = document.getElementById("changePasswordStatus");
+
+      if (newPassword.length < 6) {
+        status.textContent = "La password deve essere di almeno 6 caratteri";
+        status.style.color = "red";
+        return;
+      }
+
+      if (newPassword !== confirmPassword) {
+        status.textContent = "Le password non coincidono";
+        status.style.color = "red";
+        return;
+      }
+
+      const { data, error } = await supabase.auth.updateUser({
+        password: newPassword
+      });
+
+      if (error) {
+        status.textContent = "Errore: " + error.message;
+        status.style.color = "red";
+      } else {
+        status.textContent = "✅ Password cambiata con successo! Ora puoi accedere con la nuova password.";
+        status.style.color = "green";
+        
+        // Chiudi il modal dopo 3 secondi e ricarica
+        setTimeout(() => {
+          changePasswordModal.style.display = "none";
+          window.location.href = window.location.origin + window.location.pathname;
         }, 3000);
       }
     };
@@ -264,8 +367,14 @@
       checkSession();
     };
 
-    // Controlla la sessione quando la pagina si carica
-    checkSession();
+    // INIZIALIZZAZIONE
+    async function init() {
+      await checkSession();
+      await handleEmailVerification();
+    }
+
+    // Avvia tutto quando la pagina è caricata
+    init();
 
     // Ascolta i cambiamenti di autenticazione
     supabase.auth.onAuthStateChange((event, session) => {
