@@ -5,6 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fantacalcio Venezia - Accesso</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- EMAILJS -->
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function(){
+      emailjs.init("Q43lIRoGk8Gy3AuET"); // ← LA TUA PUBLIC KEY
+    })();
+  </script>
 </head>
 <body>
   <div class="container">
@@ -48,17 +55,8 @@
     </div>
   </div>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-  <script src="firebase.js"></script>
-
   <script>
-    // Inizializza Firebase
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-
-    // Modal
+    // MODAL
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
     document.getElementById("loginBtn").onclick = () => loginModal.style.display = "block";
@@ -67,26 +65,22 @@
       loginModal.style.display = registerModal.style.display = "none";
     });
 
-    // Login
-    document.getElementById("loginForm").onsubmit = async (e) => {
+    // LOGIN
+    document.getElementById("loginForm").onsubmit = (e) => {
       e.preventDefault();
       const username = document.getElementById("loginUsername").value.trim();
-      const password = document.getElementById("loginPassword").value;
+      const pwd = document.getElementById("loginPassword").value;
       const status = document.getElementById("loginStatus");
-      try {
-        const userCredential = await auth.signInWithEmailAndPassword(username + "@fantavenezia.it", password);
-        if (!userCredential.user.emailVerified) {
-          status.innerHTML = `<span style="color:red">Conferma la tua email prima di accedere!</span>`;
-          auth.signOut();
-          return;
-        }
-        window.location.href = "dashboard.html";
-      } catch (err) {
-        status.innerHTML = `<span style="color:red">Errore: ${err.message}</span>`;
+      const user = JSON.parse(localStorage.getItem("user_" + username));
+      if (user && user.pwd === pwd) {
+        status.innerHTML = `<span style="color:green">Accesso OK!</span>`;
+        setTimeout(() => window.location.href = "dashboard.html", 1000);
+      } else {
+        status.innerHTML = `<span style="color:red">Username o password errati</span>`;
       }
     };
 
-    // Registrazione
+    // REGISTRAZIONE
     document.getElementById("registerForm").onsubmit = async (e) => {
       e.preventDefault();
       const username = document.getElementById("regUsername").value.trim();
@@ -100,26 +94,26 @@
         return;
       }
 
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(username + "@fantavenezia.it", pwd);
-        await userCredential.user.sendEmailVerification({
-          url: 'https://veneziafanta.github.io/fanta-venezia/dashboard.html'
-        });
-        status.innerHTML = `<span style="color:green">Registrazione completata! Controlla la tua email per confermare.</span>`;
-        setTimeout(() => registerModal.style.display = "none", 4000);
-      } catch (err) {
-        status.innerHTML = `<span style="color:red">Errore: ${err.message}</span>`;
-      }
+      const token = btoa(username + Date.now());
+      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`;
+      localStorage.setItem("pending_" + token, JSON.stringify({ username, email, pwd }));
+
+      emailjs.send("service_eh1l8ai", "template_zth5v29", {
+        username: username,
+        to_email: email,
+        verify_link: verifyLink
+      }).then(() => {
+        status.innerHTML = `<span style="color:green">Mail inviata! Controlla la posta.</span>`;
+        setTimeout(() => registerModal.style.display = "none", 3000);
+      }).catch(err => {
+        status.innerHTML = `<span style="color:red">Errore: ${err.text}</span>`;
+      });
     };
 
-    // Recupera password
+    // RECUPERA PASSWORD
     document.getElementById("forgotPwd").onclick = () => {
       const email = prompt("Inserisci la tua email:");
-      if (email) {
-        auth.sendPasswordResetEmail(email)
-          .then(() => alert("Email di recupero inviata! Controlla la posta."))
-          .catch(err => alert("Errore: " + err.message));
-      }
+      if (email) alert("Email di recupero inviata a " + email);
     };
   </script>
 </body>
