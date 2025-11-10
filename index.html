@@ -189,6 +189,10 @@
     
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+    // VARIABILI GLOBALI
+    let resetToken = null;
+    let resetEmail = null;
+
     // Elementi UI
     const mainPage = document.getElementById("mainPage");
     const verificationPage = document.getElementById("verificationPage");
@@ -271,14 +275,15 @@
       const urlParams = new URLSearchParams(window.location.hash.substring(1));
       const type = urlParams.get('type');
       const accessToken = urlParams.get('access_token');
-      const refreshToken = urlParams.get('refresh_token');
+      
+      console.log('Handle redirect:', { type, accessToken });
       
       if (type === 'signup' && accessToken) {
         // VERIFICA ACCOUNT
         try {
           const { data, error } = await supabase.auth.setSession({
             access_token: accessToken,
-            refresh_token: refreshToken
+            refresh_token: urlParams.get('refresh_token')
           });
           
           if (!error) {
@@ -288,19 +293,26 @@
           console.error('Errore verifica:', error);
         }
       } else if (type === 'recovery' && accessToken) {
-        // RESET PASSWORD
+        // RESET PASSWORD - SALVA IL TOKEN MA NON FARE LOGIN
+        resetToken = accessToken;
+        
+        // Ottieni l'email dell'utente dal token
         try {
-          const { data, error } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken
-          });
-          
-          if (!error) {
+          const { data, error } = await supabase.auth.getUser(accessToken);
+          if (!error && data.user) {
+            resetEmail = data.user.email;
+            showResetPasswordPage();
+          } else {
+            // Se non riesco a ottenere l'email, mostra comunque il form
             showResetPasswordPage();
           }
         } catch (error) {
-          console.error('Errore reset:', error);
+          // Se c'è errore, mostra comunque il form
+          showResetPasswordPage();
         }
+        
+        // PULISCI L'URL IMMEDIATAMENTE
+        window.location.hash = '';
       }
     }
 
@@ -330,6 +342,9 @@
     function showResetPasswordPage() {
       mainPage.style.display = 'none';
       resetPasswordPage.style.display = 'flex';
+      
+      // Assicurati che l'utente non sia loggato
+      supabase.auth.signOut();
     }
 
     // Torna alla pagina principale
@@ -424,6 +439,15 @@
       const email = document.getElementById("resetEmail").value;
       const status = document.getElementById("resetStatus");
 
+      if (!email) {
+        status.textContent = "Inserisci la tua email";
+        status.style.color = "red";
+        return;
+      }
+
+      // SALVA L'EMAIL PER IL SUCCESSIVO RESET
+      resetEmail = email;
+
       // USA L'URL CORRETTO PER GITHUB PAGES
       const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: window.location.origin + window.location.pathname,
@@ -447,7 +471,7 @@
       }
     };
 
-    // RESET PASSWORD - CAMBIO PASSWORD
+    // RESET PASSWORD - CAMBIO PASSWORD (VERSIONE CORRETTA)
     document.getElementById("resetPasswordForm").onsubmit = async (e) => {
       e.preventDefault();
       const newPassword = document.getElementById("newPassword").value;
@@ -471,29 +495,62 @@
       submitBtn.textContent = 'Salvataggio in corso...';
 
       try {
+        // PRIMA FAI LOGOUT per sicurezza
+        await supabase.auth.signOut();
+
+        // POI USA IL TOKEN DI RESET per fare login temporaneo
+        if (resetToken) {
+          const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
+            access_token: resetToken,
+            refresh_token: resetToken // Usa lo stesso token come refresh per semplicità
+          });
+
+          if (sessionError) {
+            throw new Error('Token di reset non valido');
+          }
+        } else {
+          // Se non c'è token, prova a fare login con l'email salvata
+          if (resetEmail) {
+            // Questo è un workaround - in realtà dovremmo avere il token
+            // Per ora mostriamo un messaggio di errore
+            throw new Error('Link di reset non valido. Richiedi un nuovo reset password.');
+          } else {
+            throw new Error('Errore di sistema. Riprova.');
+          }
+        }
+
+        // ORA AGGIORNA LA PASSWORD
         const { data, error } = await supabase.auth.updateUser({
           password: newPassword
         });
 
         if (error) {
-          status.textContent = 'Errore durante il salvataggio: ' + error.message;
-          status.style.color = 'red';
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Salva Nuova Password';
-        } else {
-          status.textContent = '✅ Password cambiata con successo!';
-          status.style.color = 'green';
-          
-          // Reindirizza dopo 2 secondi
-          setTimeout(() => {
-            redirectToMain();
-          }, 2000);
+          throw new Error('Errore durante il salvataggio: ' + error.message);
         }
+
+        // SUCCESSO - Fai logout e torna al login
+        await supabase.auth.signOut();
+        
+        status.textContent = '✅ Password cambiata con successo! Ora puoi accedere con la nuova password.';
+        status.style.color = 'green';
+        
+        // Reindirizza dopo 3 secondi
+        setTimeout(() => {
+          redirectToMain();
+          // Mostra il modal di login
+          setTimeout(() => {
+            loginModal.style.display = "flex";
+          }, 500);
+        }, 3000);
+
       } catch (error) {
-        status.textContent = 'Errore di connessione. Riprova.';
+        status.textContent = error.message;
         status.style.color = 'red';
         submitBtn.disabled = false;
         submitBtn.textContent = 'Salva Nuova Password';
+        
+        // Fai logout per sicurezza
+        await supabase.auth.signOut();
       }
     };
 
@@ -514,8 +571,15 @@
 
     // Ascolta i cambiamenti di autenticazione
     supabase.auth.onAuthStateChange((event, session) => {
+      console.log('Auth state changed:', event);
+      
       if (event === 'SIGNED_IN') {
-        checkSession();
+        // Se l'utente si logga durante il reset, fai logout forzato
+        if (resetPasswordPage.style.display === 'flex') {
+          supabase.auth.signOut();
+        } else {
+          checkSession();
+        }
       } else if (event === 'SIGNED_OUT') {
         checkSession();
       }
