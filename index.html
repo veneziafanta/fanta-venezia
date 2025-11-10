@@ -89,7 +89,7 @@
       }
 
       const token = btoa(username + Date.now());
-      const verifyLink = `https://veneziafanta.github.io/fanta-vene-GitHub/verify.html?token=${token}`;
+      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`;
       localStorage.setItem("pending_" + token, JSON.stringify({ username, email, pwd }));
 
       try {
