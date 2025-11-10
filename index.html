@@ -9,9 +9,6 @@
   <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  
-  <!-- EMAILJS -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
   <style>
     body { font-family: Arial; background: #f0f2f5; margin: 0; padding: 20px; }
@@ -37,19 +34,16 @@
   <div class="container">
     <h1>Fantacalcio Venezia</h1>
    
-    <!-- PULSANTI PRINCIPALI -->
     <div id="authButtons">
       <button id="openLogin">ACCEDI</button>
       <button id="openRegister">REGISTRATI</button>
     </div>
 
-    <!-- INFO UTENTE -->
     <div id="userInfo" class="hidden user-info">
       <p>Benvenuto!</p>
       <button id="logoutBtn" class="secondary">Esci</button>
     </div>
 
-    <!-- DOWNLOAD PDF -->
     <div id="downloadSection" class="hidden">
       <h2>Scarica i documenti</h2>
       <ul id="pdfList"></ul>
@@ -91,15 +85,15 @@
     <div class="modal-content">
       <span class="close" id="closeReset">x</span>
       <h2>Recupera Password</h2>
-      <p>Inserisci la tua email. Ti contatteremo al più presto.</p>
+      <p>Inserisci la tua email per resettare la password.</p>
       <input type="email" id="resetEmail" placeholder="Email" required />
-      <button id="sendReset">Invia Richiesta</button>
+      <button id="sendReset">Reset Password</button>
       <p id="resetStatus" class="success"></p>
     </div>
   </div>
 
   <script>
-    // === CONFIGURAZIONE FIREBASE ===
+    // === FIREBASE CONFIG ===
     const firebaseConfig = {
       apiKey: "AIzaSyC7sfnaK_Kv_7rNMm0-wmSGlPRHB032mn0",
       authDomain: "fantacalcio-venezia-584bc.firebaseapp.com",
@@ -111,10 +105,7 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // === CONFIGURAZIONE EMAILJS (I TUOI ID!) ===
-    emailjs.init("Q43lIRoGk8Gy3AuET"); // ← IL TUO PUBLIC KEY
-
-    // === ELEMENTI DOM ===
+    // === ELEMENTI ===
     const authButtons = document.getElementById("authButtons");
     const userInfo = document.getElementById("userInfo");
     const logoutBtn = document.getElementById("logoutBtn");
@@ -130,7 +121,6 @@
     const closeReset = document.getElementById("closeReset");
     const openReset = document.getElementById("openReset");
 
-    // === APERTURA/CHIUSURA MODAL ===
     openLogin.onclick = () => loginModal.style.display = "flex";
     openRegister.onclick = () => registerModal.style.display = "flex";
     openReset.onclick = () => {
@@ -146,7 +136,6 @@
       if (e.target == resetModal) resetModal.style.display = "none";
     };
 
-    // === PDF ===
     const pdfs = [
       { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
       { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
@@ -161,7 +150,6 @@
       });
     }
 
-    // === STATO UTENTE ===
     auth.onAuthStateChanged((user) => {
       if (user) {
         authButtons.classList.add("hidden");
@@ -212,27 +200,35 @@
       }
     };
 
-    // === RESET PASSWORD CON EMAILJS ===
+    // === RESET PASSWORD AUTOMATICO (SENZA EMAIL) ===
     document.getElementById("sendReset").onclick = async () => {
       const email = document.getElementById("resetEmail").value.trim();
       const status = document.getElementById("resetStatus");
 
       if (!email) {
         status.innerHTML = "Inserisci la tua email";
+        status.style.color = "red";
         return;
       }
 
       try {
-        await emailjs.send(
-          "service_eh1l8ai",       // ← IL TUO SERVICE ID
-          "template_zth5v29",      // ← IL TUO TEMPLATE ID
-          { email: email }         // {{email}} nel template
-        );
-        status.innerHTML = "Richiesta inviata! Controlla la tua email.";
-        setTimeout(() => resetModal.style.display = "none", 3000);
+        // Genera link di reset e aprilo
+        const actionCodeSettings = {
+          url: 'https://veneziafanta.github.io/fanta-venezia', // Torna al sito dopo reset
+          handleCodeInApp: true
+        };
+        
+        await auth.sendPasswordResetEmail(email, actionCodeSettings);
+        
+        // Apri la pagina di reset direttamente
+        const resetUrl = `https://fantacalcio-venezia-584bc.firebaseapp.com/__/auth/action?mode=resetPassword&oobCode=`;
+        window.open(resetUrl, "_blank");
+        
+        status.innerHTML = "Apri la nuova scheda per resettare la password!";
+        status.style.color = "green";
       } catch (err) {
-        status.innerHTML = "Errore. Riprova.";
-        console.error("EmailJS Error:", err);
+        status.innerHTML = "Email non trovata";
+        status.style.color = "red";
       }
     };
   </script>
