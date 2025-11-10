@@ -24,25 +24,23 @@
     #pdfList { list-style: none; padding: 0; }
     #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
     .user-info { margin-top: 20px; font-size: 14px; color: #555; }
+    .error { color: red; font-size: 14px; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Fantacalcio Venezia</h1>
    
-    <!-- PULSANTI PRINCIPALI -->
     <div id="authButtons">
       <button id="openLogin">ACCEDI</button>
       <button id="openRegister">REGISTRATI</button>
     </div>
 
-    <!-- INFO UTENTE -->
     <div id="userInfo" class="hidden user-info">
       <p>Benvenuto, <strong id="userName"></strong>!</p>
       <button id="logoutBtn" class="secondary">Esci</button>
     </div>
 
-    <!-- DOWNLOAD PDF -->
     <div id="downloadSection" class="hidden">
       <h2>Scarica i documenti</h2>
       <ul id="pdfList"></ul>
@@ -58,7 +56,7 @@
         <input type="text" id="loginUsername" placeholder="Username" required />
         <input type="password" id="loginPassword" placeholder="Password" required />
         <button type="submit">Entra</button>
-        <p id="loginStatus"></p>
+        <p id="loginStatus" class="error"></p>
       </form>
     </div>
   </div>
@@ -74,13 +72,12 @@
         <input type="password" id="regPassword" placeholder="Password" required />
         <input type="password" id="regConfirm" placeholder="Conferma Password" required />
         <button type="button" id="submitReg">Crea Account</button>
-        <p id="registerStatus"></p>
+        <p id="registerStatus" class="error"></p>
       </form>
     </div>
   </div>
 
   <script>
-    // === FIREBASE CONFIG ===
     const firebaseConfig = {
       apiKey: "AIzaSyC7sfnaK_Kv_7rNMm0-wmSGlPRHB032mn0",
       authDomain: "fantacalcio-venezia-584bc.firebaseapp.com",
@@ -93,7 +90,6 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // ELEMENTI
     const authButtons = document.getElementById("authButtons");
     const userInfo = document.getElementById("userInfo");
     const userName = document.getElementById("userName");
@@ -107,7 +103,6 @@
     const closeLogin = document.getElementById("closeLogin");
     const closeRegister = document.getElementById("closeRegister");
 
-    // Apri/chiudi modal
     openLogin.onclick = () => loginModal.style.display = "flex";
     openRegister.onclick = () => registerModal.style.display = "flex";
     closeLogin.onclick = closeRegister.onclick = () => {
@@ -118,7 +113,6 @@
       if (e.target == registerModal) registerModal.style.display = "none";
     };
 
-    // PDF
     const pdfs = [
       { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
       { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
@@ -133,7 +127,6 @@
       });
     }
 
-    // STATO UTENTE
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         const doc = await db.collection("users").doc(user.uid).get();
@@ -151,10 +144,9 @@
       }
     });
 
-    // LOGOUT
     logoutBtn.onclick = () => auth.signOut();
 
-    // LOGIN CON USERNAME
+    // LOGIN
     document.getElementById("loginForm").onsubmit = async (e) => {
       e.preventDefault();
       const username = document.getElementById("loginUsername").value.trim();
@@ -162,25 +154,21 @@
       const status = document.getElementById("loginStatus");
 
       try {
-        const snap = await db.collection("users").where("username", "==", username).limit(1).get();
+        const snap = await db.collection("users").where("username", "==", username).get();
         if (snap.empty) {
-          status.innerHTML = "<span style='color:red'>Username non trovato</span>";
+          status.innerHTML = "Username non trovato";
           return;
         }
-
-        const userData = snap.docs[0].data();
-        const email = userData.email;
-
+        const email = snap.docs[0].data().email;
         await auth.signInWithEmailAndPassword(email, pwd);
-        status.innerHTML = "<span style='color:green'>Accesso OK!</span>";
+        status.innerHTML = "Accesso OK!";
         setTimeout(() => loginModal.style.display = "none", 1000);
-
       } catch (err) {
-        status.innerHTML = `<span style='color:red'>Password errata</span>`;
+        status.innerHTML = "Password errata";
       }
     };
 
-    // === REGISTRAZIONE DIRETTA: CHIUDI E MOSTRA PDF ===
+    // REGISTRAZIONE DIRETTA
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -189,13 +177,13 @@
       const status = document.getElementById("registerStatus");
 
       if (pwd !== confirm) {
-        status.innerHTML = "<span style='color:red'>Le password non coincidono</span>";
+        status.innerHTML = "Le password non coincidono";
         return;
       }
 
       const snap = await db.collection("users").where("username", "==", username).get();
       if (!snap.empty) {
-        status.innerHTML = "<span style='color:red'>Username già occupato!</span>";
+        status.innerHTML = "Username già occupato";
         return;
       }
 
@@ -206,17 +194,15 @@
           email: email
         });
 
-        // CHIUDI MODAL
+        // CHIUDI E MOSTRA PDF
         registerModal.style.display = "none";
-
-        // MOSTRA PDF SUBITO
         userName.textContent = username;
         authButtons.classList.add("hidden");
         userInfo.classList.remove("hidden");
         showDownloads();
 
       } catch (err) {
-        status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
+        status.innerHTML = "Errore: " + err.message;
       }
     };
   </script>
