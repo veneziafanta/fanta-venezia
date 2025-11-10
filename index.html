@@ -267,6 +267,22 @@
                 </div>
             </div>
 
+            <!-- SEZIONE CAMBIO PASSWORD -->
+            <div id="changePasswordSection" class="hidden">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h2>Imposta Nuova Password</h2>
+                    <p>Crea una nuova password per il tuo account</p>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="newPassword" placeholder="Nuova password (min. 6 caratteri)" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" id="confirmNewPassword" placeholder="Conferma nuova password" required>
+                </div>
+                <button class="btn" onclick="changePassword()">SALVA NUOVA PASSWORD</button>
+                <div id="changePasswordMessage" class="message hidden"></div>
+            </div>
+
             <!-- SEZIONE UTENTE LOGGATO -->
             <div id="userSection" class="hidden">
                 <div class="user-info">
@@ -336,16 +352,27 @@
         }
 
         function showUserSection(email) {
-            document.getElementById('authSection').classList.add('hidden');
+            hideAllSections();
             document.getElementById('userSection').classList.remove('hidden');
             document.getElementById('userEmail').textContent = email;
             loadPDFs();
         }
 
         function showAuthSection() {
-            document.getElementById('userSection').classList.add('hidden');
+            hideAllSections();
             document.getElementById('authSection').classList.remove('hidden');
             showTab('login');
+        }
+
+        function showChangePasswordSection() {
+            hideAllSections();
+            document.getElementById('changePasswordSection').classList.remove('hidden');
+        }
+
+        function hideAllSections() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('changePasswordSection').classList.add('hidden');
+            document.getElementById('userSection').classList.add('hidden');
         }
 
         function loadPDFs() {
@@ -371,6 +398,7 @@
             document.getElementById('loginMessage').classList.add('hidden');
             document.getElementById('registerMessage').classList.add('hidden');
             document.getElementById('resetMessage').classList.add('hidden');
+            document.getElementById('changePasswordMessage').classList.add('hidden');
         }
 
         // ==================== FUNZIONI AUTH ====================
@@ -466,24 +494,76 @@
             }
         }
 
+        async function changePassword() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmNewPassword').value;
+            
+            if (!newPassword || !confirmPassword) {
+                showMessage('changePasswordMessage', 'Compila entrambi i campi', 'error');
+                return;
+            }
+            
+            if (newPassword.length < 6) {
+                showMessage('changePasswordMessage', 'La password deve essere di almeno 6 caratteri', 'error');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                showMessage('changePasswordMessage', 'Le password non coincidono', 'error');
+                return;
+            }
+            
+            const { data, error } = await supabase.auth.updateUser({
+                password: newPassword
+            });
+
+            if (error) {
+                showMessage('changePasswordMessage', 'Errore: ' + error.message, 'error');
+            } else {
+                showMessage('changePasswordMessage', '✅ Password cambiata con successo! Ora puoi accedere con la nuova password.', 'success');
+                
+                // Fai logout e torna al login dopo 2 secondi
+                setTimeout(async () => {
+                    await supabase.auth.signOut();
+                    showAuthSection();
+                    showMessage('loginMessage', 'Password cambiata! Accedi con la nuova password.', 'success');
+                }, 2000);
+            }
+        }
+
         async function logout() {
             await supabase.auth.signOut();
             showAuthSection();
         }
 
-        // ==================== GESTIONE RESET PASSWORD ====================
+        // ==================== GESTIONE RESET PASSWORD COMPLETA ====================
         async function handlePasswordReset() {
             const urlParams = new URLSearchParams(window.location.hash.substring(1));
             const type = urlParams.get('type');
             const accessToken = urlParams.get('access_token');
+            const refreshToken = urlParams.get('refresh_token');
             
             if (type === 'recovery' && accessToken) {
-                // Se è un ritorno dal reset password, fai logout automatico
-                await supabase.auth.signOut();
-                showAuthSection();
-                showMessage('loginMessage', '✅ Password cambiata con successo! Ora puoi accedere con la nuova password.', 'success');
-                // Pulisci l'URL
-                window.location.hash = '';
+                // Se è un ritorno dal reset password, mostra il form per cambiare password
+                try {
+                    // Imposta la sessione temporanea
+                    const { data, error } = await supabase.auth.setSession({
+                        access_token: accessToken,
+                        refresh_token: refreshToken
+                    });
+                    
+                    if (!error) {
+                        // Mostra il form per cambiare password
+                        showChangePasswordSection();
+                        // Pulisci l'URL
+                        window.location.hash = '';
+                    } else {
+                        throw error;
+                    }
+                } catch (error) {
+                    showAuthSection();
+                    showMessage('loginMessage', 'Link di reset non valido o scaduto', 'error');
+                }
             }
         }
 
@@ -504,11 +584,19 @@
             document.getElementById('resetEmail').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') resetPassword();
             });
+            
+            document.getElementById('confirmNewPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') changePassword();
+            });
         });
 
         // Ascolta cambiamenti di autenticazione
         supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
+                // Se l'utente si logga ma siamo nella sezione cambio password, non mostrare i download
+                if (!document.getElementById('changePasswordSection').classList.contains('hidden')) {
+                    return;
+                }
                 showUserSection(session.user.email);
             } else if (event === 'SIGNED_OUT') {
                 showAuthSection();
