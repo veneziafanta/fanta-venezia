@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Account Verificato - Fantacalcio Venezia</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      background: linear-gradient(135deg, #1a5fb4, #0d47a1);
+      margin: 0; 
+      padding: 0; 
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container { 
+      background: white; 
+      padding: 40px; 
+      border-radius: 15px; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+      text-align: center; 
+      max-width: 500px;
+      margin: 20px;
+    }
+    .success-icon {
+      font-size: 80px;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+    h1 { 
+      color: #2E7D32; 
+      margin-bottom: 20px; 
+    }
+    p { 
+      color: #666; 
+      font-size: 18px; 
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    .countdown {
+      font-size: 24px;
+      font-weight: bold;
+      color: #1a5fb4;
+      margin: 20px 0;
+    }
+    button { 
+      padding: 15px 30px; 
+      background: #1a5fb4; 
+      color: white; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      font-size: 18px; 
+      margin: 10px;
+    }
+    button:hover { 
+      background: #0d47a1; 
+    }
+    .loader {
+      width: 100%;
+      height: 4px;
+      background: #f0f0f0;
+      border-radius: 2px;
+      margin: 20px 0;
+      overflow: hidden;
+    }
+    .loader-bar {
+      height: 100%;
+      background: #4CAF50;
+      width: 0%;
+      transition: width 3s linear;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-icon">✅</div>
+    <h1>Account Verificato con Successo!</h1>
+    <p>Il tuo account è stato verificato correttamente. Ora puoi accedere a tutti i contenuti di Fantacalcio Venezia.</p>
+    
+    <div class="loader">
+      <div class="loader-bar" id="loaderBar"></div>
+    </div>
+    
+    <div class="countdown" id="countdown">Reindirizzamento tra: 3 secondi</div>
+    
+    <button onclick="redirectNow()">Accedi Subito</button>
+  </div>
+
+  <script>
+    // Supabase config
+    const SUPABASE_URL = 'https://norfhoxpzdnbainkbwlw.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
+    
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Gestisce la verifica dell'account
+    async function handleVerification() {
+      const urlParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = urlParams.get('access_token');
+      const refreshToken = urlParams.get('refresh_token');
+      const type = urlParams.get('type');
+      
+      if (type === 'signup' && accessToken) {
+        try {
+          // Imposta la sessione
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken
+          });
+          
+          if (error) {
+            console.error('Errore verifica:', error);
+          }
+        } catch (error) {
+          console.error('Errore:', error);
+        }
+      }
+    }
+
+    // Reindirizzamento automatico
+    let countdown = 3;
+    const countdownElement = document.getElementById('countdown');
+    const loaderBar = document.getElementById('loaderBar');
+    
+    function startCountdown() {
+      loaderBar.style.width = '100%';
+      
+      const timer = setInterval(() => {
+        countdown--;
+        countdownElement.textContent = `Reindirizzamento tra: ${countdown} secondi`;
+        
+        if (countdown <= 0) {
+          clearInterval(timer);
+          redirectNow();
+        }
+      }, 1000);
+    }
+    
+    function redirectNow() {
+      window.location.href = 'index.html';
+    }
+
+    // Inizializzazione
+    async function init() {
+      await handleVerification();
+      startCountdown();
+    }
+
+    // Avvia quando la pagina è caricata
+    init();
+  </script>
+</body>
+</html>
