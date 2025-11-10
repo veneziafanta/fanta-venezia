@@ -48,13 +48,14 @@
     </div>
   </div>
 
+  <!-- Firebase SDK -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
   <script src="firebase.js"></script>
-  <script>
-    // Inizializza Firebase (config da firebase.js)
-    firebase.initializeApp(firebaseConfig);
 
+  <script>
+    // Inizializza Firebase
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
     // Modal
@@ -69,11 +70,16 @@
     // Login
     document.getElementById("loginForm").onsubmit = async (e) => {
       e.preventDefault();
-      const username = document.getElementById("loginUsername").value;
+      const username = document.getElementById("loginUsername").value.trim();
       const password = document.getElementById("loginPassword").value;
       const status = document.getElementById("loginStatus");
       try {
-        await auth.signInWithEmailAndPassword(username + "@fantavenezia.it", password);
+        const userCredential = await auth.signInWithEmailAndPassword(username + "@fantavenezia.it", password);
+        if (!userCredential.user.emailVerified) {
+          status.innerHTML = `<span style="color:red">Conferma la tua email prima di accedere!</span>`;
+          auth.signOut();
+          return;
+        }
         window.location.href = "dashboard.html";
       } catch (err) {
         status.innerHTML = `<span style="color:red">Errore: ${err.message}</span>`;
@@ -83,19 +89,24 @@
     // Registrazione
     document.getElementById("registerForm").onsubmit = async (e) => {
       e.preventDefault();
-      const username = document.getElementById("regUsername").value;
-      const email = document.getElementById("regEmail").value;
+      const username = document.getElementById("regUsername").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
       const pwd = document.getElementById("regPassword").value;
       const confirm = document.getElementById("regConfirm").value;
       const status = document.getElementById("registerStatus");
 
-      if (pwd !== confirm) return status.innerHTML = `<span style="color:red">Le password non coincidono</span>`;
+      if (pwd !== confirm) {
+        status.innerHTML = `<span style="color:red">Le password non coincidono</span>`;
+        return;
+      }
 
       try {
-        await auth.createUserWithEmailAndPassword(username + "@fantavenezia.it", pwd);
-        await auth.currentUser.sendEmailVerification();
-        status.innerHTML = `<span style="color:green">Registrazione OK! Controlla la mail per confermare.</span>`;
-        setTimeout(() => registerModal.style.display = "none", 3000);
+        const userCredential = await auth.createUserWithEmailAndPassword(username + "@fantavenezia.it", pwd);
+        await userCredential.user.sendEmailVerification({
+          url: 'https://veneziafanta.github.io/fanta-venezia/dashboard.html'
+        });
+        status.innerHTML = `<span style="color:green">Registrazione completata! Controlla la tua email per confermare.</span>`;
+        setTimeout(() => registerModal.style.display = "none", 4000);
       } catch (err) {
         status.innerHTML = `<span style="color:red">Errore: ${err.message}</span>`;
       }
@@ -104,7 +115,11 @@
     // Recupera password
     document.getElementById("forgotPwd").onclick = () => {
       const email = prompt("Inserisci la tua email:");
-      if (email) auth.sendPasswordResetEmail(email);
+      if (email) {
+        auth.sendPasswordResetEmail(email)
+          .then(() => alert("Email di recupero inviata! Controlla la posta."))
+          .catch(err => alert("Errore: " + err.message));
+      }
     };
   </script>
 </body>
