@@ -28,6 +28,7 @@
     .error { color: red; font-size: 14px; }
     .success { color: green; font-size: 14px; }
     .forgot-link { color: #1a5fb4; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
+    .loading { color: #1a5fb4 !important; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -88,7 +89,7 @@
       <p>Inserisci la tua email per resettare la password.</p>
       <input type="email" id="resetEmail" placeholder="Email" required />
       <button id="sendReset">Reset Password</button>
-      <p id="resetStatus" class="success"></p>
+      <p id="resetStatus"></p>
     </div>
   </div>
 
@@ -120,22 +121,28 @@
     const closeRegister = document.getElementById("closeRegister");
     const closeReset = document.getElementById("closeReset");
     const openReset = document.getElementById("openReset");
+    const sendReset = document.getElementById("sendReset");
 
+    // === APRI/CHIUDI MODAL ===
     openLogin.onclick = () => loginModal.style.display = "flex";
     openRegister.onclick = () => registerModal.style.display = "flex";
+    
     openReset.onclick = () => {
       loginModal.style.display = "none";
       resetModal.style.display = "flex";
     };
-    closeLogin.onclick = closeRegister.onclick = closeReset.onclick = () => {
-      loginModal.style.display = registerModal.style.display = resetModal.style.display = "none";
-    };
+
+    closeLogin.onclick = () => loginModal.style.display = "none";
+    closeRegister.onclick = () => registerModal.style.display = "none";
+    closeReset.onclick = () => resetModal.style.display = "none";
+
     window.onclick = (e) => {
       if (e.target == loginModal) loginModal.style.display = "none";
       if (e.target == registerModal) registerModal.style.display = "none";
       if (e.target == resetModal) resetModal.style.display = "none";
     };
 
+    // === LISTA PDF ===
     const pdfs = [
       { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
       { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
@@ -143,6 +150,7 @@
 
     function showDownloads() {
       downloadSection.classList.remove("hidden");
+      pdfList.innerHTML = ""; // Pulisci la lista
       pdfs.forEach(pdf => {
         const li = document.createElement("li");
         li.innerHTML = `<a href="${pdf.link}" target="_blank">${pdf.name}</a>`;
@@ -150,6 +158,7 @@
       });
     }
 
+    // === CONTROLLO ACCESSO ===
     auth.onAuthStateChanged((user) => {
       if (user) {
         authButtons.classList.add("hidden");
@@ -162,6 +171,7 @@
       }
     });
 
+    // === LOGOUT ===
     logoutBtn.onclick = () => auth.signOut();
 
     // === LOGIN ===
@@ -174,9 +184,11 @@
       try {
         await auth.signInWithEmailAndPassword(email, pwd);
         status.innerHTML = "Accesso OK!";
+        status.style.color = "green";
         setTimeout(() => loginModal.style.display = "none", 1000);
       } catch (err) {
         status.innerHTML = "Email o password errata";
+        status.style.color = "red";
       }
     };
 
@@ -189,19 +201,35 @@
 
       if (pwd !== confirm) {
         status.innerHTML = "Le password non coincidono";
+        status.style.color = "red";
+        return;
+      }
+
+      if (pwd.length < 6) {
+        status.innerHTML = "La password deve essere di almeno 6 caratteri";
+        status.style.color = "red";
         return;
       }
 
       try {
         await auth.createUserWithEmailAndPassword(email, pwd);
-        registerModal.style.display = "none";
+        status.innerHTML = "Registrazione completata!";
+        status.style.color = "green";
+        setTimeout(() => registerModal.style.display = "none", 2000);
       } catch (err) {
-        status.innerHTML = err.message.includes("email") ? "Email già usata" : "Errore: riprova";
+        if (err.code === 'auth/email-already-in-use') {
+          status.innerHTML = "Email già usata";
+        } else if (err.code === 'auth/invalid-email') {
+          status.innerHTML = "Email non valida";
+        } else {
+          status.innerHTML = "Errore durante la registrazione";
+        }
+        status.style.color = "red";
       }
     };
 
-    // === RESET PASSWORD AUTOMATICO (SENZA EMAIL) ===
-    document.getElementById("sendReset").onclick = async () => {
+    // === RESET PASSWORD CORRETTO ===
+    sendReset.onclick = async () => {
       const email = document.getElementById("resetEmail").value.trim();
       const status = document.getElementById("resetStatus");
 
@@ -211,24 +239,39 @@
         return;
       }
 
+      // Mostra "caricamento"
+      status.innerHTML = "Invio in corso...";
+      status.style.color = "#1a5fb4";
+      sendReset.disabled = true;
+
       try {
-        // Genera link di reset e aprilo
-        const actionCodeSettings = {
-          url: 'https://veneziafanta.github.io/fanta-venezia', // Torna al sito dopo reset
-          handleCodeInApp: true
-        };
+        // INVIA EMAIL DI RESET
+        await auth.sendPasswordResetEmail(email);
         
-        await auth.sendPasswordResetEmail(email, actionCodeSettings);
-        
-        // Apri la pagina di reset direttamente
-        const resetUrl = `https://fantacalcio-venezia-584bc.firebaseapp.com/__/auth/action?mode=resetPassword&oobCode=`;
-        window.open(resetUrl, "_blank");
-        
-        status.innerHTML = "Apri la nuova scheda per resettare la password!";
+        status.innerHTML = "✅ Email inviata! Controlla la tua posta (anche spam).";
         status.style.color = "green";
+        
+        // Reset campo email
+        document.getElementById("resetEmail").value = "";
+        
+        // Chiudi automaticamente dopo 5 secondi
+        setTimeout(() => {
+          resetModal.style.display = "none";
+          status.innerHTML = "";
+        }, 5000);
+        
       } catch (err) {
-        status.innerHTML = "Email non trovata";
+        console.error("Errore reset:", err);
+        if (err.code === 'auth/user-not-found') {
+          status.innerHTML = "❌ Nessun account con questa email";
+        } else if (err.code === 'auth/invalid-email') {
+          status.innerHTML = "❌ Email non valida";
+        } else {
+          status.innerHTML = "❌ Errore. Riprova più tardi.";
+        }
         status.style.color = "red";
+      } finally {
+        sendReset.disabled = false;
       }
     };
   </script>
