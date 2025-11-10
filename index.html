@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fantacalcio Venezia - Accesso</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <img src="https://via.placeholder.com/800x300.png?text=Fantacalcio+Venezia" alt="Logo" class="main-img" />
+    <h1>Fantacalcio Venezia</h1>
+    
+    <div class="btn-group">
+      <button id="loginBtn" class="btn primary">ACCEDI</button>
+      <button id="registerBtn" class="btn secondary">REGISTRATI</button>
+    </div>
+  </div>
+
+  <!-- MODAL LOGIN -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close">×</span>
+      <h2>Accedi</h2>
+      <form id="loginForm">
+        <input type="text" id="loginUsername" placeholder="Username" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Entra</button>
+        <p class="link" id="forgotPwd">Recupera password</p>
+        <p id="loginStatus"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL REGISTRAZIONE -->
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close">×</span>
+      <h2>Registrati</h2>
+      <form id="registerForm">
+        <input type="text" id="regUsername" placeholder="Username" required />
+        <input type="email" id="regEmail" placeholder="Email" required />
+        <input type="password" id="regPassword" placeholder="Password" required />
+        <input type="password" id="regConfirm" placeholder="Conferma Password" required />
+        <button type="submit">Invia Richiesta</button>
+        <p id="registerStatus"></p>
+      </form>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script>
+    // Inizializza Firebase (config da firebase.js)
+    firebase.initializeApp(firebaseConfig);
+
+    const auth = firebase.auth();
+
+    // Modal
+    const loginModal = document.getElementById("loginModal");
+    const registerModal = document.getElementById("registerModal");
+    document.getElementById("loginBtn").onclick = () => loginModal.style.display = "block";
+    document.getElementById("registerBtn").onclick = () => registerModal.style.display = "block";
+    document.querySelectorAll(".close").forEach(btn => btn.onclick = () => {
+      loginModal.style.display = registerModal.style.display = "none";
+    });
+
+    // Login
+    document.getElementById("loginForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("loginUsername").value;
+      const password = document.getElementById("loginPassword").value;
+      const status = document.getElementById("loginStatus");
+      try {
+        await auth.signInWithEmailAndPassword(username + "@fantavenezia.it", password);
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        status.innerHTML = `<span style="color:red">Errore: ${err.message}</span>`;
+      }
+    };
+
+    // Registrazione
+    document.getElementById("registerForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("regUsername").value;
+      const email = document.getElementById("regEmail").value;
+      const pwd = document.getElementById("regPassword").value;
+      const confirm = document.getElementById("regConfirm").value;
+      const status = document.getElementById("registerStatus");
+
+      if (pwd !== confirm) return status.innerHTML = `<span style="color:red">Le password non coincidono</span>`;
+
+      try {
+        await auth.createUserWithEmailAndPassword(username + "@fantavenezia.it", pwd);
+        await auth.currentUser.sendEmailVerification();
+        status.innerHTML = `<span style="color:green">Registrazione OK! Controlla la mail per confermare.</span>`;
+        setTimeout(() => registerModal.style.display = "none", 3000);
+      } catch (err) {
+        status.innerHTML = `<span style="color:red">Errore: ${err.message}</span>`;
+      }
+    };
+
+    // Recupera password
+    document.getElementById("forgotPwd").onclick = () => {
+      const email = prompt("Inserisci la tua email:");
+      if (email) auth.sendPasswordResetEmail(email);
+    };
+  </script>
+</body>
+</html>
