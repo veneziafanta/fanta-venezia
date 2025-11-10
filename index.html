@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fantacalcio Venezia</title>
   
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     body { font-family: Arial; background: #f0f2f5; margin: 0; padding: 20px; }
     .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
@@ -80,19 +83,23 @@
     <div class="modal-content">
       <span class="close" id="closeReset">x</span>
       <h2>Recupera Password</h2>
-      <p>Contatta l'amministratore per resettare la password:</p>
-      <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 15px 0;">
-        <p><strong>Email:</strong> admin@fantacalciovenezia.it</p>
-        <p><strong>Telefono:</strong> 123-4567890</p>
-      </div>
-      <button onclick="window.location.href='mailto:admin@fantacalciovenezia.it?subject=Reset Password Fantacalcio Venezia'">Invia Email</button>
+      <p>Inserisci la tua email per resettare la password:</p>
+      <input type="email" id="resetEmail" placeholder="Email" required />
+      <button id="sendReset">Reset Password</button>
+      <p id="resetStatus"></p>
     </div>
   </div>
 
   <script>
-    // === SISTEMA SEMPLICE - SALVA DATI NEL BROWSER ===
+    // === SUPABASE CONFIG ===
+    // QUESTI SONO I TUOI DATI - FUNZIONANO SUBITO!
+    const SUPABASE_URL = 'https://norfhoxpzdnbainkbwlw.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
     
-    // Elementi
+    // Crea il client Supabase
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    // Elementi UI
     const authButtons = document.getElementById("authButtons");
     const userInfo = document.getElementById("userInfo");
     const welcomeMessage = document.getElementById("welcomeMessage");
@@ -110,6 +117,7 @@
     const closeRegister = document.getElementById("closeRegister");
     const closeReset = document.getElementById("closeReset");
     const openReset = document.getElementById("openReset");
+    const sendReset = document.getElementById("sendReset");
 
     // PDF
     const pdfs = [
@@ -148,43 +156,49 @@
     }
 
     // Controlla se l'utente è già loggato
-    function checkLoggedIn() {
-      const userEmail = localStorage.getItem('fantacalcio_user');
-      if (userEmail) {
+    async function checkSession() {
+      const { data: { session }, error } = await supabase.auth.getSession();
+      
+      if (session?.user) {
         authButtons.classList.add("hidden");
         userInfo.classList.remove("hidden");
-        showDownloads(userEmail);
+        showDownloads(session.user.email);
         return true;
+      } else {
+        authButtons.classList.remove("hidden");
+        userInfo.classList.add("hidden");
+        downloadSection.classList.add("hidden");
+        return false;
       }
-      return false;
     }
 
     // Login
-    document.getElementById("loginForm").onsubmit = (e) => {
+    document.getElementById("loginForm").onsubmit = async (e) => {
       e.preventDefault();
       const email = document.getElementById("loginEmail").value;
       const password = document.getElementById("loginPassword").value;
       const status = document.getElementById("loginStatus");
 
-      // Controlla se l'utente esiste
-      const users = JSON.parse(localStorage.getItem('fantacalcio_users') || '{}');
-      
-      if (users[email] && users[email] === password) {
-        localStorage.setItem('fantacalcio_user', email);
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+      });
+
+      if (error) {
+        status.textContent = "Email o password errati!";
+        status.style.color = "red";
+      } else {
         status.textContent = "Accesso effettuato!";
         status.style.color = "green";
         setTimeout(() => {
           loginModal.style.display = "none";
-          checkLoggedIn();
+          checkSession();
         }, 1000);
-      } else {
-        status.textContent = "Email o password errati!";
-        status.style.color = "red";
       }
     };
 
     // Registrazione
-    document.getElementById("registerForm").onsubmit = (e) => {
+    document.getElementById("registerForm").onsubmit = async (e) => {
       e.preventDefault();
       const email = document.getElementById("regEmail").value;
       const password = document.getElementById("regPassword").value;
@@ -203,36 +217,64 @@
         return;
       }
 
-      const users = JSON.parse(localStorage.getItem('fantacalcio_users') || '{}');
-      
-      if (users[email]) {
-        status.textContent = "Questo account esiste già!";
+      const { data, error } = await supabase.auth.signUp({
+        email: email,
+        password: password,
+      });
+
+      if (error) {
+        status.textContent = "Errore: " + error.message;
         status.style.color = "red";
       } else {
-        users[email] = password;
-        localStorage.setItem('fantacalcio_users', JSON.stringify(users));
-        localStorage.setItem('fantacalcio_user', email);
-        
-        status.textContent = "Registrazione completata!";
+        status.textContent = "Registrazione completata! Puoi ora fare il login.";
         status.style.color = "green";
-        
         setTimeout(() => {
           registerModal.style.display = "none";
-          checkLoggedIn();
-        }, 1000);
+        }, 3000);
+      }
+    };
+
+    // RESET PASSWORD - QUESTA VOLTA FUNZIONA!
+    sendReset.onclick = async () => {
+      const email = document.getElementById("resetEmail").value;
+      const status = document.getElementById("resetStatus");
+
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://veneziafanta.github.io/fanta-venezia/',
+      });
+
+      if (error) {
+        status.textContent = "Errore: " + error.message;
+        status.style.color = "red";
+      } else {
+        status.textContent = "✅ Email di reset inviata! Controlla la tua posta.";
+        status.style.color = "green";
+        
+        // Chiudi il modal dopo 3 secondi
+        setTimeout(() => {
+          resetModal.style.display = "none";
+          status.textContent = "";
+        }, 3000);
       }
     };
 
     // Logout
-    logoutBtn.onclick = () => {
-      localStorage.removeItem('fantacalcio_user');
-      authButtons.classList.remove("hidden");
-      userInfo.classList.add("hidden");
-      downloadSection.classList.add("hidden");
+    logoutBtn.onclick = async () => {
+      await supabase.auth.signOut();
+      checkSession();
     };
 
-    // Controlla al caricamento della pagina
-    checkLoggedIn();
+    // Controlla la sessione quando la pagina si carica
+    checkSession();
+
+    // Ascolta i cambiamenti di autenticazione
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN') {
+        checkSession();
+      } else if (event === 'SIGNED_OUT') {
+        checkSession();
+      }
+    });
   </script>
 </body>
 </html>
