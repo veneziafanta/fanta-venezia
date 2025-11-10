@@ -62,6 +62,7 @@
       loginModal.style.display = registerModal.style.display = "none";
     });
 
+    // LOGIN
     document.getElementById("loginForm").onsubmit = (e) => {
       e.preventDefault();
       const username = document.getElementById("loginUsername").value.trim();
@@ -76,6 +77,7 @@
       }
     };
 
+    // REGISTRAZIONE
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -83,13 +85,21 @@
       const confirm = document.getElementById("regConfirm").value;
       const status = document.getElementById("registerStatus");
 
+      // Controllo password
       if (pwd !== confirm) {
         status.innerHTML = `<span style="color:red">Le password non coincidono</span>`;
         return;
       }
 
+      // CONTROLLA SE L'UTENTE ESISTE GIÀ
+      if (localStorage.getItem("user_" + username)) {
+        status.innerHTML = `<span style="color:red">Username già registrato!</span>`;
+        return;
+      }
+
+      // Genera token
       const token = btoa(username + Date.now());
-      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`;
+      const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?token=${token}`; // ← LINK CORRETTO!
       localStorage.setItem("pending_" + token, JSON.stringify({ username, email, pwd }));
 
       try {
