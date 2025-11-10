@@ -111,9 +111,8 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // === CONFIGURAZIONE EMAILJS (SOSTITUISCI CON I TUOI ID!) ===
-    // 1. PUBLIC KEY → EmailJS → Account → API Keys
-    emailjs.init("TUO_PUBLIC_KEY_QUI"); // ← SOSTITUISCI
+    // === CONFIGURAZIONE EMAILJS (I TUOI ID!) ===
+    emailjs.init("Q43lIRoGk8Gy3AuET"); // ← IL TUO PUBLIC KEY
 
     // === ELEMENTI DOM ===
     const authButtons = document.getElementById("authButtons");
@@ -225,15 +224,15 @@
 
       try {
         await emailjs.send(
-          "SERVICE_ID_QUI",        // ← SOSTITUISCI CON IL TUO SERVICE ID
-          "TEMPLATE_ID_QUI",       // ← SOSTITUISCI CON IL TUO TEMPLATE ID
+          "service_eh1l8ai",       // ← IL TUO SERVICE ID
+          "template_zth5v29",      // ← IL TUO TEMPLATE ID
           { email: email }         // {{email}} nel template
         );
         status.innerHTML = "Richiesta inviata! Controlla la tua email.";
         setTimeout(() => resetModal.style.display = "none", 3000);
       } catch (err) {
         status.innerHTML = "Errore. Riprova.";
-        console.error(err);
+        console.error("EmailJS Error:", err);
       }
     };
   </script>
