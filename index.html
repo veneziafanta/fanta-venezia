@@ -24,7 +24,7 @@
     #pdfList { list-style: none; padding: 0; }
     #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
     .user-info { margin-top: 20px; font-size: 14px; color: #555; }
-    .success { color: green; font-weight: bold; }
+    .success { color: green; font-weight: bold; font-size: 16px; }
   </style>
 </head>
 <body>
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <!-- MODAL LOGIN (USERNAME + PASSWORD) -->
+  <!-- MODAL LOGIN -->
   <div id="loginModal" class="modal">
     <div class="modal-content">
       <span class="close" id="closeLogin">x</span>
@@ -155,7 +155,7 @@
     // LOGOUT
     logoutBtn.onclick = () => auth.signOut();
 
-    // === LOGIN CON USERNAME ===
+    // LOGIN CON USERNAME
     document.getElementById("loginForm").onsubmit = async (e) => {
       e.preventDefault();
       const username = document.getElementById("loginUsername").value.trim();
@@ -181,7 +181,7 @@
       }
     };
 
-    // REGISTRAZIONE
+    // === REGISTRAZIONE CON MESSAGGIO VERDE VISIBILE ===
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -207,8 +207,15 @@
           email: email
         });
 
+        // MESSAGGIO VERDE
         status.innerHTML = "<span class='success'>Il tuo account è stato creato con successo!</span>";
-        setTimeout(() => registerModal.style.display = "none", 2000);
+
+        // ASPETTA 2.5 SECONDI PRIMA DI CHIUDERE
+        setTimeout(() => {
+          registerModal.style.display = "none";
+          // Ricarica la pagina per aggiornare lo stato utente
+          location.reload();
+        }, 2500);
 
       } catch (err) {
         status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
