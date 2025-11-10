@@ -114,8 +114,10 @@
 
     // APRI PAGINA UFFICIALE FIREBASE PER RESET
     openResetPage.onclick = () => {
-      window.open("https://fantacalcio-venezia-584bc.firebaseapp.com/__/auth/action", "_blank");
-    };
+     // APRI PAGINA UFFICIALE FIREBASE PER RESET PASSWORD
+openResetPage.onclick = () => {
+  window.open("https://fantacalcio-venezia-584bc.firebaseapp.com/__/auth/action?mode=resetPassword", "_blank");
+};
 
     const pdfs = [
       { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
@@ -183,3 +185,4 @@
   </script>
 </body>
 </html>
+
