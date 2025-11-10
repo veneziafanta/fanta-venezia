@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Fantacalcio Venezia</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- FIREBASE -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  <style>
+    body { font-family: Arial; background: #f0f2f5; margin: 0; padding: 20px; }
+    .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
+    button { padding: 12px 20px; background: #1a5fb4; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-size: 16px; }
+    button:hover { background: #0d47a1; }
+    button.secondary { background: #6c757d; }
+    button.secondary:hover { background: #5a6268; }
+    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 500px; }
+    .close { float: right; font-size: 24px; cursor: pointer; }
+    .hidden { display: none; }
+    #pdfList { list-style: none; padding: 0; }
+    #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
+    .user-info { margin-top: 20px; font-size: 14px; color: #555; }
+    .success { color: green; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Fantacalcio Venezia</h1>
+   
+    <!-- PULSANTI PRINCIPALI -->
+    <div id="authButtons">
+      <button id="openLogin">ACCEDI</button>
+      <button id="openRegister">REGISTRATI</button>
+    </div>
+
+    <!-- INFO UTENTE -->
+    <div id="userInfo" class="hidden user-info">
+      <p>Benvenuto, <strong id="userName"></strong>!</p>
+      <button id="logoutBtn" class="secondary">Esci</button>
+    </div>
+
+    <!-- DOWNLOAD PDF -->
+    <div id="downloadSection" class="hidden">
+      <h2>Scarica i documenti</h2>
+      <ul id="pdfList"></ul>
+    </div>
+  </div>
+
+  <!-- MODAL LOGIN (USERNAME + PASSWORD) -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeLogin">x</span>
+      <h2>Accedi</h2>
+      <form id="loginForm">
+        <input type="text" id="loginUsername" placeholder="Username" required />
+        <input type="password" id="loginPassword" placeholder="Password" required />
+        <button type="submit">Entra</button>
+        <p id="loginStatus"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL REGISTRAZIONE -->
+  <div id="registerModal" class="modal">
+    <div class="modal-content">
+      <span class="close" id="closeRegister">x</span>
+      <h2>Registrati</h2>
+      <form id="registerForm">
+        <input type="text" id="regUsername" placeholder="Username" required />
+        <input type="email" id="regEmail" placeholder="Email" required />
+        <input type="password" id="regPassword" placeholder="Password" required />
+        <input type="password" id="regConfirm" placeholder="Conferma Password" required />
+        <button type="button" id="submitReg">Crea Account</button>
+        <p id="registerStatus"></p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // === FIREBASE CONFIG ===
+    const firebaseConfig = {
+      apiKey: "AIzaSyC7sfnaK_Kv_7rNMm0-wmSGlPRHB032mn0",
+      authDomain: "fantacalcio-venezia-584bc.firebaseapp.com",
+      projectId: "fantacalcio-venezia-584bc",
+      storageBucket: "fantacalcio-venezia-584bc.firebasestorage.app",
+      messagingSenderId: "313303722171",
+      appId: "1:313303722171:web:7258ce9473ef6bd3cd619e"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // ELEMENTI
+    const authButtons = document.getElementById("authButtons");
+    const userInfo = document.getElementById("userInfo");
+    const userName = document.getElementById("userName");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const downloadSection = document.getElementById("downloadSection");
+    const pdfList = document.getElementById("pdfList");
+    const loginModal = document.getElementById("loginModal");
+    const registerModal = document.getElementById("registerModal");
+    const openLogin = document.getElementById("openLogin");
+    const openRegister = document.getElementById("openRegister");
+    const closeLogin = document.getElementById("closeLogin");
+    const closeRegister = document.getElementById("closeRegister");
+
+    // Apri/chiudi modal
+    openLogin.onclick = () => loginModal.style.display = "flex";
+    openRegister.onclick = () => registerModal.style.display = "flex";
+    closeLogin.onclick = closeRegister.onclick = () => {
+      loginModal.style.display = registerModal.style.display = "none";
+    };
+    window.onclick = (e) => {
+      if (e.target == loginModal) loginModal.style.display = "none";
+      if (e.target == registerModal) registerModal.style.display = "none";
+    };
+
+    // PDF
+    const pdfs = [
+      { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
+      { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
+    ];
+
+    function showDownloads() {
+      downloadSection.classList.remove("hidden");
+      pdfs.forEach(pdf => {
+        const li = document.createElement("li");
+        li.innerHTML = `<a href="${pdf.link}" target="_blank">${pdf.name}</a>`;
+        pdfList.appendChild(li);
+      });
+    }
+
+    // STATO UTENTE
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const doc = await db.collection("users").doc(user.uid).get();
+        if (doc.exists) {
+          const data = doc.data();
+          userName.textContent = data.username;
+          authButtons.classList.add("hidden");
+          userInfo.classList.remove("hidden");
+          showDownloads();
+        }
+      } else {
+        authButtons.classList.remove("hidden");
+        userInfo.classList.add("hidden");
+        downloadSection.classList.add("hidden");
+      }
+    });
+
+    // LOGOUT
+    logoutBtn.onclick = () => auth.signOut();
+
+    // === LOGIN CON USERNAME ===
+    document.getElementById("loginForm").onsubmit = async (e) => {
+      e.preventDefault();
+      const username = document.getElementById("loginUsername").value.trim();
+      const pwd = document.getElementById("loginPassword").value;
+      const status = document.getElementById("loginStatus");
+
+      try {
+        const snap = await db.collection("users").where("username", "==", username).limit(1).get();
+        if (snap.empty) {
+          status.innerHTML = "<span style='color:red'>Username non trovato</span>";
+          return;
+        }
+
+        const userData = snap.docs[0].data();
+        const email = userData.email;
+
+        await auth.signInWithEmailAndPassword(email, pwd);
+        status.innerHTML = "<span style='color:green'>Accesso OK!</span>";
+        setTimeout(() => loginModal.style.display = "none", 1000);
+
+      } catch (err) {
+        status.innerHTML = `<span style='color:red'>Password errata</span>`;
+      }
+    };
+
+    // REGISTRAZIONE
+    document.getElementById("submitReg").onclick = async () => {
+      const username = document.getElementById("regUsername").value.trim();
+      const email = document.getElementById("regEmail").value.trim();
+      const pwd = document.getElementById("regPassword").value;
+      const confirm = document.getElementById("regConfirm").value;
+      const status = document.getElementById("registerStatus");
+
+      if (pwd !== confirm) {
+        status.innerHTML = "<span style='color:red'>Le password non coincidono</span>";
+        return;
+      }
+
+      const snap = await db.collection("users").where("username", "==", username).get();
+      if (!snap.empty) {
+        status.innerHTML = "<span style='color:red'>Username già occupato!</span>";
+        return;
+      }
+
+      try {
+        const userCred = await auth.createUserWithEmailAndPassword(email, pwd);
+        await db.collection("users").doc(userCred.user.uid).set({
+          username: username,
+          email: email
+        });
+
+        status.innerHTML = "<span class='success'>Il tuo account è stato creato con successo!</span>";
+        setTimeout(() => registerModal.style.display = "none", 2000);
+
+      } catch (err) {
+        status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
+      }
+    };
+  </script>
+</body>
+</html>
