@@ -24,7 +24,6 @@
     #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
     .user-info { margin-top: 20px; font-size: 14px; color: #555; }
     .error { color: red; font-size: 14px; }
-    .success { color: green; font-size: 14px; }
     .forgot-link { color: #1a5fb4; font-size: 14px; cursor: pointer; text-decoration: underline; margin-top: 10px; display: inline-block; }
   </style>
 </head>
@@ -32,19 +31,16 @@
   <div class="container">
     <h1>Fantacalcio Venezia</h1>
    
-    <!-- PULSANTI PRINCIPALI -->
     <div id="authButtons">
       <button id="openLogin">ACCEDI</button>
       <button id="openRegister">REGISTRATI</button>
     </div>
 
-    <!-- INFO UTENTE -->
     <div id="userInfo" class="hidden user-info">
       <p>Benvenuto!</p>
       <button id="logoutBtn" class="secondary">Esci</button>
     </div>
 
-    <!-- DOWNLOAD PDF -->
     <div id="downloadSection" class="hidden">
       <h2>Scarica i documenti</h2>
       <ul id="pdfList"></ul>
@@ -62,7 +58,7 @@
         <button type="submit">Entra</button>
         <p id="loginStatus" class="error"></p>
       </form>
-      <div class="forgot-link" id="forgotPassword">Hai dimenticato la password?</div>
+      <div class="forgot-link" id="openResetPage">Hai dimenticato la password?</div>
     </div>
   </div>
 
@@ -81,20 +77,7 @@
     </div>
   </div>
 
-  <!-- MODAL RESET PASSWORD -->
-  <div id="resetModal" class="modal">
-    <div class="modal-content">
-      <span class="close" id="closeReset">x</span>
-      <h2>Reset Password</h2>
-      <p>Inserisci la tua email per ricevere il link di recupero.</p>
-      <input type="email" id="resetEmail" placeholder="Email" required />
-      <button id="sendReset">Invia Link</button>
-      <p id="resetStatus" class="success"></p>
-    </div>
-  </div>
-
   <script>
-    // === FIREBASE CONFIG ===
     const firebaseConfig = {
       apiKey: "AIzaSyC7sfnaK_Kv_7rNMm0-wmSGlPRHB032mn0",
       authDomain: "fantacalcio-venezia-584bc.firebaseapp.com",
@@ -106,7 +89,6 @@
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
 
-    // ELEMENTI
     const authButtons = document.getElementById("authButtons");
     const userInfo = document.getElementById("userInfo");
     const logoutBtn = document.getElementById("logoutBtn");
@@ -114,31 +96,27 @@
     const pdfList = document.getElementById("pdfList");
     const loginModal = document.getElementById("loginModal");
     const registerModal = document.getElementById("registerModal");
-    const resetModal = document.getElementById("resetModal");
     const openLogin = document.getElementById("openLogin");
     const openRegister = document.getElementById("openRegister");
     const closeLogin = document.getElementById("closeLogin");
     const closeRegister = document.getElementById("closeRegister");
-    const closeReset = document.getElementById("closeReset");
-    const forgotPassword = document.getElementById("forgotPassword");
+    const openResetPage = document.getElementById("openResetPage");
 
-    // Apri/chiudi modal
     openLogin.onclick = () => loginModal.style.display = "flex";
     openRegister.onclick = () => registerModal.style.display = "flex";
-    forgotPassword.onclick = () => {
-      loginModal.style.display = "none";
-      resetModal.style.display = "flex";
-    };
-    closeLogin.onclick = closeRegister.onclick = closeReset.onclick = () => {
-      loginModal.style.display = registerModal.style.display = resetModal.style.display = "none";
+    closeLogin.onclick = closeRegister.onclick = () => {
+      loginModal.style.display = registerModal.style.display = "none";
     };
     window.onclick = (e) => {
       if (e.target == loginModal) loginModal.style.display = "none";
       if (e.target == registerModal) registerModal.style.display = "none";
-      if (e.target == resetModal) resetModal.style.display = "none";
     };
 
-    // PDF
+    // APRI PAGINA UFFICIALE FIREBASE PER RESET
+    openResetPage.onclick = () => {
+      window.open("https://fantacalcio-venezia-584bc.firebaseapp.com/__/auth/action", "_blank");
+    };
+
     const pdfs = [
       { name: "Regolamento - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" },
       { name: "Termini e Condizioni - Fantacalcio Venezia.pdf", link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" }
@@ -153,7 +131,6 @@
       });
     }
 
-    // STATO UTENTE
     auth.onAuthStateChanged((user) => {
       if (user) {
         authButtons.classList.add("hidden");
@@ -166,7 +143,6 @@
       }
     });
 
-    // LOGOUT
     logoutBtn.onclick = () => auth.signOut();
 
     // LOGIN
@@ -202,25 +178,6 @@
         registerModal.style.display = "none";
       } catch (err) {
         status.innerHTML = err.message.includes("email") ? "Email già usata" : "Errore: riprova";
-      }
-    };
-
-    // RESET PASSWORD
-    document.getElementById("sendReset").onclick = async () => {
-      const email = document.getElementById("resetEmail").value.trim();
-      const status = document.getElementById("resetStatus");
-
-      if (!email) {
-        status.innerHTML = "Inserisci la tua email";
-        return;
-      }
-
-      try {
-        await auth.sendPasswordResetEmail(email);
-        status.innerHTML = "Link inviato! Controlla la posta (anche Spam)";
-        setTimeout(() => resetModal.style.display = "none", 3000);
-      } catch (err) {
-        status.innerHTML = "Email non trovata";
       }
     };
   </script>
