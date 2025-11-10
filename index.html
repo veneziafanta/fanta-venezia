@@ -1,159 +1,502 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Fantacalcio Venezia</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <style>
-    body { font-family: Arial; background: #f0f2f5; margin: 0; padding: 20px; }
-    .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
-    button { padding: 12px 20px; background: #1a5fb4; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 10px; font-size: 16px; }
-    button:hover { background: #0d47a1; }
-    input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
-    .hidden { display: none; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantacalcio Venezia</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1a5fb4 0%, #0d47a1 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: #1a5fb4;
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1a5fb4;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background: #1a5fb4;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn:hover {
+            background: #0d47a1;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .link {
+            color: #1a5fb4;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            padding: 12px;
+            border-radius: 6px;
+            margin: 15px 0;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .user-info h2 {
+            color: #1a5fb4;
+            margin-bottom: 10px;
+        }
+
+        .downloads-section {
+            margin-top: 30px;
+        }
+
+        .downloads-section h3 {
+            color: #1a5fb4;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .pdf-list {
+            list-style: none;
+        }
+
+        .pdf-item {
+            margin-bottom: 10px;
+        }
+
+        .pdf-link {
+            display: block;
+            padding: 15px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            color: #1a5fb4;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .pdf-link:hover {
+            background: #1a5fb4;
+            color: white;
+            border-color: #1a5fb4;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab.active {
+            color: #1a5fb4;
+            border-bottom-color: #1a5fb4;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Fantacalcio Venezia</h1>
-   
-    <div id="authButtons">
-      <button onclick="showLogin()">ACCEDI</button>
-      <button onclick="showRegister()">REGISTRATI</button>
+    <div class="container">
+        <div class="header">
+            <h1>🏆 Fantacalcio Venezia</h1>
+            <p>La community ufficiale del fantacalcio veneziano</p>
+        </div>
+
+        <div class="content">
+            <!-- SEZIONE ACCESSO -->
+            <div id="authSection">
+                <div class="tabs">
+                    <button class="tab active" onclick="showTab('login')">ACCEDI</button>
+                    <button class="tab" onclick="showTab('register')">REGISTRATI</button>
+                </div>
+
+                <!-- LOGIN -->
+                <div id="loginTab">
+                    <div class="form-group">
+                        <input type="email" id="loginEmail" placeholder="La tua email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="loginPassword" placeholder="La tua password" required>
+                    </div>
+                    <button class="btn" onclick="login()">ACCEDI AL SITO</button>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <a class="link" onclick="showTab('reset')">Password dimenticata?</a>
+                    </div>
+                    <div id="loginMessage" class="message hidden"></div>
+                </div>
+
+                <!-- REGISTRAZIONE -->
+                <div id="registerTab" class="hidden">
+                    <div class="form-group">
+                        <input type="email" id="regEmail" placeholder="La tua email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="regPassword" placeholder="Password (min. 6 caratteri)" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" id="regConfirm" placeholder="Conferma password" required>
+                    </div>
+                    <button class="btn" onclick="register()">CREA ACCOUNT</button>
+                    <div id="registerMessage" class="message hidden"></div>
+                </div>
+
+                <!-- RESET PASSWORD -->
+                <div id="resetTab" class="hidden">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <p>Inserisci la tua email per ricevere il link di reset</p>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="resetEmail" placeholder="La tua email" required>
+                    </div>
+                    <button class="btn" onclick="resetPassword()">INVIA LINK DI RESET</button>
+                    <div class="back-link">
+                        <a class="link" onclick="showTab('login')">← Torna al login</a>
+                    </div>
+                    <div id="resetMessage" class="message hidden"></div>
+                </div>
+            </div>
+
+            <!-- SEZIONE UTENTE LOGGATO -->
+            <div id="userSection" class="hidden">
+                <div class="user-info">
+                    <h2>👋 Benvenuto!</h2>
+                    <p id="userEmail"></p>
+                </div>
+
+                <div class="downloads-section">
+                    <h3>📥 DOCUMENTI UFFICIALI</h3>
+                    <ul class="pdf-list" id="pdfList">
+                        <!-- PDF caricati dinamicamente -->
+                    </ul>
+                </div>
+
+                <div style="margin-top: 30px;">
+                    <button class="btn btn-secondary" onclick="logout()">ESCI</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="loginSection" class="hidden">
-      <h2>Accedi</h2>
-      <input type="email" id="loginEmail" placeholder="Email" />
-      <input type="password" id="loginPassword" placeholder="Password" />
-      <button onclick="login()">Entra</button>
-      <p><a href="#" onclick="showReset()">Password dimenticata?</a></p>
-      <p id="loginStatus"></p>
-    </div>
+    <script>
+        // ==================== CONFIGURAZIONE SUPABASE ====================
+        const supabase = window.supabase.createClient(
+            'https://norfhoxpzdnbainkbwlw.supabase.co',
+            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A'
+        );
 
-    <div id="registerSection" class="hidden">
-      <h2>Registrati</h2>
-      <input type="email" id="regEmail" placeholder="Email" />
-      <input type="password" id="regPassword" placeholder="Password (min. 6 caratteri)" />
-      <button onclick="register()">Crea Account</button>
-      <p id="registerStatus"></p>
-    </div>
+        // ==================== LISTA PDF ====================
+        const pdfs = [
+            { 
+                name: "📋 Regolamento Ufficiale", 
+                link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" 
+            },
+            { 
+                name: "📝 Termini e Condizioni", 
+                link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" 
+            }
+        ];
 
-    <div id="resetSection" class="hidden">
-      <h2>Reset Password</h2>
-      <input type="email" id="resetEmail" placeholder="Email" />
-      <button onclick="resetPassword()">Invia Link Reset</button>
-      <p id="resetStatus"></p>
-    </div>
-
-    <div id="userSection" class="hidden">
-      <h2>Benvenuto!</h2>
-      <p id="userEmail"></p>
-      <button onclick="logout()">Esci</button>
-    </div>
-  </div>
-
-  <script>
-    // SUPABASE CONFIG
-    const supabase = window.supabase.createClient(
-      'https://norfhoxpzdnbainkbwlw.supabase.co',
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A'
-    );
-
-    // CONTROLLA SE L'UTENTE È LOGGATO
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session) {
-        showUserSection(session.user.email);
-      }
-    });
-
-    function showLogin() {
-      hideAll();
-      document.getElementById('loginSection').classList.remove('hidden');
-    }
-
-    function showRegister() {
-      hideAll();
-      document.getElementById('registerSection').classList.remove('hidden');
-    }
-
-    function showReset() {
-      hideAll();
-      document.getElementById('resetSection').classList.remove('hidden');
-    }
-
-    function showUserSection(email) {
-      hideAll();
-      document.getElementById('userEmail').textContent = email;
-      document.getElementById('userSection').classList.remove('hidden');
-    }
-
-    function hideAll() {
-      document.getElementById('authButtons').classList.add('hidden');
-      document.getElementById('loginSection').classList.add('hidden');
-      document.getElementById('registerSection').classList.add('hidden');
-      document.getElementById('resetSection').classList.add('hidden');
-      document.getElementById('userSection').classList.add('hidden');
-    }
-
-    // LOGIN
-    async function login() {
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: email,
-        password: password
-      });
-
-      if (error) {
-        document.getElementById('loginStatus').textContent = 'Errore: ' + error.message;
-      } else {
-        showUserSection(data.user.email);
-      }
-    }
-
-    // REGISTRAZIONE
-    async function register() {
-      const email = document.getElementById('regEmail').value;
-      const password = document.getElementById('regPassword').value;
-      
-      const { data, error } = await supabase.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          emailRedirectTo: 'https://veneziafanta.github.io'
+        // ==================== FUNZIONI UI ====================
+        function showTab(tabName) {
+            // Nascondi tutte le tab
+            document.getElementById('loginTab').classList.add('hidden');
+            document.getElementById('registerTab').classList.add('hidden');
+            document.getElementById('resetTab').classList.add('hidden');
+            
+            // Rimuovi active da tutte le tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostra la tab richiesta
+            if (tabName === 'login') {
+                document.getElementById('loginTab').classList.remove('hidden');
+                document.querySelectorAll('.tab')[0].classList.add('active');
+            } else if (tabName === 'register') {
+                document.getElementById('registerTab').classList.remove('hidden');
+                document.querySelectorAll('.tab')[1].classList.add('active');
+            } else if (tabName === 'reset') {
+                document.getElementById('resetTab').classList.remove('hidden');
+                // Non attivare nessuna tab per il reset
+            }
+            
+            // Pulisci i messaggi
+            clearMessages();
         }
-      });
 
-      if (error) {
-        document.getElementById('registerStatus').textContent = 'Errore: ' + error.message;
-      } else {
-        document.getElementById('registerStatus').textContent = '✅ Controlla la tua email per verificare l\'account!';
-      }
-    }
+        function showUserSection(email) {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('userSection').classList.remove('hidden');
+            document.getElementById('userEmail').textContent = email;
+            loadPDFs();
+        }
 
-    // RESET PASSWORD - VERSIONE CORRETTA
-    async function resetPassword() {
-      const email = document.getElementById('resetEmail').value;
-      
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: 'https://veneziafanta.github.io'
-      });
+        function showAuthSection() {
+            document.getElementById('userSection').classList.add('hidden');
+            document.getElementById('authSection').classList.remove('hidden');
+            showTab('login');
+        }
 
-      if (error) {
-        document.getElementById('resetStatus').textContent = 'Errore: ' + error.message;
-      } else {
-        document.getElementById('resetStatus').textContent = '✅ Link di reset inviato! Controlla la tua email.';
-      }
-    }
+        function loadPDFs() {
+            const pdfList = document.getElementById('pdfList');
+            pdfList.innerHTML = '';
+            
+            pdfs.forEach(pdf => {
+                const li = document.createElement('li');
+                li.className = 'pdf-item';
+                li.innerHTML = `<a href="${pdf.link}" class="pdf-link" target="_blank" download>${pdf.name}</a>`;
+                pdfList.appendChild(li);
+            });
+        }
 
-    // LOGOUT
-    async function logout() {
-      await supabase.auth.signOut();
-      location.reload();
-    }
-  </script>
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.classList.remove('hidden');
+        }
+
+        function clearMessages() {
+            document.getElementById('loginMessage').classList.add('hidden');
+            document.getElementById('registerMessage').classList.add('hidden');
+            document.getElementById('resetMessage').classList.add('hidden');
+        }
+
+        // ==================== FUNZIONI AUTH ====================
+        async function checkAuth() {
+            const { data: { session }, error } = await supabase.auth.getSession();
+            
+            if (session && session.user) {
+                showUserSection(session.user.email);
+            } else {
+                showAuthSection();
+            }
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                showMessage('loginMessage', 'Inserisci email e password', 'error');
+                return;
+            }
+            
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                showMessage('loginMessage', error.message, 'error');
+            } else {
+                showMessage('loginMessage', 'Accesso effettuato!', 'success');
+                setTimeout(() => showUserSection(data.user.email), 1000);
+            }
+        }
+
+        async function register() {
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
+            const confirm = document.getElementById('regConfirm').value;
+            
+            if (!email || !password || !confirm) {
+                showMessage('registerMessage', 'Compila tutti i campi', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showMessage('registerMessage', 'La password deve essere di almeno 6 caratteri', 'error');
+                return;
+            }
+            
+            if (password !== confirm) {
+                showMessage('registerMessage', 'Le password non coincidono', 'error');
+                return;
+            }
+            
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password,
+                options: {
+                    emailRedirectTo: 'https://fantavenezia.netlify.app'
+                }
+            });
+
+            if (error) {
+                showMessage('registerMessage', error.message, 'error');
+            } else {
+                showMessage('registerMessage', 'Registrazione completata! Controlla la tua email per verificare l\'account.', 'success');
+                
+                // Pulisci il form
+                document.getElementById('regEmail').value = '';
+                document.getElementById('regPassword').value = '';
+                document.getElementById('regConfirm').value = '';
+            }
+        }
+
+        async function resetPassword() {
+            const email = document.getElementById('resetEmail').value;
+            
+            if (!email) {
+                showMessage('resetMessage', 'Inserisci la tua email', 'error');
+                return;
+            }
+            
+            const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: 'https://fantavenezia.netlify.app'
+            });
+
+            if (error) {
+                showMessage('resetMessage', error.message, 'error');
+            } else {
+                showMessage('resetMessage', 'Link di reset inviato! Controlla la tua email.', 'success');
+                document.getElementById('resetEmail').value = '';
+            }
+        }
+
+        async function logout() {
+            await supabase.auth.signOut();
+            showAuthSection();
+        }
+
+        // ==================== INIZIALIZZAZIONE ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            
+            // Enter key per i form
+            document.getElementById('loginPassword').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') login();
+            });
+            
+            document.getElementById('regConfirm').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') register();
+            });
+            
+            document.getElementById('resetEmail').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') resetPassword();
+            });
+        });
+
+        // Ascolta cambiamenti di autenticazione
+        supabase.auth.onAuthStateChange((event, session) => {
+            if (event === 'SIGNED_IN' && session) {
+                showUserSection(session.user.email);
+            } else if (event === 'SIGNED_OUT') {
+                showAuthSection();
+            }
+        });
+    </script>
 </body>
 </html>
