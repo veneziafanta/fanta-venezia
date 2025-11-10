@@ -9,13 +9,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  <!-- EMAILJS -->
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-  <script type="text/javascript">
-    (function(){
-      emailjs.init("Q43lIRoGk8Gy3AuET");
-    })();
-  </script>
   <style>
     body { font-family: Arial; background: #f0f2f5; margin: 0; padding: 20px; }
     .container { max-width: 500px; margin: 0 auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); text-align: center; }
@@ -31,6 +24,7 @@
     #pdfList { list-style: none; padding: 0; }
     #pdfList a { color: #1a5fb4; text-decoration: none; font-weight: bold; }
     .user-info { margin-top: 20px; font-size: 14px; color: #555; }
+    .success { color: green; font-weight: bold; }
   </style>
 </head>
 <body>
@@ -51,7 +45,7 @@
 
     <!-- DOWNLOAD PDF -->
     <div id="downloadSection" class="hidden">
-      <h2>Scarica i PDF</h2>
+      <h2>Scarica i documenti</h2>
       <ul id="pdfList"></ul>
     </div>
   </div>
@@ -80,7 +74,7 @@
         <input type="email" id="regEmail" placeholder="Email" required />
         <input type="password" id="regPassword" placeholder="Password" required />
         <input type="password" id="regConfirm" placeholder="Conferma Password" required />
-        <button type="button" id="submitReg">Invia</button>
+        <button type="button" id="submitReg">Crea Account</button>
         <p id="registerStatus"></p>
       </form>
     </div>
@@ -142,7 +136,7 @@
 
     // STATO UTENTE
     auth.onAuthStateChanged(async (user) => {
-      if (user && user.emailVerified) {
+      if (user) {
         const doc = await db.collection("users").doc(user.uid).get();
         if (doc.exists) {
           const data = doc.data();
@@ -177,7 +171,7 @@
       }
     };
 
-    // === REGISTRAZIONE CON DEBUG EMAILJS ===
+    // === REGISTRAZIONE SEMPLICE (SENZA EMAIL) ===
     document.getElementById("submitReg").onclick = async () => {
       const username = document.getElementById("regUsername").value.trim();
       const email = document.getElementById("regEmail").value.trim();
@@ -186,52 +180,33 @@
       const status = document.getElementById("registerStatus");
 
       if (pwd !== confirm) {
-        status.innerHTML = "<span style='color:red'>Password diverse</span>";
+        status.innerHTML = "<span style='color:red'>Le password non coincidono</span>";
         return;
       }
 
-      status.innerHTML = "Controllo username...";
-
+      // Controlla username
       const snap = await db.collection("users").where("username", "==", username).get();
       if (!snap.empty) {
-        status.innerHTML = "<span style='color:red'>Username già preso!</span>";
+        status.innerHTML = "<span style='color:red'>Username già occupato!</span>";
         return;
       }
 
-      status.innerHTML = "Creazione account...";
-
       try {
-        // 1. CREA UTENTE FIREBASE
+        // Crea utente
         const userCred = await auth.createUserWithEmailAndPassword(email, pwd);
         await db.collection("users").doc(userCred.user.uid).set({
           username: username,
-          email: email,
-          verified: false
+          email: email
         });
 
-        // 2. INVIA EMAIL VERIFICA FIREBASE
-        await userCred.user.sendEmailVerification();
-        status.innerHTML = "Email Firebase inviata...";
-
-        // 3. INVIA EMAILJS CON LINK PERSONALIZZATO
-        const verifyLink = `https://veneziafanta.github.io/fanta-venezia/verify.html?uid=${userCred.user.uid}`;
-        await emailjs.send("service_eh1l8ai", "template_zth5v29", {
-          username: username,
-          to_email: email,
-          verify_link: verifyLink
-        });
-
-        // SUCCESSO!
-        status.innerHTML = "<span style='color:green'>Mail inviata! Controlla la posta (anche Spam).</span>";
-        setTimeout(() => registerModal.style.display = "none", 4000);
+        // MESSAGGIO DI SUCCESSO
+        status.innerHTML = "<span class='success'>Il tuo account è stato creato con successo!</span>";
+        setTimeout(() => {
+          registerModal.style.display = "none";
+        }, 2000);
 
       } catch (err) {
-        console.error("ERRORE:", err);
-        if (err.text) {
-          status.innerHTML = `<span style='color:red'>EmailJS: ${err.text}</span>`;
-        } else {
-          status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
-        }
+        status.innerHTML = `<span style='color:red'>Errore: ${err.message}</span>`;
       }
     };
   </script>
