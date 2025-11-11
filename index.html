@@ -525,6 +525,77 @@
             document.body.removeChild(link);
         }
 
+        <!-- Aggiungi questa sezione DOPO la sezione downloadPage e PRIMA della chiusura del content -->
+<!-- SEZIONE ISCRIZIONE -->
+<div id="iscrizioneSection" class="hidden">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2>📝 ISCRIZIONE FANTACALCIO VENEZIA</h2>
+        <p>Compila il form per completare la tua iscrizione</p>
+    </div>
+
+    <form id="iscrizioneForm">
+        <div class="form-group">
+            <input type="text" id="nome" placeholder="Nome *" required>
+        </div>
+        
+        <div class="form-group">
+            <input type="text" id="cognome" placeholder="Cognome *" required>
+        </div>
+        
+        <div class="form-group">
+            <input type="text" id="nomeSquadra" placeholder="Nome Squadra *" required>
+            <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                Potrai modificare il nome squadra successivamente
+            </small>
+        </div>
+        
+        <div class="form-group">
+            <input type="tel" id="telefono" placeholder="Numero di Telefono *" required>
+            <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
+                Utilizzato solo per l'aggiunta al gruppo WhatsApp
+            </small>
+        </div>
+        
+        <div class="form-group">
+            <div style="display: flex; align-items: flex-start; gap: 10px;">
+                <input type="checkbox" id="termini" style="width: auto; margin-top: 3px;">
+                <label for="termini" style="text-align: left; font-size: 14px;">
+                    Accetto i 
+                    <a href="#" onclick="apriTermini()" style="color: #1a5fb4; text-decoration: underline;">
+                        Termini e Condizioni
+                    </a>
+                    del Fantacalcio Venezia *
+                </label>
+            </div>
+        </div>
+
+        <button type="submit" id="inviaIscrizione" class="btn" disabled style="background: #6c757d;">
+            INVIA ISCRIZIONE
+        </button>
+    </form>
+
+    <div id="iscrizioneMessage" class="message hidden"></div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <button class="btn btn-secondary" onclick="showUserSectionFromIscrizione()">
+            ← Torna alla Home
+        </button>
+    </div>
+</div>
+
+<!-- MODAL TERMINI E CONDIZIONI -->
+<div id="terminiModal" class="modal">
+    <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
+        <span class="close" onclick="chiudiTermini()" style="position: sticky; top: 0; background: white; padding: 10px;">×</span>
+        <h3>Termini e Condizioni - Fantacalcio Venezia</h3>
+        <div id="terminiContent">
+            <p>Caricamento termini e condizioni...</p>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-secondary" onclick="chiudiTermini()">Chiudi</button>
+        </div>
+    </div>
+</div>
         // ==================== FUNZIONI UI ====================
         function showTab(tabName) {
             // Nascondi tutte le tab
@@ -795,3 +866,4 @@
     </script>
 </body>
 </html>
+
