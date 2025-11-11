@@ -316,3 +316,52 @@ input:focus {
         margin-bottom: 10px;
     }
 }
+/* STILE MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background: white;
+    margin: 5% auto;
+    padding: 30px;
+    border-radius: 10px;
+    position: relative;
+    width: 90%;
+    max-width: 600px;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #666;
+}
+
+.close:hover {
+    color: #000;
+}
+
+/* Stile per checkbox */
+input[type="checkbox"] {
+    width: 18px !important;
+    height: 18px;
+    margin: 0;
+}
+
+/* Stile per form iscrizione */
+small {
+    color: #666;
+    font-size: 12px;
+    display: block;
+    margin-top: 5px;
+}
