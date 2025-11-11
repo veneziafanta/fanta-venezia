@@ -258,6 +258,71 @@
             font-size: 24px;
             margin-bottom: 8px;
         }
+
+        /* STILE PAGINA DOWNLOAD */
+        .documents-list {
+            margin: 20px 0;
+        }
+
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .document-icon {
+            font-size: 32px;
+            margin-right: 15px;
+        }
+
+        .document-details h4 {
+            margin: 0;
+            color: #1a5fb4;
+            font-size: 18px;
+        }
+
+        .document-details p {
+            margin: 5px 0 0 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                border-radius: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .document-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            
+            .document-info {
+                flex-direction: column;
+            }
+            
+            .document-icon {
+                margin-right: 0;
+                margin-bottom: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -337,86 +402,90 @@
                 <div id="changePasswordMessage" class="message hidden"></div>
             </div>
 
-          <!-- SEZIONE UTENTE LOGGATO -->
-<div id="userSection" class="hidden">
-    <div class="user-info">
-        <h2>👋 Benvenuto!</h2>
-        <p id="userEmail"></p>
-        <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">
-            Accesso effettuato correttamente
-        </p>
-    </div>
-
-    <div class="actions-section">
-        <h3>📋 AZIONI DISPONIBILI</h3>
-        
-        <div class="actions-grid">
-            <!-- Bottone ISCRIZIONE (disabilitato per ora) -->
-            <button class="action-btn" style="background: #28a745;" disabled>
-                <span class="btn-icon">📝</span>
-                ISCRIZIONE
-                <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                    (Presto disponibile)
+            <!-- SEZIONE UTENTE LOGGATO -->
+            <div id="userSection" class="hidden">
+                <div class="user-info">
+                    <h2>👋 Benvenuto!</h2>
+                    <p id="userEmail"></p>
+                    <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">
+                        Accesso effettuato correttamente
+                    </p>
                 </div>
-            </button>
-            
-            <!-- Bottone DOWNLOAD -->
-            <button class="action-btn" style="background: #28a745;" onclick="showDownloadPage()">
-                <span class="btn-icon">📥</span>
-                DOWNLOAD
-                <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                    Vai alla pagina download
+
+                <div class="actions-section">
+                    <h3>📋 AZIONI DISPONIBILI</h3>
+                    
+                    <div class="actions-grid">
+                        <!-- Bottone ISCRIZIONE (disabilitato per ora) -->
+                        <button class="action-btn" style="background: #28a745;" disabled>
+                            <span class="btn-icon">📝</span>
+                            ISCRIZIONE
+                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                                (Presto disponibile)
+                            </div>
+                        </button>
+                        
+                        <!-- Bottone DOWNLOAD -->
+                        <button class="action-btn" style="background: #28a745;" onclick="showDownloadPage()">
+                            <span class="btn-icon">📥</span>
+                            DOWNLOAD
+                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                                Vai alla pagina download
+                            </div>
+                        </button>
+                    </div>
                 </div>
-            </button>
-        </div>
-    </div>
 
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="logout()">ESCI</button>
-    </div>
-</div>
-
-<!-- PAGINA DOWNLOAD DOCUMENTI -->
-<div id="downloadPage" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>📥 DOWNLOAD DOCUMENTI</h2>
-        <p>Seleziona i documenti che vuoi scaricare</p>
-    </div>
-
-    <div class="documents-list">
-        <div class="document-item">
-            <div class="document-info">
-                <div class="document-icon">📋</div>
-                <div class="document-details">
-                    <h4>Regolamento Ufficiale</h4>
-                    <p>Il regolamento completo del Fantacalcio Venezia</p>
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-secondary" onclick="logout()">ESCI</button>
                 </div>
             </div>
-            <button class="btn btn-success" onclick="downloadDocument(pdfs[0])">
-                SCARICA
-            </button>
-        </div>
 
-        <div class="document-item">
-            <div class="document-info">
-                <div class="document-icon">📝</div>
-                <div class="document-details">
-                    <h4>Termini e Condizioni</h4>
-                    <p>Termini e condizioni di partecipazione</p>
+            <!-- PAGINA DOWNLOAD DOCUMENTI -->
+            <div id="downloadPage" class="hidden">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2>📥 DOWNLOAD DOCUMENTI</h2>
+                    <p>Seleziona i documenti che vuoi scaricare</p>
+                </div>
+
+                <div class="documents-list">
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-icon">📋</div>
+                            <div class="document-details">
+                                <h4>Regolamento Ufficiale</h4>
+                                <p>Il regolamento completo del Fantacalcio Venezia</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="downloadDocument(pdfs[0])">
+                            SCARICA
+                        </button>
+                    </div>
+
+                    <div class="document-item">
+                        <div class="document-info">
+                            <div class="document-icon">📝</div>
+                            <div class="document-details">
+                                <h4>Termini e Condizioni</h4>
+                                <p>Termini e condizioni di partecipazione</p>
+                            </div>
+                        </div>
+                        <button class="btn btn-success" onclick="downloadDocument(pdfs[1])">
+                            SCARICA
+                        </button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-secondary" onclick="showUserSectionFromDownload()">
+                        ← Torna alla Home
+                    </button>
                 </div>
             </div>
-            <button class="btn btn-success" onclick="downloadDocument(pdfs[1])">
-                SCARICA
-            </button>
         </div>
     </div>
 
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="showUserSectionFromDownload()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
+    <script>
         // ==================== CONFIGURAZIONE SUPABASE ====================
         const supabase = window.supabase.createClient(
             'https://norfhoxpzdnbainkbwlw.supabase.co',
@@ -426,14 +495,35 @@
         // ==================== LISTA PDF ====================
         const pdfs = [
             { 
-                name: "Regolamento Ufficiale - Fantacalcio Venezia", 
+                name: "Regolamento - Fantacalcio Venezia.pdf", 
                 link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" 
             },
             { 
-                name: "Termini e Condizioni - Fantacalcio Venezia", 
+                name: "Termini e Condizioni - Fantacalcio Venezia.pdf", 
                 link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" 
             }
         ];
+
+        // ==================== FUNZIONI DOWNLOAD PAGE ====================
+        function showDownloadPage() {
+            document.getElementById('userSection').classList.add('hidden');
+            document.getElementById('downloadPage').classList.remove('hidden');
+        }
+
+        function showUserSectionFromDownload() {
+            document.getElementById('downloadPage').classList.add('hidden');
+            document.getElementById('userSection').classList.remove('hidden');
+        }
+
+        function downloadDocument(pdf) {
+            const link = document.createElement('a');
+            link.href = pdf.link;
+            link.download = pdf.name;
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
 
         // ==================== FUNZIONI UI ====================
         function showTab(tabName) {
@@ -467,8 +557,6 @@
             hideAllSections();
             document.getElementById('userSection').classList.remove('hidden');
             document.getElementById('userEmail').textContent = `Accesso effettuato come: ${email}`;
-            // Nascondi il messaggio di download all'accesso
-            document.getElementById('downloadInfo').classList.add('hidden');
         }
 
         function showAuthSection() {
@@ -486,6 +574,7 @@
             document.getElementById('authSection').classList.add('hidden');
             document.getElementById('changePasswordSection').classList.add('hidden');
             document.getElementById('userSection').classList.add('hidden');
+            document.getElementById('downloadPage').classList.add('hidden');
         }
 
         function showMessage(elementId, message, type) {
@@ -501,53 +590,6 @@
             document.getElementById('resetMessage').classList.add('hidden');
             document.getElementById('changePasswordMessage').classList.add('hidden');
         }
-
-       // ==================== FUNZIONE DOWNLOAD ====================
-function downloadAllDocuments() {
-    const downloadInfo = document.getElementById('downloadInfo');
-    
-    // Mostra il messaggio di download in corso
-    downloadInfo.innerHTML = `
-        <div class="icon">⏳</div>
-        <strong>Download in corso...</strong><br>
-        Attendere mentre i documenti vengono scaricati.
-    `;
-    downloadInfo.classList.remove('hidden');
-    
-    // Forza il download di tutti i PDF
-    pdfs.forEach((pdf, index) => {
-        setTimeout(() => {
-            // Crea un link temporaneo per ogni PDF
-            const link = document.createElement('a');
-            link.href = pdf.link;
-            link.download = pdf.name + '.pdf';
-            link.style.display = 'none';
-            document.body.appendChild(link);
-            
-            // Simula il click
-            const clickEvent = new MouseEvent('click', {
-                view: window,
-                bubbles: true,
-                cancelable: true
-            });
-            link.dispatchEvent(clickEvent);
-            
-            // Rimuovi il link
-            document.body.removeChild(link);
-            
-            // Ultimo documento
-            if (index === pdfs.length - 1) {
-                setTimeout(() => {
-                    downloadInfo.innerHTML = `
-                        <div class="icon">✅</div>
-                        <strong>Download completato!</strong><br>
-                        ${pdfs.length} documenti scaricati.
-                    `;
-                }, 1000);
-            }
-        }, index * 800); // 800ms tra un download e l'altro
-    });
-}
 
         // ==================== FUNZIONI AUTH ====================
         async function checkAuth() {
@@ -753,6 +795,3 @@ function downloadAllDocuments() {
     </script>
 </body>
 </html>
-
-
-
