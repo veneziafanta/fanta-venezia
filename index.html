@@ -27,7 +27,7 @@
             border-radius: 15px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.1);
             width: 100%;
-            max-width: 450px;
+            max-width: 500px;
             overflow: hidden;
         }
 
@@ -80,11 +80,22 @@
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            margin: 10px 0;
         }
 
         .btn:hover {
             background: #0d47a1;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
         }
 
         .btn-secondary {
@@ -132,7 +143,10 @@
 
         .user-info {
             text-align: center;
-            margin-bottom: 25px;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
         }
 
         .user-info h2 {
@@ -140,40 +154,65 @@
             margin-bottom: 10px;
         }
 
-        .downloads-section {
-            margin-top: 30px;
+        .user-info p {
+            color: #6c757d;
+            font-size: 14px;
         }
 
-        .downloads-section h3 {
+        .actions-section {
+            margin: 30px 0;
+        }
+
+        .actions-section h3 {
             color: #1a5fb4;
             margin-bottom: 20px;
             text-align: center;
+            font-size: 20px;
         }
 
-        .pdf-list {
-            list-style: none;
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
         }
 
-        .pdf-item {
-            margin-bottom: 10px;
+        @media (min-width: 480px) {
+            .actions-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
-        .pdf-link {
-            display: block;
-            padding: 15px;
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            color: #1a5fb4;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s;
-        }
-
-        .pdf-link:hover {
-            background: #1a5fb4;
+        .action-btn {
+            padding: 20px;
+            background: #28a745;
             color: white;
-            border-color: #1a5fb4;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            background: #218838;
+        }
+
+        .action-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .action-btn .btn-icon {
+            font-size: 24px;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .back-link {
@@ -203,6 +242,21 @@
             color: #1a5fb4;
             border-bottom-color: #1a5fb4;
             font-weight: bold;
+        }
+
+        .download-info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: #e8f5e8;
+            border: 2px solid #28a745;
+            border-radius: 8px;
+            color: #155724;
+        }
+
+        .download-info .icon {
+            font-size: 24px;
+            margin-bottom: 8px;
         }
     </style>
 </head>
@@ -288,16 +342,42 @@
                 <div class="user-info">
                     <h2>👋 Benvenuto!</h2>
                     <p id="userEmail"></p>
+                    <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">
+                        Accesso effettuato correttamente
+                    </p>
                 </div>
 
-                <div class="downloads-section">
-                    <h3>📥 DOCUMENTI UFFICIALI</h3>
-                    <ul class="pdf-list" id="pdfList">
-                        <!-- PDF caricati dinamicamente -->
-                    </ul>
+                <div class="actions-section">
+                    <h3>📋 AZIONI DISPONIBILI</h3>
+                    
+                    <div class="actions-grid">
+                        <!-- Bottone ISCRIZIONE (disabilitato per ora) -->
+                        <button class="action-btn" style="background: #28a745;" disabled>
+                            <span class="btn-icon">📝</span>
+                            ISCRIZIONE
+                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                                (Presto disponibile)
+                            </div>
+                        </button>
+                        
+                        <!-- Bottone DOWNLOAD -->
+                        <button class="action-btn" style="background: #28a745;" onclick="downloadAllDocuments()">
+                            <span class="btn-icon">📥</span>
+                            DOWNLOAD
+                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                                Scarica tutti i documenti
+                            </div>
+                        </button>
+                    </div>
+
+                    <div class="download-info" id="downloadInfo" class="hidden">
+                        <div class="icon">✅</div>
+                        <strong>Download completato!</strong><br>
+                        I documenti sono stati scaricati con successo.
+                    </div>
                 </div>
 
-                <div style="margin-top: 30px;">
+                <div style="margin-top: 30px; text-align: center;">
                     <button class="btn btn-secondary" onclick="logout()">ESCI</button>
                 </div>
             </div>
@@ -314,11 +394,11 @@
         // ==================== LISTA PDF ====================
         const pdfs = [
             { 
-                name: "📋 Regolamento Ufficiale", 
+                name: "Regolamento Ufficiale - Fantacalcio Venezia", 
                 link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" 
             },
             { 
-                name: "📝 Termini e Condizioni", 
+                name: "Termini e Condizioni - Fantacalcio Venezia", 
                 link: "https://drive.google.com/uc?export=download&id=1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH" 
             }
         ];
@@ -354,8 +434,9 @@
         function showUserSection(email) {
             hideAllSections();
             document.getElementById('userSection').classList.remove('hidden');
-            document.getElementById('userEmail').textContent = email;
-            loadPDFs();
+            document.getElementById('userEmail').textContent = `Accesso effettuato come: ${email}`;
+            // Nascondi il messaggio di download all'accesso
+            document.getElementById('downloadInfo').classList.add('hidden');
         }
 
         function showAuthSection() {
@@ -375,18 +456,6 @@
             document.getElementById('userSection').classList.add('hidden');
         }
 
-        function loadPDFs() {
-            const pdfList = document.getElementById('pdfList');
-            pdfList.innerHTML = '';
-            
-            pdfs.forEach(pdf => {
-                const li = document.createElement('li');
-                li.className = 'pdf-item';
-                li.innerHTML = `<a href="${pdf.link}" class="pdf-link" target="_blank" download>${pdf.name}</a>`;
-                pdfList.appendChild(li);
-            });
-        }
-
         function showMessage(elementId, message, type) {
             const element = document.getElementById(elementId);
             element.textContent = message;
@@ -399,6 +468,45 @@
             document.getElementById('registerMessage').classList.add('hidden');
             document.getElementById('resetMessage').classList.add('hidden');
             document.getElementById('changePasswordMessage').classList.add('hidden');
+        }
+
+        // ==================== FUNZIONE DOWNLOAD ====================
+        function downloadAllDocuments() {
+            const downloadInfo = document.getElementById('downloadInfo');
+            
+            // Mostra il messaggio di download in corso
+            downloadInfo.innerHTML = `
+                <div class="icon">⏳</div>
+                <strong>Download in corso...</strong><br>
+                Attendere mentre i documenti vengono scaricati.
+            `;
+            downloadInfo.classList.remove('hidden');
+            
+            // Scarica tutti i PDF
+            let downloadedCount = 0;
+            
+            pdfs.forEach(pdf => {
+                const link = document.createElement('a');
+                link.href = pdf.link;
+                link.download = pdf.name + '.pdf';
+                link.target = '_blank';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                downloadedCount++;
+                
+                // Quando tutti i download sono completati
+                if (downloadedCount === pdfs.length) {
+                    setTimeout(() => {
+                        downloadInfo.innerHTML = `
+                            <div class="icon">✅</div>
+                            <strong>Download completato!</strong><br>
+                            Tutti i documenti sono stati scaricati con successo.
+                        `;
+                    }, 1000);
+                }
+            });
         }
 
         // ==================== FUNZIONI AUTH ====================
