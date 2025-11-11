@@ -1078,7 +1078,26 @@
             hideAllSections();
             document.getElementById('alboOroPage').classList.remove('hidden');
         }
+// Funzioni Partecipanti
+function showPartecipantiPage() {
+    hideAllSections();
+    document.getElementById('partecipantiPage').classList.remove('hidden');
+}
 
+function showUserSectionFromPartecipanti() {
+    hideAllSections();
+    document.getElementById('userSection').classList.remove('hidden');
+}
+
+function mostraListaPartecipanti2526() {
+    hideAllSections();
+    document.getElementById('listaPartecipanti2526Page').classList.remove('hidden');
+}
+
+function tornaAPartecipanti() {
+    hideAllSections();
+    document.getElementById('partecipantiPage').classList.remove('hidden');
+}
         function downloadDocument(pdf) {
             const link = document.createElement('a');
             link.href = pdf.link;
@@ -1471,5 +1490,6 @@
     </script>
 </body>
 </html>
+
 
 
