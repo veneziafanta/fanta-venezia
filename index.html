@@ -470,7 +470,7 @@
             document.getElementById('changePasswordMessage').classList.add('hidden');
         }
 
-        // ==================== FUNZIONE DOWNLOAD ====================
+       // ==================== FUNZIONE DOWNLOAD ====================
 function downloadAllDocuments() {
     const downloadInfo = document.getElementById('downloadInfo');
     
@@ -482,28 +482,38 @@ function downloadAllDocuments() {
     `;
     downloadInfo.classList.remove('hidden');
     
-    // Scarica tutti i PDF uno dopo l'altro con un ritardo
+    // Forza il download di tutti i PDF
     pdfs.forEach((pdf, index) => {
         setTimeout(() => {
+            // Crea un link temporaneo per ogni PDF
             const link = document.createElement('a');
             link.href = pdf.link;
             link.download = pdf.name + '.pdf';
-            link.target = '_blank';
+            link.style.display = 'none';
             document.body.appendChild(link);
-            link.click();
+            
+            // Simula il click
+            const clickEvent = new MouseEvent('click', {
+                view: window,
+                bubbles: true,
+                cancelable: true
+            });
+            link.dispatchEvent(clickEvent);
+            
+            // Rimuovi il link
             document.body.removeChild(link);
             
-            // Quando tutti i download sono completati
+            // Ultimo documento
             if (index === pdfs.length - 1) {
                 setTimeout(() => {
                     downloadInfo.innerHTML = `
                         <div class="icon">✅</div>
                         <strong>Download completato!</strong><br>
-                        Tutti i documenti sono stati scaricati.
+                        ${pdfs.length} documenti scaricati.
                     `;
                 }, 1000);
             }
-        }, index * 500); // 500ms di ritardo tra un download e l'altro
+        }, index * 800); // 800ms tra un download e l'altro
     });
 }
 
@@ -711,4 +721,5 @@ function downloadAllDocuments() {
     </script>
 </body>
 </html>
+
 
