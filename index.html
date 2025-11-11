@@ -912,65 +912,88 @@
         </button>
     </div>
 </div>
-            <!-- SEZIONE QUOTA ISCRIZIONE -->
-            <div id="quotaIscrizionePage" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>💳 QUOTA ISCRIZIONE</h2>
-                    <p>Pagamento quota stagionale</p>
-                </div>
-
-                <div class="season-item" style="text-align: center; padding: 40px;">
-                    <h3 style="color: #1a5fb4; margin-bottom: 20px;">Pagamento Quota Stagione 2026/27</h3>
-                    <p style="margin-bottom: 20px; font-size: 18px;">
-                        <strong>Importo:</strong> €30,00
-                    </p>
-                   
-                    <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
-                        <h4 style="color: #28a745; margin-bottom: 15px;">Metodo di Pagamento</h4>
-                        <p><strong>PayPal:</strong> fantavenezia@gmail.com</p>
-                    </div>
-                    
-                    </p>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="tornaAllaHomeDaQuota()">
-                        ← Torna alla Home
-                    </button>
-                </div>
-            </div>
-
-            <!-- SEZIONE DONAZIONI -->
-            <div id="donazioniPage" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>❤️ DONAZIONI</h2>
-                    <p>Supporta il FantaVenezia</p>
-                </div>
-
-                <div class="season-item" style="text-align: center; padding: 40px;">
-                    <p style="margin-bottom: 20px; font-size: 16px;">
-                        Se volete offrirci un caffè questo è il posto giusto, grazie di cuore💝
-                    </p>
-                    
-                    <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #ffeaa7;">
-                        <h4 style="color: #856404; margin-bottom: 15px;">💝 Come Donare</h4>
-                        <p><strong>PayPal:</strong> fantavenezia@gmail.com</p>
-                        </p>
-                    </div>
-                    
-                    <p style="font-size: 14px; color: #6c757d; margin-top: 20px;">
-                        Grazie per il tuo supporto alla community del FantaVenezia!
-                    </p>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="tornaAllaHomeDaDonazioni()">
-                        ← Torna alla Home
-                    </button>
-                </div>
-            </div>
-        </div>
+           <!-- SEZIONE QUOTA ISCRIZIONE -->
+<div id="quotaIscrizionePage" class="hidden">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2>💳 QUOTA ISCRIZIONE</h2>
+        <p>Pagamento quota stagionale</p>
     </div>
+
+    <div class="season-item" style="text-align: center; padding: 40px;">
+        <h3 style="color: #1a5fb4; margin-bottom: 20px;">Pagamento Quota Stagione 2026/27</h3>
+        <p style="margin-bottom: 20px; font-size: 18px;">
+            <strong>Importo:</strong> €30,00
+        </p>
+       
+        <!-- PULSANTE PAYPAL PER QUOTA -->
+        <div style="margin: 30px 0;">
+            <a href="https://paypal.me/fantavenezia/30" target="_blank" 
+               class="btn" 
+               style="background: #0070ba; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
+                💳 Paga Quota €30 con PayPal
+            </a>
+        </div>
+
+        <div style="background: #f8f9fa; padding: 20px; border-radius: 10px; margin: 20px 0;">
+            <h4 style="color: #28a745; margin-bottom: 15px;">Metodo di Pagamento</h4>
+            <p><strong>PayPal:</strong> fantavenezia@gmail.com</p>
+            <p style="font-size: 14px; color: #6c757d; margin-top: 10px;">
+                Clicca il pulsante sopra per pagare direttamente con PayPal
+            </p>
+        </div>
+        
+        <p style="color: #6c757d; font-size: 14px; margin-top: 20px;">
+            <strong>Importante:</strong> Dopo il pagamento, conserva la ricevuta
+        </p>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <button class="btn btn-secondary" onclick="tornaAllaHomeDaQuota()">
+            ← Torna alla Home
+        </button>
+    </div>
+</div>
+
+<!-- SEZIONE DONAZIONI -->
+<div id="donazioniPage" class="hidden">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2>❤️ DONAZIONI</h2>
+        <p>Supporta il FantaVenezia</p>
+    </div>
+
+    <div class="season-item" style="text-align: center; padding: 40px;">
+        <p style="margin-bottom: 20px; font-size: 16px;">
+            Se volete offrirci un caffè questo è il posto giusto, grazie di cuore 💝
+        </p>
+        
+        <!-- PULSANTE PAYPAL PER DONAZIONI -->
+        <div style="margin: 30px 0;">
+            <a href="https://paypal.me/fantavenezia" target="_blank" 
+               class="btn" 
+               style="background: #28a745; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
+                ❤️ Fai una Donazione con PayPal
+            </a>
+        </div>
+
+        <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px solid #ffeaa7;">
+            <h4 style="color: #856404; margin-bottom: 15px;">💝 Come Donare</h4>
+            <p><strong>PayPal:</strong> fantavenezia@gmail.com</p>
+            <p style="font-size: 14px; color: #856404; margin-top: 10px;">
+                Clicca il pulsante sopra per donare qualsiasi importo
+            </p>
+        </div>
+        
+        <p style="font-size: 14px; color: #6c757d; margin-top: 20px;">
+            Grazie per il tuo supporto alla community del FantaVenezia!
+        </p>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <button class="btn btn-secondary" onclick="tornaAllaHomeDaDonazioni()">
+            ← Torna alla Home
+        </button>
+    </div>
+</div>
 
     <!-- MODAL TERMINI E CONDIZIONI -->
     <div id="terminiModal" class="modal">
@@ -1448,6 +1471,7 @@
     </script>
 </body>
 </html>
+
 
 
 
