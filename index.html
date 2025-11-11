@@ -553,43 +553,52 @@
                 <div class="actions-section">
                     <h3>📋 AZIONI DISPONIBILI</h3>
                     
-                    <div class="actions-grid">
-                        <!-- Bottone ISCRIZIONE -->
-                        <button class="action-btn" style="background: #28a745;" onclick="showIscrizionePage()">
-                            <span class="btn-icon">📝</span>
-                            ISCRIZIONE
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Completa la tua iscrizione
-                            </div>
-                        </button>
-                        
-                        <!-- Bottone DOWNLOAD -->
-                        <button class="action-btn" style="background: #28a745;" onclick="showDownloadPage()">
-                            <span class="btn-icon">📥</span>
-                            DOWNLOAD
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Vai alla pagina download
-                            </div>
-                        </button>
+                   <div class="actions-grid">
+    <!-- Bottone ISCRIZIONE -->
+    <button class="action-btn" style="background: #28a745;" onclick="showIscrizionePage()">
+        <span class="btn-icon">📝</span>
+        ISCRIZIONE
+        <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+            Completa la tua iscrizione
+        </div>
+    </button>
+    
+    <!-- Bottone DOWNLOAD -->
+    <button class="action-btn" style="background: #28a745;" onclick="showDownloadPage()">
+        <span class="btn-icon">📥</span>
+        DOWNLOAD
+        <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+            Vai alla pagina download
+        </div>
+    </button>
 
-                        <!-- Bottone ALBO D'ORO -->
-                        <button class="action-btn" style="background: #ffd700; color: #000;" onclick="showAlboOroPage()">
-                            <span class="btn-icon">🏆</span>
-                            ALBO D'ORO
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Storia dei vincitori
-                            </div>
-                        </button>
+    <!-- Bottone CLASSIFICHE LIVE -->
+    <button class="action-btn" style="background: #dc3545; color: white;" onclick="apriClassificheLive()">
+        <span class="btn-icon">📊</span>
+        CLASSIFICHE LIVE
+        <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+            Vai alle classifiche ufficiali
+        </div>
+    </button>
 
-                        <!-- Bottone PARTECIPANTI -->
-                        <button class="action-btn" style="background: #17a2b8; color: white;" onclick="showPartecipantiPage()">
-                            <span class="btn-icon">👥</span>
-                            PARTECIPANTI
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Lista partecipanti stagione
-                            </div>
-                        </button>
-                    </div>
+    <!-- Bottone ALBO D'ORO -->
+    <button class="action-btn" style="background: #ffd700; color: #000;" onclick="showAlboOroPage()">
+        <span class="btn-icon">🏆</span>
+        ALBO D'ORO
+        <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+            Storia dei vincitori
+        </div>
+    </button>
+
+    <!-- Bottone PARTECIPANTI -->
+    <button class="action-btn" style="background: #17a2b8; color: white;" onclick="showPartecipantiPage()">
+        <span class="btn-icon">👥</span>
+        PARTECIPANTI
+        <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+            Lista partecipanti stagione
+        </div>
+    </button>
+</div>
                 </div>
 
                 <div style="margin-top: 30px; text-align: center;">
@@ -1220,7 +1229,9 @@
             const { data: { session } } = await supabase.auth.getSession();
             return session?.user?.email || 'Email non disponibile';
         }
-
+function apriClassificheLive() {
+    window.open('https://leghe.fantacalcio.it/fantaferroviavenezia/squadre', '_blank');
+}
         // ==================== FUNZIONI UI ====================
         function showTab(tabName) {
             document.getElementById('loginTab').classList.add('hidden');
@@ -1496,3 +1507,4 @@
     </script>
 </body>
 </html>
+
