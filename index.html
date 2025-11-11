@@ -873,7 +873,15 @@
             link.click();
             document.body.removeChild(link);
         }
+function mostraStagione2526() {
+    document.getElementById('alboOroPage').classList.add('hidden');
+    document.getElementById('stagione2526Page').classList.remove('hidden');
+}
 
+function tornaAdAlboOro() {
+    document.getElementById('stagione2526Page').classList.add('hidden');
+    document.getElementById('alboOroPage').classList.remove('hidden');
+}
         // ==================== FUNZIONI ISCRIZIONE ====================
         function showIscrizionePage() {
             document.getElementById('userSection').classList.add('hidden');
@@ -1280,5 +1288,6 @@
     </script>
 </body>
 </html>
+
 
 
