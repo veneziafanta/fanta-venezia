@@ -816,10 +816,10 @@
 
     <script>
         // ==================== CONFIGURAZIONE SUPABASE ====================
-        const supabase = window.supabase.createClient(
-            'https://norfhoxpzdnbainkbwlw.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A'
-        );
+        const supabaseUrl = 'https://norfhoxpzdnbainkbwlw.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
+        
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
         // ==================== CONFIGURAZIONE EMAILJS ====================
         emailjs.init("Q43lIRoGk8Gy3AuET");
@@ -838,32 +838,32 @@
 
         // ==================== FUNZIONI PAGINE ====================
         function showDownloadPage() {
-            document.getElementById('userSection').classList.add('hidden');
+            hideAllSections();
             document.getElementById('downloadPage').classList.remove('hidden');
         }
 
         function showUserSectionFromDownload() {
-            document.getElementById('downloadPage').classList.add('hidden');
+            hideAllSections();
             document.getElementById('userSection').classList.remove('hidden');
         }
 
         function showAlboOroPage() {
-            document.getElementById('userSection').classList.add('hidden');
+            hideAllSections();
             document.getElementById('alboOroPage').classList.remove('hidden');
         }
 
         function showUserSectionFromAlboOro() {
-            document.getElementById('alboOroPage').classList.add('hidden');
+            hideAllSections();
             document.getElementById('userSection').classList.remove('hidden');
         }
 
         function mostraStagione2526() {
-            document.getElementById('alboOroPage').classList.add('hidden');
+            hideAllSections();
             document.getElementById('stagione2526Page').classList.remove('hidden');
         }
 
         function tornaAdAlboOro() {
-            document.getElementById('stagione2526Page').classList.add('hidden');
+            hideAllSections();
             document.getElementById('alboOroPage').classList.remove('hidden');
         }
 
@@ -879,19 +879,17 @@
 
         // ==================== FUNZIONI ISCRIZIONE ====================
         function showIscrizionePage() {
-            document.getElementById('userSection').classList.add('hidden');
+            hideAllSections();
             document.getElementById('iscrizioneSection').classList.remove('hidden');
-            // Reset form
             document.getElementById('iscrizioneForm').reset();
             aggiornaBottoneIscrizione();
         }
 
         function showUserSectionFromIscrizione() {
-            document.getElementById('iscrizioneSection').classList.add('hidden');
+            hideAllSections();
             document.getElementById('userSection').classList.remove('hidden');
         }
 
-        // Controlla se il form è completo
         function aggiornaBottoneIscrizione() {
             const nome = document.getElementById('nome').value.trim();
             const cognome = document.getElementById('cognome').value.trim();
@@ -911,10 +909,8 @@
             }
         }
 
-        // Apri termini e condizioni
         function apriTermini() {
             document.getElementById('terminiModal').style.display = 'block';
-            // Carica il contenuto dei termini
             caricaTermini();
         }
 
@@ -922,7 +918,6 @@
             document.getElementById('terminiModal').style.display = 'none';
         }
 
-        // Carica termini da Google Docs
         function caricaTermini() {
             const terminiContent = document.getElementById('terminiContent');
             terminiContent.innerHTML = `
@@ -936,20 +931,18 @@
             `;
         }
 
-        // Gestione invio iscrizione con EmailJS
+        // Gestione invio iscrizione
         document.getElementById('iscrizioneForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const bottone = document.getElementById('inviaIscrizione');
             const messaggio = document.getElementById('iscrizioneMessage');
             
-            // Disabilita il bottone durante l'invio
             bottone.disabled = true;
             bottone.textContent = 'INVIO IN CORSO...';
             bottone.style.background = '#6c757d';
             
             try {
-                // Raccogli dati
                 const userEmail = await getCurrentUserEmail();
                 const datiIscrizione = {
                     nome: document.getElementById('nome').value.trim(),
@@ -960,10 +953,9 @@
                     data_iscrizione: new Date().toLocaleString('it-IT')
                 };
                 
-                // INVIO EMAIL CON EMAILJS
                 await emailjs.send(
-                    'service_eh1l8ai',      // Service ID
-                    'template_xgiz98h',     // Template ID
+                    'service_eh1l8ai',
+                    'template_xgiz98h',
                     datiIscrizione
                 );
                 
@@ -971,10 +963,8 @@
                 messaggio.className = 'message success';
                 messaggio.classList.remove('hidden');
                 
-                // Reset form
                 document.getElementById('iscrizioneForm').reset();
                 
-                // Torna alla home dopo 3 secondi
                 setTimeout(() => {
                     showUserSectionFromIscrizione();
                 }, 3000);
@@ -985,32 +975,27 @@
                 messaggio.className = 'message error';
                 messaggio.classList.remove('hidden');
                 
-                // Riabilita il bottone
                 bottone.disabled = false;
                 bottone.textContent = 'INVIA ISCRIZIONE';
                 aggiornaBottoneIscrizione();
             }
         });
 
-        // Ottieni email utente corrente
         async function getCurrentUserEmail() {
             const { data: { session } } = await supabase.auth.getSession();
             return session?.user?.email || 'Email non disponibile';
         }
 
-               // ==================== FUNZIONI UI ====================
+        // ==================== FUNZIONI UI ====================
         function showTab(tabName) {
-            // Nascondi tutte le tab
             document.getElementById('loginTab').classList.add('hidden');
             document.getElementById('registerTab').classList.add('hidden');
             document.getElementById('resetTab').classList.add('hidden');
             
-            // Rimuovi active da tutte le tab
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
             
-            // Mostra la tab richiesta
             if (tabName === 'login') {
                 document.getElementById('loginTab').classList.remove('hidden');
                 document.querySelectorAll('.tab')[0].classList.add('active');
@@ -1021,7 +1006,6 @@
                 document.getElementById('resetTab').classList.remove('hidden');
             }
             
-            // Pulisci i messaggi
             clearMessages();
         }
 
@@ -1123,8 +1107,8 @@
                 email: email,
                 password: password,
                 options: {
-    emailRedirectTo: 'https://veneziafanta.github.io/fanta-venezia/'
-}
+                    emailRedirectTo: 'https://veneziafanta.github.io/fanta-venezia/'
+                }
             });
 
             if (error) {
@@ -1132,7 +1116,6 @@
             } else {
                 showMessage('registerMessage', 'Registrazione completata! Controlla la tua email per verificare l\'account.', 'success');
                 
-                // Pulisci il form
                 document.getElementById('regEmail').value = '';
                 document.getElementById('regPassword').value = '';
                 document.getElementById('regConfirm').value = '';
@@ -1148,7 +1131,7 @@
             }
             
             const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: 'https://fantavenezia.netlify.app'
+                redirectTo: 'https://veneziafanta.github.io/fanta-venezia/'
             });
 
             if (error) {
@@ -1187,7 +1170,6 @@
             } else {
                 showMessage('changePasswordMessage', '✅ Password cambiata con successo! Ora puoi accedere con la nuova password.', 'success');
                 
-                // Fai logout e torna al login dopo 2 secondi
                 setTimeout(async () => {
                     await supabase.auth.signOut();
                     showAuthSection();
@@ -1201,7 +1183,7 @@
             showAuthSection();
         }
 
-        // ==================== GESTIONE RESET PASSWORD COMPLETA ====================
+        // ==================== GESTIONE RESET PASSWORD ====================
         async function handlePasswordReset() {
             const urlParams = new URLSearchParams(window.location.hash.substring(1));
             const type = urlParams.get('type');
@@ -1209,18 +1191,14 @@
             const refreshToken = urlParams.get('refresh_token');
             
             if (type === 'recovery' && accessToken) {
-                // Se è un ritorno dal reset password, mostra il form per cambiare password
                 try {
-                    // Imposta la sessione temporanea
                     const { data, error } = await supabase.auth.setSession({
                         access_token: accessToken,
                         refresh_token: refreshToken
                     });
                     
                     if (!error) {
-                        // Mostra il form per cambiare password
                         showChangePasswordSection();
-                        // Pulisci l'URL
                         window.location.hash = '';
                     } else {
                         throw error;
@@ -1234,10 +1212,10 @@
 
         // ==================== INIZIALIZZAZIONE ====================
         document.addEventListener('DOMContentLoaded', function() {
+            console.log('Sito caricato!');
             checkAuth();
             handlePasswordReset();
             
-            // Enter key per i form
             document.getElementById('loginPassword').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') login();
             });
@@ -1254,14 +1232,12 @@
                 if (e.key === 'Enter') changePassword();
             });
 
-            // Ascolta cambiamenti nel form iscrizione
             document.getElementById('nome').addEventListener('input', aggiornaBottoneIscrizione);
             document.getElementById('cognome').addEventListener('input', aggiornaBottoneIscrizione);
             document.getElementById('nomeSquadra').addEventListener('input', aggiornaBottoneIscrizione);
             document.getElementById('telefono').addEventListener('input', aggiornaBottoneIscrizione);
             document.getElementById('termini').addEventListener('change', aggiornaBottoneIscrizione);
 
-            // Chiudi modal cliccando fuori
             window.addEventListener('click', function(e) {
                 const modal = document.getElementById('terminiModal');
                 if (e.target === modal) {
@@ -1270,7 +1246,6 @@
             });
         });
 
-        // Ascolta cambiamenti di autenticazione
         supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
                 if (!document.getElementById('changePasswordSection').classList.contains('hidden')) {
@@ -1281,4 +1256,6 @@
                 showAuthSection();
             }
         });
-
+    </script>
+</body>
+</html>
