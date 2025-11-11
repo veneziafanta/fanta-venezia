@@ -719,59 +719,61 @@
             `;
         }
 
-        // Gestione invio iscrizione con Netlify
-        document.getElementById('iscrizioneForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const bottone = document.getElementById('inviaIscrizione');
-            const messaggio = document.getElementById('iscrizioneMessage');
-            
-            // Disabilita il bottone durante l'invio
-            bottone.disabled = true;
-            bottone.textContent = 'INVIO IN CORSO...';
-            bottone.style.background = '#6c757d';
-            
-            try {
-                // Imposta l'email dell'utente nel campo nascosto
-                const userEmail = await getCurrentUserEmail();
-                document.getElementById('email').value = userEmail;
-                
-                // NETLIFY FORMS gestirà automaticamente l'invio
-                const formData = new FormData(this);
-                
-                const response = await fetch('/', {
-                    method: 'POST',
-                    body: formData
-                });
-                
-                if (response.ok) {
-                    messaggio.textContent = '✅ Iscrizione inviata con successo! Riceverai una email di conferma.';
-                    messaggio.className = 'message success';
-                    messaggio.classList.remove('hidden');
-                    
-                    // Reset form
-                    document.getElementById('iscrizioneForm').reset();
-                    
-                    // Torna alla home dopo 3 secondi
-                    setTimeout(() => {
-                        showUserSectionFromIscrizione();
-                    }, 3000);
-                } else {
-                    throw new Error('Errore nell\'invio');
-                }
-                
-            } catch (error) {
-                messaggio.textContent = '❌ Errore durante l\'invio. Riprova più tardi.';
-                messaggio.className = 'message error';
-                messaggio.classList.remove('hidden');
-                
-                // Riabilita il bottone
-                bottone.disabled = false;
-                bottone.textContent = 'INVIA ISCRIZIONE';
-                aggiornaBottoneIscrizione();
-            }
-        });
-
+        // Gestione invio iscrizione con EmailJS
+document.getElementById('iscrizioneForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const bottone = document.getElementById('inviaIscrizione');
+    const messaggio = document.getElementById('iscrizioneMessage');
+    
+    // Disabilita il bottone durante l'invio
+    bottone.disabled = true;
+    bottone.textContent = 'INVIO IN CORSO...';
+    bottone.style.background = '#6c757d';
+    
+    try {
+        // Raccogli dati
+        const userEmail = await getCurrentUserEmail();
+        const datiIscrizione = {
+            nome: document.getElementById('nome').value.trim(),
+            cognome: document.getElementById('cognome').value.trim(),
+            nomesquadra: document.getElementById('nomeSquadra').value.trim(),
+            telefono: document.getElementById('telefono').value.trim(),
+            email: userEmail,
+            data_iscrizione: new Date().toLocaleString('it-IT')
+        };
+        
+        // INVIO EMAIL CON EMAILJS
+        await emailjs.send(
+            'service_xxxxx',      // Sostituisci con Service ID
+            'template_xxxxx',     // Sostituisci con Template ID
+            datiIscrizione
+        );
+        
+        messaggio.textContent = '✅ Iscrizione inviata con successo! Riceverai una conferma via email.';
+        messaggio.className = 'message success';
+        messaggio.classList.remove('hidden');
+        
+        // Reset form
+        document.getElementById('iscrizioneForm').reset();
+        
+        // Torna alla home dopo 3 secondi
+        setTimeout(() => {
+            showUserSectionFromIscrizione();
+        }, 3000);
+        
+    } catch (error) {
+        console.error('Errore:', error);
+        messaggio.textContent = '❌ Errore durante l\'invio. Riprova più tardi.';
+        messaggio.className = 'message error';
+        messaggio.classList.remove('hidden');
+        
+        // Riabilita il bottone
+        bottone.disabled = false;
+        bottone.textContent = 'INVIA ISCRIZIONE';
+        aggiornaBottoneIscrizione();
+    }
+});
         // Ottieni email utente corrente
         async function getCurrentUserEmail() {
             const { data: { session } } = await supabase.auth.getSession();
@@ -1062,3 +1064,4 @@
     </script>
 </body>
 </html>
+
