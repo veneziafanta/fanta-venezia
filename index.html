@@ -471,43 +471,41 @@
         }
 
         // ==================== FUNZIONE DOWNLOAD ====================
-        function downloadAllDocuments() {
-            const downloadInfo = document.getElementById('downloadInfo');
+function downloadAllDocuments() {
+    const downloadInfo = document.getElementById('downloadInfo');
+    
+    // Mostra il messaggio di download in corso
+    downloadInfo.innerHTML = `
+        <div class="icon">⏳</div>
+        <strong>Download in corso...</strong><br>
+        Attendere mentre i documenti vengono scaricati.
+    `;
+    downloadInfo.classList.remove('hidden');
+    
+    // Scarica tutti i PDF uno dopo l'altro con un ritardo
+    pdfs.forEach((pdf, index) => {
+        setTimeout(() => {
+            const link = document.createElement('a');
+            link.href = pdf.link;
+            link.download = pdf.name + '.pdf';
+            link.target = '_blank';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
             
-            // Mostra il messaggio di download in corso
-            downloadInfo.innerHTML = `
-                <div class="icon">⏳</div>
-                <strong>Download in corso...</strong><br>
-                Attendere mentre i documenti vengono scaricati.
-            `;
-            downloadInfo.classList.remove('hidden');
-            
-            // Scarica tutti i PDF
-            let downloadedCount = 0;
-            
-            pdfs.forEach(pdf => {
-                const link = document.createElement('a');
-                link.href = pdf.link;
-                link.download = pdf.name + '.pdf';
-                link.target = '_blank';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                downloadedCount++;
-                
-                // Quando tutti i download sono completati
-                if (downloadedCount === pdfs.length) {
-                    setTimeout(() => {
-                        downloadInfo.innerHTML = `
-                            <div class="icon">✅</div>
-                            <strong>Download completato!</strong><br>
-                            Tutti i documenti sono stati scaricati con successo.
-                        `;
-                    }, 1000);
-                }
-            });
-        }
+            // Quando tutti i download sono completati
+            if (index === pdfs.length - 1) {
+                setTimeout(() => {
+                    downloadInfo.innerHTML = `
+                        <div class="icon">✅</div>
+                        <strong>Download completato!</strong><br>
+                        Tutti i documenti sono stati scaricati.
+                    `;
+                }, 1000);
+            }
+        }, index * 500); // 500ms di ritardo tra un download e l'altro
+    });
+}
 
         // ==================== FUNZIONI AUTH ====================
         async function checkAuth() {
@@ -713,3 +711,4 @@
     </script>
 </body>
 </html>
+
