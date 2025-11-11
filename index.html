@@ -1047,6 +1047,7 @@
             </div>
         </div>
     </div>
+
 <!-- Bottone STAFF -->
 <button class="action-btn" style="background: #20c997; color: white;" onclick="mostraStaff()">
     <span class="btn-icon">👨‍💼</span>
@@ -1159,7 +1160,36 @@
             hideAllSections();
             document.getElementById('partecipantiPage').classList.remove('hidden');
         }
+// Funzioni nuovi pulsanti
+function mostraStaff() {
+    hideAllSections();
+    document.getElementById('staffPage').classList.remove('hidden');
+}
 
+function mostraQuotaIscrizione() {
+    hideAllSections();
+    document.getElementById('quotaIscrizionePage').classList.remove('hidden');
+}
+
+function mostraDonazioni() {
+    hideAllSections();
+    document.getElementById('donazioniPage').classList.remove('hidden');
+}
+
+function tornaAllaHomeDaStaff() {
+    hideAllSections();
+    document.getElementById('userSection').classList.remove('hidden');
+}
+
+function tornaAllaHomeDaQuota() {
+    hideAllSections();
+    document.getElementById('userSection').classList.remove('hidden');
+}
+
+function tornaAllaHomeDaDonazioni() {
+    hideAllSections();
+    document.getElementById('userSection').classList.remove('hidden');
+}
         function downloadDocument(pdf) {
             const link = document.createElement('a');
             link.href = pdf.link;
@@ -1556,6 +1586,7 @@ function apriClassificheLive() {
     </script>
 </body>
 </html>
+
 
 
 
