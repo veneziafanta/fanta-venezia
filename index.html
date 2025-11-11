@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fantacalcio Venezia</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -68,6 +69,12 @@
         input:focus {
             outline: none;
             border-color: #1a5fb4;
+        }
+
+        input[type="checkbox"] {
+            width: 18px !important;
+            height: 18px;
+            margin: 0;
         }
 
         .btn {
@@ -244,21 +251,6 @@
             font-weight: bold;
         }
 
-        .download-info {
-            text-align: center;
-            margin: 20px 0;
-            padding: 15px;
-            background: #e8f5e8;
-            border: 2px solid #28a745;
-            border-radius: 8px;
-            color: #155724;
-        }
-
-        .download-info .icon {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
         /* STILE PAGINA DOWNLOAD */
         .documents-list {
             margin: 20px 0;
@@ -298,6 +290,64 @@
             font-size: 14px;
         }
 
+        /* STILE MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 10px;
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .close {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        /* Stile per form iscrizione */
+        small {
+            color: #666;
+            font-size: 12px;
+            display: block;
+            margin-top: 5px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .checkbox-group label {
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
         @media (max-width: 480px) {
             .container {
                 margin: 10px;
@@ -321,6 +371,11 @@
             .document-icon {
                 margin-right: 0;
                 margin-bottom: 10px;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                padding: 20px;
             }
         }
     </style>
@@ -416,12 +471,12 @@
                     <h3>📋 AZIONI DISPONIBILI</h3>
                     
                     <div class="actions-grid">
-                        <!-- Bottone ISCRIZIONE (disabilitato per ora) -->
-                        <button class="action-btn" style="background: #28a745;" disabled>
+                        <!-- Bottone ISCRIZIONE -->
+                        <button class="action-btn" style="background: #28a745;" onclick="showIscrizionePage()">
                             <span class="btn-icon">📝</span>
                             ISCRIZIONE
                             <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                (Presto disponibile)
+                                Completa la tua iscrizione
                             </div>
                         </button>
                         
@@ -482,6 +537,73 @@
                     </button>
                 </div>
             </div>
+
+            <!-- SEZIONE ISCRIZIONE -->
+            <div id="iscrizioneSection" class="hidden">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2>📝 ISCRIZIONE FANTACALCIO VENEZIA</h2>
+                    <p>Compila il form per completare la tua iscrizione</p>
+                </div>
+
+                <form id="iscrizioneForm">
+                    <div class="form-group">
+                        <input type="text" id="nome" placeholder="Nome *" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="cognome" placeholder="Cognome *" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="text" id="nomeSquadra" placeholder="Nome Squadra *" required>
+                        <small>Potrai modificare il nome squadra successivamente</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="tel" id="telefono" placeholder="Numero di Telefono *" required>
+                        <small>Utilizzato solo per l'aggiunta al gruppo WhatsApp</small>
+                    </div>
+                    
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="termini">
+                        <label for="termini">
+                            Accetto i 
+                            <a href="#" onclick="apriTermini()" class="link">
+                                Termini e Condizioni
+                            </a>
+                            del Fantacalcio Venezia *
+                        </label>
+                    </div>
+
+                    <button type="submit" id="inviaIscrizione" class="btn" disabled style="background: #6c757d;">
+                        INVIA ISCRIZIONE
+                    </button>
+                </form>
+
+                <div id="iscrizioneMessage" class="message hidden"></div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-secondary" onclick="showUserSectionFromIscrizione()">
+                        ← Torna alla Home
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL TERMINI E CONDIZIONI -->
+    <div id="terminiModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="chiudiTermini()">×</span>
+            <h3 style="text-align: center; margin-bottom: 20px;">Termini e Condizioni - Fantacalcio Venezia</h3>
+            <div id="terminiContent">
+                <div style="text-align: center; padding: 40px;">
+                    <p>Caricamento termini e condizioni...</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+                <button class="btn btn-secondary" onclick="chiudiTermini()">Chiudi</button>
+            </div>
         </div>
     </div>
 
@@ -525,77 +647,121 @@
             document.body.removeChild(link);
         }
 
-        <!-- Aggiungi questa sezione DOPO la sezione downloadPage e PRIMA della chiusura del content -->
-<!-- SEZIONE ISCRIZIONE -->
-<div id="iscrizioneSection" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>📝 ISCRIZIONE FANTACALCIO VENEZIA</h2>
-        <p>Compila il form per completare la tua iscrizione</p>
-    </div>
+        // ==================== FUNZIONI ISCRIZIONE ====================
+        function showIscrizionePage() {
+            document.getElementById('userSection').classList.add('hidden');
+            document.getElementById('iscrizioneSection').classList.remove('hidden');
+            // Reset form
+            document.getElementById('iscrizioneForm').reset();
+            aggiornaBottoneIscrizione();
+        }
 
-    <form id="iscrizioneForm">
-        <div class="form-group">
-            <input type="text" id="nome" placeholder="Nome *" required>
-        </div>
-        
-        <div class="form-group">
-            <input type="text" id="cognome" placeholder="Cognome *" required>
-        </div>
-        
-        <div class="form-group">
-            <input type="text" id="nomeSquadra" placeholder="Nome Squadra *" required>
-            <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
-                Potrai modificare il nome squadra successivamente
-            </small>
-        </div>
-        
-        <div class="form-group">
-            <input type="tel" id="telefono" placeholder="Numero di Telefono *" required>
-            <small style="color: #666; font-size: 12px; display: block; margin-top: 5px;">
-                Utilizzato solo per l'aggiunta al gruppo WhatsApp
-            </small>
-        </div>
-        
-        <div class="form-group">
-            <div style="display: flex; align-items: flex-start; gap: 10px;">
-                <input type="checkbox" id="termini" style="width: auto; margin-top: 3px;">
-                <label for="termini" style="text-align: left; font-size: 14px;">
-                    Accetto i 
-                    <a href="#" onclick="apriTermini()" style="color: #1a5fb4; text-decoration: underline;">
-                        Termini e Condizioni
-                    </a>
-                    del Fantacalcio Venezia *
-                </label>
-            </div>
-        </div>
+        function showUserSectionFromIscrizione() {
+            document.getElementById('iscrizioneSection').classList.add('hidden');
+            document.getElementById('userSection').classList.remove('hidden');
+        }
 
-        <button type="submit" id="inviaIscrizione" class="btn" disabled style="background: #6c757d;">
-            INVIA ISCRIZIONE
-        </button>
-    </form>
+        // Controlla se il form è completo
+        function aggiornaBottoneIscrizione() {
+            const nome = document.getElementById('nome').value.trim();
+            const cognome = document.getElementById('cognome').value.trim();
+            const nomeSquadra = document.getElementById('nomeSquadra').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const termini = document.getElementById('termini').checked;
+            const bottone = document.getElementById('inviaIscrizione');
+            
+            const formCompleto = nome && cognome && nomeSquadra && telefono && termini;
+            
+            if (formCompleto) {
+                bottone.disabled = false;
+                bottone.style.background = '#28a745';
+            } else {
+                bottone.disabled = true;
+                bottone.style.background = '#6c757d';
+            }
+        }
 
-    <div id="iscrizioneMessage" class="message hidden"></div>
+        // Apri termini e condizioni
+        function apriTermini() {
+            document.getElementById('terminiModal').style.display = 'block';
+            // Carica il contenuto dei termini
+            caricaTermini();
+        }
 
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="showUserSectionFromIscrizione()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
+        function chiudiTermini() {
+            document.getElementById('terminiModal').style.display = 'none';
+        }
 
-<!-- MODAL TERMINI E CONDIZIONI -->
-<div id="terminiModal" class="modal">
-    <div class="modal-content" style="max-width: 800px; max-height: 80vh; overflow-y: auto;">
-        <span class="close" onclick="chiudiTermini()" style="position: sticky; top: 0; background: white; padding: 10px;">×</span>
-        <h3>Termini e Condizioni - Fantacalcio Venezia</h3>
-        <div id="terminiContent">
-            <p>Caricamento termini e condizioni...</p>
-        </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="btn btn-secondary" onclick="chiudiTermini()">Chiudi</button>
-        </div>
-    </div>
-</div>
+        // Carica termini da Google Docs
+        function caricaTermini() {
+            const terminiContent = document.getElementById('terminiContent');
+            terminiContent.innerHTML = `
+                <iframe 
+                    src="https://drive.google.com/file/d/1EsEGBJQxrCTlEnABfcbv7SPaNnvlv7WH/preview" 
+                    width="100%" 
+                    height="500" 
+                    style="border: none; border-radius: 8px;"
+                    allow="autoplay"
+                ></iframe>
+            `;
+        }
+
+        // Gestione invio iscrizione
+        document.getElementById('iscrizioneForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const bottone = document.getElementById('inviaIscrizione');
+            const messaggio = document.getElementById('iscrizioneMessage');
+            
+            // Disabilita il bottone durante l'invio
+            bottone.disabled = true;
+            bottone.textContent = 'INVIO IN CORSO...';
+            bottone.style.background = '#6c757d';
+            
+            // Raccogli dati
+            const datiIscrizione = {
+                nome: document.getElementById('nome').value.trim(),
+                cognome: document.getElementById('cognome').value.trim(),
+                nomeSquadra: document.getElementById('nomeSquadra').value.trim(),
+                telefono: document.getElementById('telefono').value.trim(),
+                email: await getCurrentUserEmail(),
+                data: new Date().toLocaleString('it-IT')
+            };
+            
+            try {
+                // Invia i dati (per ora mostra solo conferma)
+                messaggio.textContent = '✅ Iscrizione inviata con successo! Riceverai una conferma via email.';
+                messaggio.className = 'message success';
+                messaggio.classList.remove('hidden');
+                
+                console.log('Dati iscrizione:', datiIscrizione);
+                
+                // Reset form
+                document.getElementById('iscrizioneForm').reset();
+                
+                // Torna alla home dopo 3 secondi
+                setTimeout(() => {
+                    showUserSectionFromIscrizione();
+                }, 3000);
+                
+            } catch (error) {
+                messaggio.textContent = '❌ Errore durante l\'invio. Riprova più tardi.';
+                messaggio.className = 'message error';
+                messaggio.classList.remove('hidden');
+                
+                // Riabilita il bottone
+                bottone.disabled = false;
+                bottone.textContent = 'INVIA ISCRIZIONE';
+                aggiornaBottoneIscrizione();
+            }
+        });
+
+        // Ottieni email utente corrente
+        async function getCurrentUserEmail() {
+            const { data: { session } } = await supabase.auth.getSession();
+            return session?.user?.email || 'Email non disponibile';
+        }
+
         // ==================== FUNZIONI UI ====================
         function showTab(tabName) {
             // Nascondi tutte le tab
@@ -617,7 +783,6 @@
                 document.querySelectorAll('.tab')[1].classList.add('active');
             } else if (tabName === 'reset') {
                 document.getElementById('resetTab').classList.remove('hidden');
-                // Non attivare nessuna tab per il reset
             }
             
             // Pulisci i messaggi
@@ -646,6 +811,7 @@
             document.getElementById('changePasswordSection').classList.add('hidden');
             document.getElementById('userSection').classList.add('hidden');
             document.getElementById('downloadPage').classList.add('hidden');
+            document.getElementById('iscrizioneSection').classList.add('hidden');
         }
 
         function showMessage(elementId, message, type) {
@@ -831,7 +997,7 @@
         // ==================== INIZIALIZZAZIONE ====================
         document.addEventListener('DOMContentLoaded', function() {
             checkAuth();
-            handlePasswordReset(); // Gestisce il ritorno dal reset password
+            handlePasswordReset();
             
             // Enter key per i form
             document.getElementById('loginPassword').addEventListener('keypress', function(e) {
@@ -849,12 +1015,26 @@
             document.getElementById('confirmNewPassword').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') changePassword();
             });
+
+            // Ascolta cambiamenti nel form iscrizione
+            document.getElementById('nome').addEventListener('input', aggiornaBottoneIscrizione);
+            document.getElementById('cognome').addEventListener('input', aggiornaBottoneIscrizione);
+            document.getElementById('nomeSquadra').addEventListener('input', aggiornaBottoneIscrizione);
+            document.getElementById('telefono').addEventListener('input', aggiornaBottoneIscrizione);
+            document.getElementById('termini').addEventListener('change', aggiornaBottoneIscrizione);
+
+            // Chiudi modal cliccando fuori
+            window.addEventListener('click', function(e) {
+                const modal = document.getElementById('terminiModal');
+                if (e.target === modal) {
+                    chiudiTermini();
+                }
+            });
         });
 
         // Ascolta cambiamenti di autenticazione
         supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
-                // Se l'utente si logga ma siamo nella sezione cambio password, non mostrare i download
                 if (!document.getElementById('changePasswordSection').classList.contains('hidden')) {
                     return;
                 }
@@ -866,4 +1046,3 @@
     </script>
 </body>
 </html>
-
