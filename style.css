@@ -64,7 +64,6 @@
     input:focus {
         outline: none;
         border-color: #1a5fb4;
-        box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
     }
 
     input[type="checkbox"] {
