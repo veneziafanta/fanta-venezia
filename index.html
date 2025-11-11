@@ -113,6 +113,15 @@
             background: #5a6268;
         }
 
+        .btn-gold {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            background: #ffed4e;
+        }
+
         .link {
             color: #1a5fb4;
             text-decoration: none;
@@ -290,6 +299,74 @@
             font-size: 14px;
         }
 
+        /* STILE ALBO D'ORO */
+        .season-list {
+            margin: 20px 0;
+        }
+
+        .season-item {
+            padding: 20px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .season-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .season-header h3 {
+            color: #1a5fb4;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .trophy-section {
+            margin-bottom: 20px;
+        }
+
+        .trophy-section h4 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trophy-list {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .trophy-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .trophy-item:last-child {
+            border-bottom: none;
+        }
+
+        .trophy-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+        }
+
+        .trophy-winner {
+            color: #1a5fb4;
+            font-weight: bold;
+        }
+
         /* STILE MODAL */
         .modal {
             display: none;
@@ -376,6 +453,12 @@
             .modal-content {
                 margin: 10% auto;
                 padding: 20px;
+            }
+            
+            .trophy-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
             }
         }
     </style>
@@ -486,6 +569,15 @@
                             DOWNLOAD
                             <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
                                 Vai alla pagina download
+                            </div>
+                        </button>
+
+                        <!-- Bottone ALBO D'ORO -->
+                        <button class="action-btn" style="background: #ffd700; color: #000;" onclick="showAlboOroPage()">
+                            <span class="btn-icon">🏆</span>
+                            ALBO D'ORO
+                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                                Storia dei vincitori
                             </div>
                         </button>
                     </div>
@@ -601,6 +693,88 @@
                     </button>
                 </div>
             </div>
+
+            <!-- SEZIONE ALBO D'ORO -->
+            <div id="alboOroPage" class="hidden">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2>🏆 ALBO D'ORO</h2>
+                    <p>La storia dei vincitori del Fantacalcio Venezia</p>
+                </div>
+
+                <div class="season-list">
+                    <div class="season-item">
+                        <div class="season-header">
+                            <h3>Stagione 2025/26</h3>
+                        </div>
+                        
+                        <div class="trophy-section">
+                            <h4>🏆 Coppe</h4>
+                            <div class="trophy-list">
+                                <div class="trophy-item">
+                                    <div class="trophy-name">
+                                        Coppa Cavallino: 
+                                    </div>
+                                    <div class="trophy-winner">???</div>
+                                </div>
+                                <div class="trophy-item">
+                                    <div class="trophy-name">
+                                        Pendolari Cup: 
+                                    </div>
+                                    <div class="trophy-winner">???</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="trophy-section">
+                            <h4>🥇 Leghe</h4>
+                            <div class="trophy-list">
+                                <div class="trophy-item">
+                                    <div class="trophy-name">
+                                        Lega 464: 
+                                    </div>
+                                    <div class="trophy-winner">
+                                        1 ??? 🥇<br>
+                                        2 ??? 🥈
+                                    </div>
+                                </div>
+                                <div class="trophy-item">
+                                    <div class="trophy-name">
+                                        Lega Pop: 
+                                    </div>
+                                    <div class="trophy-winner">
+                                        1 ??? 🥇<br>
+                                        2 ??? 🥈
+                                    </div>
+                                </div>
+                                <div class="trophy-item">
+                                    <div class="trophy-name">
+                                        Lega Rock: 
+                                    </div>
+                                    <div class="trophy-winner">
+                                        1 ??? 🥇<br>
+                                        2 ??? 🥈
+                                    </div>
+                                </div>
+                                <div class="trophy-item">
+                                    <div class="trophy-name">
+                                        Lega Stadler: 
+                                    </div>
+                                    <div class="trophy-winner">
+                                        1 ??? 🥇<br>
+                                        2 ??? 🥈
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-secondary" onclick="showUserSectionFromAlboOro()">
+                        ← Torna alla Home
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -642,7 +816,7 @@
             }
         ];
 
-        // ==================== FUNZIONI DOWNLOAD PAGE ====================
+        // ==================== FUNZIONI PAGINE ====================
         function showDownloadPage() {
             document.getElementById('userSection').classList.add('hidden');
             document.getElementById('downloadPage').classList.remove('hidden');
@@ -650,6 +824,16 @@
 
         function showUserSectionFromDownload() {
             document.getElementById('downloadPage').classList.add('hidden');
+            document.getElementById('userSection').classList.remove('hidden');
+        }
+
+        function showAlboOroPage() {
+            document.getElementById('userSection').classList.add('hidden');
+            document.getElementById('alboOroPage').classList.remove('hidden');
+        }
+
+        function showUserSectionFromAlboOro() {
+            document.getElementById('alboOroPage').classList.add('hidden');
             document.getElementById('userSection').classList.remove('hidden');
         }
 
@@ -834,6 +1018,7 @@
             document.getElementById('userSection').classList.add('hidden');
             document.getElementById('downloadPage').classList.add('hidden');
             document.getElementById('iscrizioneSection').classList.add('hidden');
+            document.getElementById('alboOroPage').classList.add('hidden');
         }
 
         function showMessage(elementId, message, type) {
@@ -1068,4 +1253,3 @@
     </script>
 </body>
 </html>
-
