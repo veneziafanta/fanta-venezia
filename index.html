@@ -998,7 +998,7 @@
             return session?.user?.email || 'Email non disponibile';
         }
 
-        // ==================== FUNZIONI UI ====================
+               // ==================== FUNZIONI UI ====================
         function showTab(tabName) {
             // Nascondi tutte le tab
             document.getElementById('loginTab').classList.add('hidden');
@@ -1026,10 +1026,10 @@
         }
 
         function showUserSection(email) {
-    hideAllSections();
-    document.getElementById('userSection').classList.remove('hidden');
-    document.getElementById('userEmail').textContent = `Accesso effettuato come: ${email}`;
-}
+            hideAllSections();
+            document.getElementById('userSection').classList.remove('hidden');
+            document.getElementById('userEmail').textContent = `Accesso effettuato come: ${email}`;
+        }
 
         function showAuthSection() {
             hideAllSections();
@@ -1281,7 +1281,3 @@
                 showAuthSection();
             }
         });
-    </script>
-</body>
-</html>
-
