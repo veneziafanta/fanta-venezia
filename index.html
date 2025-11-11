@@ -545,27 +545,40 @@
                     <p>Compila il form per completare la tua iscrizione</p>
                 </div>
 
-                <form id="iscrizioneForm">
+                <form 
+                    id="iscrizioneForm" 
+                    name="iscrizione" 
+                    method="POST" 
+                    data-netlify="true"
+                    netlify-honeypot="bot-field"
+                >
+                    <input type="hidden" name="form-name" value="iscrizione" />
+                    <p class="hidden">
+                        <label>Non compilare questo campo: <input name="bot-field" /></label>
+                    </p>
+                    
                     <div class="form-group">
-                        <input type="text" id="nome" placeholder="Nome *" required>
+                        <input type="text" id="nome" name="nome" placeholder="Nome *" required>
                     </div>
                     
                     <div class="form-group">
-                        <input type="text" id="cognome" placeholder="Cognome *" required>
+                        <input type="text" id="cognome" name="cognome" placeholder="Cognome *" required>
                     </div>
                     
                     <div class="form-group">
-                        <input type="text" id="nomeSquadra" placeholder="Nome Squadra *" required>
+                        <input type="text" id="nomeSquadra" name="nomesquadra" placeholder="Nome Squadra *" required>
                         <small>Potrai modificare il nome squadra successivamente</small>
                     </div>
                     
                     <div class="form-group">
-                        <input type="tel" id="telefono" placeholder="Numero di Telefono *" required>
+                        <input type="tel" id="telefono" name="telefono" placeholder="Numero di Telefono *" required>
                         <small>Utilizzato solo per l'aggiunta al gruppo WhatsApp</small>
                     </div>
                     
+                    <input type="hidden" id="email" name="email">
+                    
                     <div class="checkbox-group">
-                        <input type="checkbox" id="termini">
+                        <input type="checkbox" id="termini" name="termini" required>
                         <label for="termini">
                             Accetto i 
                             <a href="#" onclick="apriTermini()" class="link">
@@ -706,7 +719,7 @@
             `;
         }
 
-        // Gestione invio iscrizione
+        // Gestione invio iscrizione con Netlify
         document.getElementById('iscrizioneForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
@@ -718,31 +731,34 @@
             bottone.textContent = 'INVIO IN CORSO...';
             bottone.style.background = '#6c757d';
             
-            // Raccogli dati
-            const datiIscrizione = {
-                nome: document.getElementById('nome').value.trim(),
-                cognome: document.getElementById('cognome').value.trim(),
-                nomeSquadra: document.getElementById('nomeSquadra').value.trim(),
-                telefono: document.getElementById('telefono').value.trim(),
-                email: await getCurrentUserEmail(),
-                data: new Date().toLocaleString('it-IT')
-            };
-            
             try {
-                // Invia i dati (per ora mostra solo conferma)
-                messaggio.textContent = '✅ Iscrizione inviata con successo! Riceverai una conferma via email.';
-                messaggio.className = 'message success';
-                messaggio.classList.remove('hidden');
+                // Imposta l'email dell'utente nel campo nascosto
+                const userEmail = await getCurrentUserEmail();
+                document.getElementById('email').value = userEmail;
                 
-                console.log('Dati iscrizione:', datiIscrizione);
+                // NETLIFY FORMS gestirà automaticamente l'invio
+                const formData = new FormData(this);
                 
-                // Reset form
-                document.getElementById('iscrizioneForm').reset();
+                const response = await fetch('/', {
+                    method: 'POST',
+                    body: formData
+                });
                 
-                // Torna alla home dopo 3 secondi
-                setTimeout(() => {
-                    showUserSectionFromIscrizione();
-                }, 3000);
+                if (response.ok) {
+                    messaggio.textContent = '✅ Iscrizione inviata con successo! Riceverai una email di conferma.';
+                    messaggio.className = 'message success';
+                    messaggio.classList.remove('hidden');
+                    
+                    // Reset form
+                    document.getElementById('iscrizioneForm').reset();
+                    
+                    // Torna alla home dopo 3 secondi
+                    setTimeout(() => {
+                        showUserSectionFromIscrizione();
+                    }, 3000);
+                } else {
+                    throw new Error('Errore nell\'invio');
+                }
                 
             } catch (error) {
                 messaggio.textContent = '❌ Errore durante l\'invio. Riprova più tardi.';
