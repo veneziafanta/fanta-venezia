@@ -337,54 +337,86 @@
                 <div id="changePasswordMessage" class="message hidden"></div>
             </div>
 
-            <!-- SEZIONE UTENTE LOGGATO -->
-            <div id="userSection" class="hidden">
-                <div class="user-info">
-                    <h2>👋 Benvenuto!</h2>
-                    <p id="userEmail"></p>
-                    <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">
-                        Accesso effettuato correttamente
-                    </p>
-                </div>
+          <!-- SEZIONE UTENTE LOGGATO -->
+<div id="userSection" class="hidden">
+    <div class="user-info">
+        <h2>👋 Benvenuto!</h2>
+        <p id="userEmail"></p>
+        <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">
+            Accesso effettuato correttamente
+        </p>
+    </div>
 
-                <div class="actions-section">
-                    <h3>📋 AZIONI DISPONIBILI</h3>
-                    
-                    <div class="actions-grid">
-                        <!-- Bottone ISCRIZIONE (disabilitato per ora) -->
-                        <button class="action-btn" style="background: #28a745;" disabled>
-                            <span class="btn-icon">📝</span>
-                            ISCRIZIONE
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                (Presto disponibile)
-                            </div>
-                        </button>
-                        
-                        <!-- Bottone DOWNLOAD -->
-                        <button class="action-btn" style="background: #28a745;" onclick="downloadAllDocuments()">
-                            <span class="btn-icon">📥</span>
-                            DOWNLOAD
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Scarica tutti i documenti
-                            </div>
-                        </button>
-                    </div>
-
-                    <div class="download-info" id="downloadInfo" class="hidden">
-                        <div class="icon">✅</div>
-                        <strong>Download completato!</strong><br>
-                        I documenti sono stati scaricati con successo.
-                    </div>
+    <div class="actions-section">
+        <h3>📋 AZIONI DISPONIBILI</h3>
+        
+        <div class="actions-grid">
+            <!-- Bottone ISCRIZIONE (disabilitato per ora) -->
+            <button class="action-btn" style="background: #28a745;" disabled>
+                <span class="btn-icon">📝</span>
+                ISCRIZIONE
+                <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                    (Presto disponibile)
                 </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="logout()">ESCI</button>
+            </button>
+            
+            <!-- Bottone DOWNLOAD -->
+            <button class="action-btn" style="background: #28a745;" onclick="showDownloadPage()">
+                <span class="btn-icon">📥</span>
+                DOWNLOAD
+                <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                    Vai alla pagina download
                 </div>
-            </div>
+            </button>
         </div>
     </div>
 
-    <script>
+    <div style="margin-top: 30px; text-align: center;">
+        <button class="btn btn-secondary" onclick="logout()">ESCI</button>
+    </div>
+</div>
+
+<!-- PAGINA DOWNLOAD DOCUMENTI -->
+<div id="downloadPage" class="hidden">
+    <div style="text-align: center; margin-bottom: 30px;">
+        <h2>📥 DOWNLOAD DOCUMENTI</h2>
+        <p>Seleziona i documenti che vuoi scaricare</p>
+    </div>
+
+    <div class="documents-list">
+        <div class="document-item">
+            <div class="document-info">
+                <div class="document-icon">📋</div>
+                <div class="document-details">
+                    <h4>Regolamento Ufficiale</h4>
+                    <p>Il regolamento completo del Fantacalcio Venezia</p>
+                </div>
+            </div>
+            <button class="btn btn-success" onclick="downloadDocument(pdfs[0])">
+                SCARICA
+            </button>
+        </div>
+
+        <div class="document-item">
+            <div class="document-info">
+                <div class="document-icon">📝</div>
+                <div class="document-details">
+                    <h4>Termini e Condizioni</h4>
+                    <p>Termini e condizioni di partecipazione</p>
+                </div>
+            </div>
+            <button class="btn btn-success" onclick="downloadDocument(pdfs[1])">
+                SCARICA
+            </button>
+        </div>
+    </div>
+
+    <div style="margin-top: 30px; text-align: center;">
+        <button class="btn btn-secondary" onclick="showUserSectionFromDownload()">
+            ← Torna alla Home
+        </button>
+    </div>
+</div>
         // ==================== CONFIGURAZIONE SUPABASE ====================
         const supabase = window.supabase.createClient(
             'https://norfhoxpzdnbainkbwlw.supabase.co',
@@ -721,5 +753,6 @@ function downloadAllDocuments() {
     </script>
 </body>
 </html>
+
 
 
