@@ -1028,10 +1028,9 @@
         const supabaseUrl = 'https://norfhoxpzdnbainkbwlw.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                // Inizializza EmailJS
+                 // Inizializza EmailJS
         emailjs.init("Q43lIRoGk8Gy3AuET");
-        console.log('EmailJS inizializzato');
-
+        console.log('EmailJS inizializzato con template_bqk6pxy');
         const pdfs = [
             { 
                 name: "Regolamento - Fantacalcio Venezia.pdf", 
@@ -1240,8 +1239,8 @@ async function inviaIscrizione() {
 
         // 2. INVIA L'EMAIL A STAFF
         try {
-            await emailjs.send('service_eh1l8ai', 'template_xgiz98h', {
-                to_email: 'veneziafanta@gmail.com', // Email destinatario
+            await emailjs.send('service_eh1l8ai', 'template_bqk6pxy', {
+                to_email: 'veneziafanta@gmail.com',
                 from_name: `${datiIscrizione.nome} ${datiIscrizione.cognome}`,
                 nome: datiIscrizione.nome,
                 cognome: datiIscrizione.cognome,
@@ -1547,6 +1546,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
