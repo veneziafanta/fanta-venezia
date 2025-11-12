@@ -1204,7 +1204,10 @@ function aggiornaBottoneIscrizione() {
         bottone.style.background = '#6c757d';
     }
 }
-
+async function getCurrentUserEmail() {
+    const { data: { session } } = await supabase.auth.getSession();
+    return session?.user?.email || 'Email non disponibile';
+}
 async function inviaIscrizione() {
     const bottone = document.getElementById('inviaIscrizione');
     const messaggio = document.getElementById('iscrizioneMessage');
@@ -1499,6 +1502,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
