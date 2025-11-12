@@ -1105,9 +1105,13 @@
         }
 
         // Funzioni di ritorno
-        function showUserSectionFromDownload() { showUserSection(getCurrentUserEmail()); }
-        function showUserSectionFromIscrizione() { showUserSection(getCurrentUserEmail()); }
-        function showUserSectionFromAlboOro() { showUserSection(getCurrentUserEmail()); }
+        // Funzioni di ritorno
+function showUserSectionFromDownload() { showUserSection(getCurrentUserEmail()); }
+async function showUserSectionFromIscrizione() { 
+    const email = await getCurrentUserEmail();
+    showUserSection(email); 
+}
+function showUserSectionFromAlboOro() { showUserSection(getCurrentUserEmail()); }
         function showUserSectionFromPartecipanti() { showUserSection(getCurrentUserEmail()); }
         function tornaAllaHomeDaStaff() { showUserSection(getCurrentUserEmail()); }
         function tornaAllaHomeDaQuota() { showUserSection(getCurrentUserEmail()); }
@@ -1502,6 +1506,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
