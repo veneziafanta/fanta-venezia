@@ -1239,62 +1239,80 @@ async function inviaIscrizione() {
         
         if (error) throw error;
 
-        // 2. INVIA L'EMAIL
-        // Ho aggiunto 'reply_to' con l'email del partecipante
+        // 2. INVIA L'EMAIL A STAFF
         try {
             await emailjs.send('service_eh1l8ai', 'template_xgiz98h', {
+                to_email: 'veneziafanta@gmail.com', // Email destinatario
+                from_name: `${datiIscrizione.nome} ${datiIscrizione.cognome}`,
                 nome: datiIscrizione.nome,
                 cognome: datiIscrizione.cognome,
                 nome_squadra: datiIscrizione.nomesquadra,
                 telefono: datiIscrizione.telefono,
-                email: datiIscrizione.email, // L'email del partecipante
+                email_utente: datiIscrizione.email,
                 data_iscrizione: datiIscrizione.data_iscrizione,
                 stagione: datiIscrizione.stagione,
-                // Aggiungiamo un campo per specificare il destinatario dell'admin, 
-                // assumendo che il tuo template EmailJS utilizzi un campo 
-                // come 'admin_email' o 'to_email' per inviare a veneziafanta@gmail.com.
-                // Se il tuo template è configurato per inviare all'utente, 
-                // devi cambiarlo in modo che invii a veneziafanta@gmail.com
-                // e usare i campi qui sotto. Se il template è generico, 
-                // l'invio sarà comunque effettuato.
-                
-                // Nota: Assicurati che il tuo template su EmailJS sia configurato
-                // per inviare a 'veneziafanta@gmail.com' e che utilizzi le variabili
-                // sopra per popolare il corpo dell'email.
+                subject: `Nuova Iscrizione Stagione ${datiIscrizione.stagione} - ${datiIscrizione.nome} ${datiIscrizione.cognome}`
             });
+            
+            console.log('Email inviata con successo a veneziafanta@gmail.com');
+            
         } catch (emailError) {
-            console.log('Attenzione: Email non inviata, ma iscrizione salvata su Supabase. Errore email:', emailError);
-            // Non blocchiamo l'utente se l'email fallisce, l'iscrizione è comunque salvata.
+            console.error('Errore invio email:', emailError);
+            // Continua comunque, l'iscrizione è salvata su Supabase
         }
 
-        // 3. MESSAGGIO DI SUCCESSO PERSONALIZZATO
+        // 3. MOSTRA MESSAGGIO DI SUCCESSO
         messaggio.innerHTML = `
-            ✅ <strong>Iscrizione Stagione ${datiIscrizione.stagione} Ricevuta!</strong><br><br>
-            La tua richiesta è stata registrata con successo.<br>
-            Una volta effettuato il pagamento della quota stagionale, lo Staff ti invierà 
-            un messaggio di conferma su WhatsApp al numero fornito, solitamente 
-            entro le 24/48 ore.
+            <div style="text-align: center; padding: 15px;">
+                <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
+                <h3 style="color: #155724; margin-bottom: 15px;">Iscrizione Confermata!</h3>
+                <p style="margin-bottom: 10px;">
+                    <strong>La tua richiesta per la stagione ${datiIscrizione.stagione} è stata registrata con successo.</strong>
+                </p>
+                <p style="margin-bottom: 5px;">
+                    📋 <strong>Dati inseriti:</strong><br>
+                    - Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
+                    - Squadra: ${datiIscrizione.nomesquadra}<br>
+                    - Telefono: ${datiIscrizione.telefono}<br>
+                    - Email: ${datiIscrizione.email}
+                </p>
+                <p style="margin-top: 15px; padding: 12px; background: #e7f3ff; border-radius: 8px;">
+                    <strong>🚀 Prossimi passi:</strong><br>
+                    Una volta effettuato il pagamento della quota stagionale,<br>
+                    <strong>riceverai un messaggio WhatsApp di conferma dallo Staff entro 24/48 ore.</strong>
+                </p>
+                <p style="margin-top: 10px; font-size: 12px; color: #666;">
+                    Verrai reindirizzato alla home page tra 5 secondi...
+                </p>
+            </div>
         `;
         messaggio.className = 'message success';
         messaggio.classList.remove('hidden');
         
+        // Reset del form
         document.getElementById('iscrizioneForm').reset();
         
+        // Reindirizza alla home dopo 5 secondi
         setTimeout(() => {
-            // Dopo 5 secondi ritorna alla Home
             showUserSectionFromIscrizione();
         }, 5000);
         
     } catch (error) {
         console.error('Errore durante l\'iscrizione:', error);
         messaggio.innerHTML = `
-            ❌ <strong>Errore durante la registrazione:</strong><br>
-            Si è verificato un problema (${error.message}). Se il problema persiste, 
-            contatta lo Staff (sezione STAFF) per assistenza.
+            <div style="text-align: center; padding: 15px;">
+                <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
+                <h3 style="color: #721c24; margin-bottom: 10px;">Errore durante la registrazione</h3>
+                <p>Si è verificato un problema: ${error.message}</p>
+                <p style="margin-top: 15px; font-size: 14px;">
+                    Se il problema persiste, contatta lo Staff tramite la sezione "STAFF".
+                </p>
+            </div>
         `;
         messaggio.className = 'message error';
         messaggio.classList.remove('hidden');
         
+        // Riabilita il bottone
         bottone.disabled = false;
         bottone.textContent = 'INVIA ISCRIZIONE';
         aggiornaBottoneIscrizione();
@@ -1530,6 +1548,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
