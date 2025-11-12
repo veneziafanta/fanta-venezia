@@ -1105,35 +1105,9 @@
         }
 
         // Funzioni di ritorno
-        f// Funzioni di ritorno
-async function showUserSectionFromDownload() { 
-    const email = await getCurrentUserEmail();
-    showUserSection(email); 
-}
-async function showUserSectionFromIscrizione() { 
-    const email = await getCurrentUserEmail();
-    showUserSection(email); 
-}
-async function showUserSectionFromAlboOro() { 
-    const email = await getCurrentUserEmail();
-    showUserSection(email); 
-}
-async function showUserSectionFromPartecipanti() { 
-    const email = await getCurrentUserEmail();
-    showUserSection(email); 
-}
-async function tornaAllaHomeDaStaff() { 
-    const email = await getCurrentUserEmail();
-    showUserSection(email); 
-}
-async function tornaAllaHomeDaQuota() { 
-    const email = await getCurrentUserEmail();
-    showUserSection(email); 
-}
-async function tornaAllaHomeDaDonazioni() { 
-    const email = await getCurrentUserEmail();
-    showUserSection(email); 
-}
+        function showUserSectionFromDownload() { showUserSection(getCurrentUserEmail()); }
+        function showUserSectionFromIscrizione() { showUserSection(getCurrentUserEmail()); }
+        function showUserSectionFromAlboOro() { showUserSection(getCurrentUserEmail()); }
         function showUserSectionFromPartecipanti() { showUserSection(getCurrentUserEmail()); }
         function tornaAllaHomeDaStaff() { showUserSection(getCurrentUserEmail()); }
         function tornaAllaHomeDaQuota() { showUserSection(getCurrentUserEmail()); }
@@ -1528,4 +1502,3 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
-
