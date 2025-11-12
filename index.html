@@ -1226,12 +1226,14 @@ async function inviaIscrizione(event) {
         const datiIscrizione = {
             nome: document.getElementById('nome').value.trim(),
             cognome: document.getElementById('cognome').value.trim(),
-            nome_squadra: document.getElementById('nomeSquadra').value.trim(), // CAMBIATO
+            nome_squadra: document.getElementById('nomeSquadra').value.trim(),
             telefono: document.getElementById('telefono').value.trim(),
             email: userEmail,
             data_iscrizione: new Date().toLocaleString('it-IT'),
             stagione: '2026/2027'
         };
+        
+        console.log('Dati da salvare:', datiIscrizione);
         
         // 1. SALVA SU SUPABASE
         const { data, error } = await supabase
@@ -1247,7 +1249,7 @@ async function inviaIscrizione(event) {
                 from_name: `${datiIscrizione.nome} ${datiIscrizione.cognome}`,
                 nome: datiIscrizione.nome,
                 cognome: datiIscrizione.cognome,
-                nome_squadra: datiIscrizione.nome_squadra, // CAMBIATO
+                nome_squadra: datiIscrizione.nome_squadra,
                 telefono: datiIscrizione.telefono,
                 email_utente: datiIscrizione.email,
                 data_iscrizione: datiIscrizione.data_iscrizione,
@@ -1272,7 +1274,7 @@ async function inviaIscrizione(event) {
                 <p style="margin-bottom: 5px;">
                     📋 <strong>Dati inseriti:</strong><br>
                     - Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
-                    - Squadra: ${datiIscrizione.nome_squadra}<br> <!-- CAMBIATO -->
+                    - Squadra: ${datiIscrizione.nome_squadra}<br>
                     - Telefono: ${datiIscrizione.telefono}<br>
                     - Email: ${datiIscrizione.email}
                 </p>
@@ -1289,8 +1291,13 @@ async function inviaIscrizione(event) {
         messaggio.className = 'message success';
         messaggio.classList.remove('hidden');
         
-        // Reset del form
-        document.getElementById('iscrizioneForm').reset();
+        // RESET MANUALE DEI CAMPI (CORREZIONE)
+        document.getElementById('nome').value = '';
+        document.getElementById('cognome').value = '';
+        document.getElementById('nomeSquadra').value = '';
+        document.getElementById('telefono').value = '';
+        document.getElementById('termini').checked = false;
+        aggiornaBottoneIscrizione();
         
         // Reindirizza alla home dopo 5 secondi
         setTimeout(() => {
@@ -1548,6 +1555,7 @@ async function inviaIscrizione(event) {
     </script>
 </body>
 </html>
+
 
 
 
