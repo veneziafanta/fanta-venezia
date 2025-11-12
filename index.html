@@ -1211,7 +1211,9 @@ async function getCurrentUserEmail() {
     const { data: { session } } = await supabase.auth.getSession();
     return session?.user?.email || 'Email non disponibile';
 }
-async function inviaIscrizione() {
+async function inviaIscrizione(event) {
+    if (event) event.preventDefault();
+    
     const bottone = document.getElementById('inviaIscrizione');
     const messaggio = document.getElementById('iscrizioneMessage');
     
@@ -1224,7 +1226,7 @@ async function inviaIscrizione() {
         const datiIscrizione = {
             nome: document.getElementById('nome').value.trim(),
             cognome: document.getElementById('cognome').value.trim(),
-            nomesquadra: document.getElementById('nomeSquadra').value.trim(),
+            nome_squadra: document.getElementById('nomeSquadra').value.trim(), // CAMBIATO
             telefono: document.getElementById('telefono').value.trim(),
             email: userEmail,
             data_iscrizione: new Date().toLocaleString('it-IT'),
@@ -1245,7 +1247,7 @@ async function inviaIscrizione() {
                 from_name: `${datiIscrizione.nome} ${datiIscrizione.cognome}`,
                 nome: datiIscrizione.nome,
                 cognome: datiIscrizione.cognome,
-                nome_squadra: datiIscrizione.nomesquadra,
+                nome_squadra: datiIscrizione.nome_squadra, // CAMBIATO
                 telefono: datiIscrizione.telefono,
                 email_utente: datiIscrizione.email,
                 data_iscrizione: datiIscrizione.data_iscrizione,
@@ -1257,7 +1259,6 @@ async function inviaIscrizione() {
             
         } catch (emailError) {
             console.error('Errore invio email:', emailError);
-            // Continua comunque, l'iscrizione è salvata su Supabase
         }
 
         // 3. MOSTRA MESSAGGIO DI SUCCESSO
@@ -1271,7 +1272,7 @@ async function inviaIscrizione() {
                 <p style="margin-bottom: 5px;">
                     📋 <strong>Dati inseriti:</strong><br>
                     - Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
-                    - Squadra: ${datiIscrizione.nomesquadra}<br>
+                    - Squadra: ${datiIscrizione.nome_squadra}<br> <!-- CAMBIATO -->
                     - Telefono: ${datiIscrizione.telefono}<br>
                     - Email: ${datiIscrizione.email}
                 </p>
@@ -1547,6 +1548,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
