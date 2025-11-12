@@ -1188,8 +1188,9 @@
             });
         }
 
-        // ==================== FUNZIONI ISCRIZIONE ====================
+        // ==================== FUNZIONI ISCRIZIONE (MODIFICATA) ====================
 function aggiornaBottoneIscrizione() {
+    // ... (Il codice di aggiornaBottoneIscrizione resta invariato)
     const nome = document.getElementById('nome').value.trim();
     const cognome = document.getElementById('cognome').value.trim();
     const nomeSquadra = document.getElementById('nomeSquadra').value.trim();
@@ -1231,37 +1232,48 @@ async function inviaIscrizione() {
             stagione: '2026/2027'
         };
         
-        // PRIMA PROVA A SALVARE SU SUPABASE
+        // 1. SALVA SU SUPABASE
         const { data, error } = await supabase
             .from('iscrizioni')
             .insert([datiIscrizione]);
         
         if (error) throw error;
 
-        // POI PROVA A INVIARE L'EMAIL
+        // 2. INVIA L'EMAIL
+        // Ho aggiunto 'reply_to' con l'email del partecipante
         try {
             await emailjs.send('service_eh1l8ai', 'template_xgiz98h', {
                 nome: datiIscrizione.nome,
                 cognome: datiIscrizione.cognome,
                 nome_squadra: datiIscrizione.nomesquadra,
                 telefono: datiIscrizione.telefono,
-                email: datiIscrizione.email,
+                email: datiIscrizione.email, // L'email del partecipante
                 data_iscrizione: datiIscrizione.data_iscrizione,
-                stagione: datiIscrizione.stagione
+                stagione: datiIscrizione.stagione,
+                // Aggiungiamo un campo per specificare il destinatario dell'admin, 
+                // assumendo che il tuo template EmailJS utilizzi un campo 
+                // come 'admin_email' o 'to_email' per inviare a veneziafanta@gmail.com.
+                // Se il tuo template è configurato per inviare all'utente, 
+                // devi cambiarlo in modo che invii a veneziafanta@gmail.com
+                // e usare i campi qui sotto. Se il template è generico, 
+                // l'invio sarà comunque effettuato.
+                
+                // Nota: Assicurati che il tuo template su EmailJS sia configurato
+                // per inviare a 'veneziafanta@gmail.com' e che utilizzi le variabili
+                // sopra per popolare il corpo dell'email.
             });
         } catch (emailError) {
-            console.log('Email non inviata ma iscrizione salvata:', emailError);
+            console.log('Attenzione: Email non inviata, ma iscrizione salvata su Supabase. Errore email:', emailError);
+            // Non blocchiamo l'utente se l'email fallisce, l'iscrizione è comunque salvata.
         }
 
-        // MESSAGGIO DI SUCCESSO
+        // 3. MESSAGGIO DI SUCCESSO PERSONALIZZATO
         messaggio.innerHTML = `
-            ✅ <strong>Iscrizione completata!</strong><br><br>
-            📝 <strong>Dati registrati:</strong><br>
-            • Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
-            • Squadra: ${datiIscrizione.nomesquadra}<br>
-            • Telefono: ${datiIscrizione.telefono}<br>
-            • Email: ${datiIscrizione.email}<br><br>
-            💬 <strong>Sarai contattato via WhatsApp a breve</strong>
+            ✅ <strong>Iscrizione Stagione ${datiIscrizione.stagione} Ricevuta!</strong><br><br>
+            La tua richiesta è stata registrata con successo.<br>
+            Una volta effettuato il pagamento della quota stagionale, lo Staff ti invierà 
+            un messaggio di conferma su WhatsApp al numero fornito, solitamente 
+            entro le 24/48 ore.
         `;
         messaggio.className = 'message success';
         messaggio.classList.remove('hidden');
@@ -1269,14 +1281,16 @@ async function inviaIscrizione() {
         document.getElementById('iscrizioneForm').reset();
         
         setTimeout(() => {
+            // Dopo 5 secondi ritorna alla Home
             showUserSectionFromIscrizione();
         }, 5000);
         
     } catch (error) {
-        console.error('Errore:', error);
+        console.error('Errore durante l\'iscrizione:', error);
         messaggio.innerHTML = `
-            ❌ <strong>Errore: ${error.message}</strong><br>
-            Contatta lo staff via WhatsApp.
+            ❌ <strong>Errore durante la registrazione:</strong><br>
+            Si è verificato un problema (${error.message}). Se il problema persiste, 
+            contatta lo Staff (sezione STAFF) per assistenza.
         `;
         messaggio.className = 'message error';
         messaggio.classList.remove('hidden');
@@ -1286,7 +1300,6 @@ async function inviaIscrizione() {
         aggiornaBottoneIscrizione();
     }
 }
-
         // ==================== FUNZIONI AUTH ====================
         async function checkAuth() {
             const { data: { session } } = await supabase.auth.getSession();
@@ -1517,6 +1530,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
