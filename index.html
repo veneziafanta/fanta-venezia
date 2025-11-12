@@ -1206,47 +1206,69 @@
         }
 
         async function inviaIscrizione() {
-            const bottone = document.getElementById('inviaIscrizione');
-            const messaggio = document.getElementById('iscrizioneMessage');
-            
-            bottone.disabled = true;
-            bottone.textContent = 'INVIO IN CORSO...';
-            bottone.style.background = '#6c757d';
-            
-            try {
-                const userEmail = await getCurrentUserEmail();
-                const datiIscrizione = {
-                    nome: document.getElementById('nome').value.trim(),
-                    cognome: document.getElementById('cognome').value.trim(),
-                    nomesquadra: document.getElementById('nomeSquadra').value.trim(),
-                    telefono: document.getElementById('telefono').value.trim(),
-                    email: userEmail,
-                    data_iscrizione: new Date().toLocaleString('it-IT')
-                };
-                
-                await emailjs.send('service_eh1l8ai', 'template_xgiz98h', datiIscrizione);
-                
-                messaggio.textContent = '✅ Iscrizione inviata con successo!';
-                messaggio.className = 'message success';
-                messaggio.classList.remove('hidden');
-                
-                document.getElementById('iscrizioneForm').reset();
-                
-                setTimeout(() => {
-                    showUserSectionFromIscrizione();
-                }, 3000);
-                
-            } catch (error) {
-                console.error('Errore:', error);
-                messaggio.textContent = '❌ Errore durante l\'invio. Riprova più tardi.';
-                messaggio.className = 'message error';
-                messaggio.classList.remove('hidden');
-                
-                bottone.disabled = false;
-                bottone.textContent = 'INVIA ISCRIZIONE';
-                aggiornaBottoneIscrizione();
-            }
+    const bottone = document.getElementById('inviaIscrizione');
+    const messaggio = document.getElementById('iscrizioneMessage');
+    
+    bottone.disabled = true;
+    bottone.textContent = 'INVIO IN CORSO...';
+    bottone.style.background = '#6c757d';
+    
+    try {
+        const userEmail = await getCurrentUserEmail();
+        const datiIscrizione = {
+            nome: document.getElementById('nome').value.trim(),
+            cognome: document.getElementById('cognome').value.trim(),
+            nomesquadra: document.getElementById('nomeSquadra').value.trim(),
+            telefono: document.getElementById('telefono').value.trim(),
+            email: userEmail,
+            data_iscrizione: new Date().toLocaleString('it-IT')
+        };
+        
+        // Salva i dati nel database Supabase invece di EmailJS
+        const { data, error } = await supabase
+            .from('iscrizioni')
+            .insert([datiIscrizione]);
+        
+        if (error) {
+            throw error;
         }
+        
+        // MESSAGGIO DI SUCCESSO AGGIORNATO CON 2026/2027
+        messaggio.innerHTML = `
+            ✅ <strong>Richiesta di iscrizione inviata con successo!</strong><br><br>
+            📝 <strong>Riepilogo dati:</strong><br>
+            • Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
+            • Squadra: ${datiIscrizione.nomesquadra}<br>
+            • Telefono: ${datiIscrizione.telefono}<br>
+            • Email: ${datiIscrizione.email}<br><br>
+            💳 <strong>Prossimi passi:</strong><br>
+            Una volta ricevuta anche la quota di €30 per la stagione 2026/2027, ti confermeremo via WhatsApp l'iscrizione ufficiale!
+        `;
+        messaggio.className = 'message success';
+        messaggio.classList.remove('hidden');
+        
+        // Resetta il form
+        document.getElementById('iscrizioneForm').reset();
+        
+        // Torna alla home dopo 5 secondi
+        setTimeout(() => {
+            showUserSectionFromIscrizione();
+        }, 5000);
+        
+    } catch (error) {
+        console.error('Errore:', error);
+        messaggio.innerHTML = `
+            ❌ <strong>Errore durante l'invio</strong><br>
+            Riprova più tardi o contatta lo staff.
+        `;
+        messaggio.className = 'message error';
+        messaggio.classList.remove('hidden');
+        
+        bottone.disabled = false;
+        bottone.textContent = 'INVIA ISCRIZIONE';
+        aggiornaBottoneIscrizione();
+    }
+}
 
         async function getCurrentUserEmail() {
             const { data: { session } } = await supabase.auth.getSession();
@@ -1483,6 +1505,7 @@
     </script>
 </body>
 </html>
+
 
 
 
