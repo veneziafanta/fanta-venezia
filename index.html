@@ -1231,11 +1231,16 @@ async function inviaIscrizione() {
             stagione: '2026/2027'
         };
         
-        // 1. PRIMA INVIA L'EMAIL CON EMAILJS
-        const emailResult = await emailjs.send(
-            'service_eh1l8ai', 
-            'template_xgiz98h', 
-            {
+        // PRIMA PROVA A SALVARE SU SUPABASE
+        const { data, error } = await supabase
+            .from('iscrizioni')
+            .insert([datiIscrizione]);
+        
+        if (error) throw error;
+
+        // POI PROVA A INVIARE L'EMAIL
+        try {
+            await emailjs.send('service_eh1l8ai', 'template_xgiz98h', {
                 nome: datiIscrizione.nome,
                 cognome: datiIscrizione.cognome,
                 nome_squadra: datiIscrizione.nomesquadra,
@@ -1243,31 +1248,20 @@ async function inviaIscrizione() {
                 email: datiIscrizione.email,
                 data_iscrizione: datiIscrizione.data_iscrizione,
                 stagione: datiIscrizione.stagione
-            }
-        );
-
-        console.log('Email inviata:', emailResult);
-
-        // 2. POI SALVA SU SUPABASE
-        const { data, error } = await supabase
-            .from('iscrizioni')
-            .insert([datiIscrizione]);
-        
-        if (error) {
-            console.error('Errore Supabase:', error);
-            // Continua comunque perché l'email è stata inviata
+            });
+        } catch (emailError) {
+            console.log('Email non inviata ma iscrizione salvata:', emailError);
         }
 
         // MESSAGGIO DI SUCCESSO
         messaggio.innerHTML = `
-            ✅ <strong>Iscrizione inviata con successo!</strong><br><br>
-            📝 <strong>Riepilogo dati:</strong><br>
+            ✅ <strong>Iscrizione completata!</strong><br><br>
+            📝 <strong>Dati registrati:</strong><br>
             • Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
             • Squadra: ${datiIscrizione.nomesquadra}<br>
             • Telefono: ${datiIscrizione.telefono}<br>
             • Email: ${datiIscrizione.email}<br><br>
-            📧 <strong>Email di conferma inviata allo staff</strong><br>
-            Riceverai conferma via WhatsApp entro 24 ore
+            💬 <strong>Sarai contattato via WhatsApp a breve</strong>
         `;
         messaggio.className = 'message success';
         messaggio.classList.remove('hidden');
@@ -1281,8 +1275,8 @@ async function inviaIscrizione() {
     } catch (error) {
         console.error('Errore:', error);
         messaggio.innerHTML = `
-            ❌ <strong>Errore durante l'invio</strong><br>
-            Riprova più tardi o contatta lo staff via WhatsApp.
+            ❌ <strong>Errore: ${error.message}</strong><br>
+            Contatta lo staff via WhatsApp.
         `;
         messaggio.className = 'message error';
         messaggio.classList.remove('hidden');
@@ -1523,6 +1517,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
