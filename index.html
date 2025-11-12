@@ -1186,26 +1186,26 @@
         }
 
         // ==================== FUNZIONI ISCRIZIONE ====================
-        function aggiornaBottoneIscrizione() {
-            const nome = document.getElementById('nome').value.trim();
-            const cognome = document.getElementById('cognome').value.trim();
-            const nomeSquadra = document.getElementById('nomeSquadra').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const termini = document.getElementById('termini').checked;
-            const bottone = document.getElementById('inviaIscrizione');
-            
-            const formCompleto = nome && cognome && nomeSquadra && telefono && termini;
-            
-            if (formCompleto) {
-                bottone.disabled = false;
-                bottone.style.background = '#28a745';
-            } else {
-                bottone.disabled = true;
-                bottone.style.background = '#6c757d';
-            }
-        }
+function aggiornaBottoneIscrizione() {
+    const nome = document.getElementById('nome').value.trim();
+    const cognome = document.getElementById('cognome').value.trim();
+    const nomeSquadra = document.getElementById('nomeSquadra').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    const termini = document.getElementById('termini').checked;
+    const bottone = document.getElementById('inviaIscrizione');
+    
+    const formCompleto = nome && cognome && nomeSquadra && telefono && termini;
+    
+    if (formCompleto) {
+        bottone.disabled = false;
+        bottone.style.background = '#28a745';
+    } else {
+        bottone.disabled = true;
+        bottone.style.background = '#6c757d';
+    }
+}
 
-        async function inviaIscrizione() {
+async function inviaIscrizione() {
     const bottone = document.getElementById('inviaIscrizione');
     const messaggio = document.getElementById('iscrizioneMessage');
     
@@ -1221,10 +1221,11 @@
             nomesquadra: document.getElementById('nomeSquadra').value.trim(),
             telefono: document.getElementById('telefono').value.trim(),
             email: userEmail,
-            data_iscrizione: new Date().toLocaleString('it-IT')
+            data_iscrizione: new Date().toLocaleString('it-IT'),
+            stagione: '2026/2027'
         };
         
-        // Salva i dati nel database Supabase invece di EmailJS
+        // Salva i dati nel database Supabase
         const { data, error } = await supabase
             .from('iscrizioni')
             .insert([datiIscrizione]);
@@ -1233,7 +1234,7 @@
             throw error;
         }
         
-        // MESSAGGIO DI SUCCESSO AGGIORNATO CON 2026/2027
+        // MESSAGGIO DI SUCCESSO
         messaggio.innerHTML = `
             ✅ <strong>Richiesta di iscrizione inviata con successo!</strong><br><br>
             📝 <strong>Riepilogo dati:</strong><br>
@@ -1247,10 +1248,8 @@
         messaggio.className = 'message success';
         messaggio.classList.remove('hidden');
         
-        // Resetta il form
         document.getElementById('iscrizioneForm').reset();
         
-        // Torna alla home dopo 5 secondi
         setTimeout(() => {
             showUserSectionFromIscrizione();
         }, 5000);
@@ -1269,11 +1268,6 @@
         aggiornaBottoneIscrizione();
     }
 }
-
-        async function getCurrentUserEmail() {
-            const { data: { session } } = await supabase.auth.getSession();
-            return session?.user?.email || 'Email non disponibile';
-        }
 
         // ==================== FUNZIONI AUTH ====================
         async function checkAuth() {
@@ -1505,6 +1499,7 @@
     </script>
 </body>
 </html>
+
 
 
 
