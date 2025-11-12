@@ -1028,10 +1028,9 @@
         const supabaseUrl = 'https://norfhoxpzdnbainkbwlw.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-        // Inizializza EmailJS
-(function() {
-    emailjs.init("Q43lIRoGk8Gy3AuET");
-})();
+                // Inizializza EmailJS
+        emailjs.init("Q43lIRoGk8Gy3AuET");
+        console.log('EmailJS inizializzato');
 
         const pdfs = [
             { 
@@ -1548,6 +1547,7 @@ async function inviaIscrizione() {
     </script>
 </body>
 </html>
+
 
 
 
