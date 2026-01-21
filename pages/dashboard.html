@@ -1,0 +1,102 @@
+<div class="container">
+    <div class="header">
+        <h1>🏆 FantaVenezia</h1>
+        <p>Benvenuto nella tua area riservata</p>
+    </div>
+
+    <div class="content">
+        <div class="user-info">
+            <h2>👋 Bentornato!</h2>
+            <p id="userEmail">Email: <span id="currentUserEmail">Caricamento...</span></p>
+            <p style="margin-top: 10px; font-size: 12px; color: #6c757d;">
+                Accesso effettuato correttamente
+            </p>
+        </div>
+
+        <div class="actions-section">
+            <h3>📋 AZIONI DISPONIBILI</h3>
+            
+            <div class="actions-grid">
+                <button class="action-btn" style="background: #28a745;" onclick="goToIscrizione()">
+                    <span class="btn-icon">📝</span>
+                    ISCRIZIONE 2026/2027
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Iscriviti alla nuova stagione
+                    </div>
+                </button>
+                
+                <button class="action-btn" style="background: #28a745;" onclick="goToDownload()">
+                    <span class="btn-icon">📥</span>
+                    DOWNLOAD
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Vai alla pagina download
+                    </div>
+                </button>
+
+                <button class="action-btn" style="background: #dc3545;" onclick="apriClassificheLive()">
+                    <span class="btn-icon">📊</span>
+                    CLASSIFICHE LIVE
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Vai alle classifiche ufficiali
+                    </div>
+                </button>
+
+                <button class="action-btn" style="background: #ffd700; color: #000;" onclick="goToAlboOro()">
+                    <span class="btn-icon">🏆</span>
+                    ALBO D'ORO
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Storia dei vincitori
+                    </div>
+                </button>
+
+                <button class="action-btn" style="background: #17a2b8;" onclick="goToPartecipanti()">
+                    <span class="btn-icon">👥</span>
+                    PARTECIPANTI
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Lista partecipanti stagione
+                    </div>
+                </button>
+
+                <button class="action-btn" style="background: #20c997;" onclick="goToStaff()">
+                    <span class="btn-icon">👨‍💼</span>
+                    STAFF
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Contatta lo staff
+                    </div>
+                </button>
+
+                <button class="action-btn" style="background: #6c757d;" onclick="goToQuota()">
+                    <span class="btn-icon">💳</span>
+                    QUOTA ISCRIZIONE
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Pagamento quota stagionale
+                    </div>
+                </button>
+
+                <button class="action-btn" style="background: #ff6b6b;" onclick="goToDonazioni()">
+                    <span class="btn-icon">❤️</span>
+                    DONAZIONI
+                    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                        Supporta il fantacalcio
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button class="btn btn-secondary" onclick="logout()">ESCI</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// Aggiorna email utente quando la pagina dashboard viene caricata
+document.addEventListener('DOMContentLoaded', function() {
+    const emailSpan = document.getElementById('currentUserEmail');
+    if (currentUser && currentUser.email) {
+        emailSpan.textContent = currentUser.email;
+    } else {
+        emailSpan.textContent = 'Non disponibile';
+    }
+});
+</script>

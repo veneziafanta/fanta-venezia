@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="header">
+        <h1>📝 Iscrizione Stagione 2026/2027</h1>
+        <p>Compila il form per iscriverti</p>
+    </div>
+
+    <div class="content">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2>📝 ISCRIZIONE STAGIONE 2026/2027</h2>
+            <p>Compila il form per iscriverti alla nuova stagione</p>
+        </div>
+
+        <div id="iscrizioneForm">
+            <div class="form-group">
+                <input type="text" id="nome" name="nome" placeholder="Nome *" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" id="cognome" name="cognome" placeholder="Cognome *" required>
+            </div>
+            
+            <div class="form-group">
+                <input type="text" id="nomeSquadra" name="nomesquadra" placeholder="Nome Squadra *" required>
+                <small>Potrai modificare il nome squadra successivamente</small>
+            </div>
+            
+            <div class="form-group">
+                <input type="tel" id="telefono" name="telefono" placeholder="Numero di Telefono *" required>
+                <small>Utilizzato solo per l'aggiunta al gruppo WhatsApp</small>
+            </div>
+            
+            <div class="checkbox-group">
+                <input type="checkbox" id="termini" name="termini" required>
+                <label for="termini">
+                    Accetto i 
+                    <a href="#" onclick="apriTermini()" class="link">
+                        Termini e Condizioni
+                    </a>
+                    del Fantacalcio Venezia *
+                </label>
+            </div>
+
+            <button type="button" id="inviaIscrizione" class="btn" disabled style="background: #6c757d;" onclick="inviaIscrizione(event)">
+                INVIA ISCRIZIONE
+            </button>
+        </div>
+
+        <div id="iscrizioneMessage" class="message hidden"></div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <button class="btn btn-secondary" onclick="goToDashboard()">
+                ← Torna alla Home
+            </button>
+        </div>
+    </div>
+</div>
