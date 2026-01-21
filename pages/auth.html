@@ -1,0 +1,59 @@
+<div class="container">
+    <div class="header">
+        <h1>🏆 FantaVenezia</h1>
+        <p>La community ufficiale del fantacalcio veneziano</p>
+    </div>
+
+    <div class="content">
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab active" data-tab="login">ACCEDI</button>
+            <button class="tab" data-tab="register">REGISTRATI</button>
+        </div>
+
+        <!-- LOGIN -->
+        <div id="loginTab">
+            <div class="form-group">
+                <input type="email" id="loginEmail" placeholder="La tua email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="loginPassword" placeholder="La tua password" required>
+            </div>
+            <button class="btn" onclick="login()">ACCEDI AL SITO</button>
+            <div style="text-align: center; margin-top: 15px;">
+                <a class="link" onclick="showTab('reset')">Password dimenticata?</a>
+            </div>
+            <div id="loginMessage" class="message hidden"></div>
+        </div>
+
+        <!-- REGISTRAZIONE -->
+        <div id="registerTab" class="hidden">
+            <div class="form-group">
+                <input type="email" id="regEmail" placeholder="La tua email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="regPassword" placeholder="Password (min. 6 caratteri)" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="regConfirm" placeholder="Conferma password" required>
+            </div>
+            <button class="btn" onclick="register()">CREA ACCOUNT</button>
+            <div id="registerMessage" class="message hidden"></div>
+        </div>
+
+        <!-- RESET PASSWORD -->
+        <div id="resetTab" class="hidden">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <p>Inserisci la tua email per ricevere il link di reset</p>
+            </div>
+            <div class="form-group">
+                <input type="email" id="resetEmail" placeholder="La tua email" required>
+            </div>
+            <button class="btn" onclick="resetPassword()">INVIA LINK DI RESET</button>
+            <div class="back-link">
+                <a class="link" onclick="showTab('login')">← Torna al login</a>
+            </div>
+            <div id="resetMessage" class="message hidden"></div>
+        </div>
+    </div>
+</div>
