@@ -8,485 +8,486 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
-    .container {
-        background: white;
-        border-radius: 20px;
-        box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-        width: 100%;
-        max-width: 500px;
-        overflow: hidden;
-    }
-
-    .header {
-        background: linear-gradient(135deg, #1a5fb4 0%, #0d47a1 100%);
-        color: white;
-        padding: 40px 30px;
-        text-align: center;
-    }
-
-    .header h1 {
-        font-size: 32px;
-        margin-bottom: 8px;
-        font-weight: 700;
-    }
-
-    .header p {
-        opacity: 0.9;
-        font-size: 16px;
-        font-weight: 400;
-    }
-
-    .content {
-        padding: 40px 30px;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-    }
-
-    input {
-        width: 100%;
-        padding: 16px;
-        border: 2px solid #e1e5e9;
-        border-radius: 12px;
-        font-size: 16px;
-        transition: all 0.3s;
-        font-family: 'Inter', sans-serif;
-    }
-
-    input:focus {
-        outline: none;
-        border-color: #1a5fb4;
-        box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
-    }
-
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        margin: 0;
-    }
-
-    .btn {
-        width: 100%;
-        padding: 16px;
-        background: #1a5fb4;
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 16px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        margin: 10px 0;
-        font-family: 'Inter', sans-serif;
-    }
-
-    .btn:hover {
-        background: #0d47a1;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    }
-
-    .btn-success {
-        background: #28a745;
-    }
-
-    .btn-success:hover {
-        background: #218838;
-    }
-
-    .btn-secondary {
-        background: #6c757d;
-    }
-
-    .btn-secondary:hover {
-        background: #5a6268;
-    }
-
-    .btn-gold {
-        background: #ffd700;
-        color: #000;
-    }
-
-    .btn-gold:hover {
-        background: #ffed4e;
-    }
-
-    .link {
-        color: #1a5fb4;
-        text-decoration: none;
-        font-size: 14px;
-        cursor: pointer;
-        font-weight: 500;
-    }
-
-    .link:hover {
-        text-decoration: underline;
-    }
-
-    .message {
-        padding: 16px;
-        border-radius: 12px;
-        margin: 20px 0;
-        text-align: center;
-        font-size: 14px;
-        font-weight: 500;
-    }
-
-    .success {
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    .error {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-
-    .hidden {
-        display: none;
-    }
-
-    .user-info {
-        text-align: center;
-        margin-bottom: 30px;
-        padding: 30px;
-        background: #f8f9fa;
-        border-radius: 16px;
-    }
-
-    .user-info h2 {
-        color: #1a5fb4;
-        margin-bottom: 10px;
-        font-size: 24px;
-    }
-
-    .user-info p {
-        color: #6c757d;
-        font-size: 14px;
-    }
-
-    .actions-section {
-        margin: 30px 0;
-    }
-
-    .actions-section h3 {
-        color: #1a5fb4;
-        margin-bottom: 25px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: 600;
-    }
-
-    .actions-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    @media (min-width: 480px) {
-        .actions-grid {
-            grid-template-columns: 1fr 1fr;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-    }
 
-    .action-btn {
-        padding: 25px 20px;
-        color: white;
-        border: none;
-        border-radius: 16px;
-        font-size: 18px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-align: center;
-    }
-
-    .action-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-
-    .action-btn .btn-icon {
-        font-size: 32px;
-        margin-bottom: 10px;
-        display: block;
-    }
-
-    .back-link {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .tabs {
-        display: flex;
-        margin-bottom: 25px;
-        border-bottom: 2px solid #e9ecef;
-    }
-
-    .tab {
-        flex: 1;
-        padding: 16px;
-        text-align: center;
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: #6c757d;
-        border-bottom: 3px solid transparent;
-        font-weight: 500;
-    }
-
-    .tab.active {
-        color: #1a5fb4;
-        border-bottom-color: #1a5fb4;
-        font-weight: 600;
-    }
-
-    .documents-list {
-        margin: 25px 0;
-    }
-
-    .document-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 25px;
-        background: #f8f9fa;
-        border: 2px solid #e9ecef;
-        border-radius: 16px;
-        margin-bottom: 18px;
-        transition: all 0.3s;
-    }
-
-    .document-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .document-info {
-        display: flex;
-        align-items: center;
-        flex: 1;
-    }
-
-    .document-icon {
-        font-size: 36px;
-        margin-right: 18px;
-    }
-
-    .document-details h4 {
-        margin: 0;
-        color: #1a5fb4;
-        font-size: 18px;
-        font-weight: 600;
-    }
-
-    .document-details p {
-        margin: 6px 0 0 0;
-        color: #6c757d;
-        font-size: 14px;
-    }
-
-    .season-list {
-        margin: 25px 0;
-    }
-
-    .season-item {
-        padding: 30px;
-        background: #f8f9fa;
-        border: 2px solid #e9ecef;
-        border-radius: 16px;
-        margin-bottom: 18px;
-    }
-
-    .season-header {
-        text-align: center;
-        margin-bottom: 25px;
-    }
-
-    .season-header h3 {
-        color: #1a5fb4;
-        font-size: 24px;
-        margin-bottom: 12px;
-        font-weight: 600;
-    }
-
-    .trophy-section {
-        margin-bottom: 25px;
-    }
-
-    .trophy-section h4 {
-        color: #ffd700;
-        font-size: 18px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-    }
-
-    .trophy-list {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid #e9ecef;
-    }
-
-    .trophy-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid #f1f3f4;
-    }
-
-    .trophy-item:last-child {
-        border-bottom: none;
-    }
-
-    .trophy-name {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-    }
-
-    .trophy-winner {
-        color: #1a5fb4;
-        font-weight: 600;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.7);
-    }
-
-    .modal-content {
-        background: white;
-        margin: 5% auto;
-        padding: 35px;
-        border-radius: 20px;
-        position: relative;
-        width: 90%;
-        max-width: 800px;
-        max-height: 80vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 25px;
-        font-size: 32px;
-        cursor: pointer;
-        color: #666;
-        font-weight: 300;
-    }
-
-    .close:hover {
-        color: #000;
-    }
-
-    small {
-        color: #666;
-        font-size: 12px;
-        display: block;
-        margin-top: 6px;
-    }
-
-    .checkbox-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        margin: 18px 0;
-    }
-
-    .checkbox-group label {
-        text-align: left;
-        font-size: 14px;
-        line-height: 1.4;
-    }
-
-    @media (max-width: 480px) {
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
         .container {
-            margin: 10px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+            width: 100%;
+            max-width: 500px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a5fb4 0%, #0d47a1 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 16px;
+            font-weight: 400;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.3s;
+            font-family: 'Inter', sans-serif;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #1a5fb4;
+            box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
+        }
+
+        input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin: 0;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            background: #1a5fb4;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:hover {
+            background: #0d47a1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+
+        .btn-success {
+            background: #28a745;
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-gold {
+            background: #ffd700;
+            color: #000;
+        }
+
+        .btn-gold:hover {
+            background: #ffed4e;
+        }
+
+        .link {
+            color: #1a5fb4;
+            text-decoration: none;
+            font-size: 14px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        .message {
+            padding: 16px;
+            border-radius: 12px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .user-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: #f8f9fa;
             border-radius: 16px;
         }
-        
-        .content {
-            padding: 30px 20px;
+
+        .user-info h2 {
+            color: #1a5fb4;
+            margin-bottom: 10px;
+            font-size: 24px;
         }
-        
-        .header {
-            padding: 30px 20px;
+
+        .user-info p {
+            color: #6c757d;
+            font-size: 14px;
         }
-        
-        .header h1 {
-            font-size: 28px;
+
+        .actions-section {
+            margin: 30px 0;
         }
-        
-        .document-item {
-            flex-direction: column;
+
+        .actions-section h3 {
+            color: #1a5fb4;
+            margin-bottom: 25px;
             text-align: center;
-            gap: 18px;
+            font-size: 22px;
+            font-weight: 600;
         }
-        
-        .document-info {
-            flex-direction: column;
+
+        .actions-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
         }
-        
-        .document-icon {
-            margin-right: 0;
-            margin-bottom: 12px;
+
+        @media (min-width: 480px) {
+            .actions-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
-        
-        .modal-content {
-            margin: 10% auto;
-            padding: 25px;
-        }
-        
-        .trophy-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
-        }
-        
+
         .action-btn {
-            padding: 22px 18px;
-            font-size: 16px;
+            padding: 25px 20px;
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
         }
-        
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+
         .action-btn .btn-icon {
-            font-size: 28px;
+            font-size: 32px;
+            margin-bottom: 10px;
+            display: block;
         }
-    }
-</style>
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #e9ecef;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 16px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            font-weight: 500;
+        }
+
+        .tab.active {
+            color: #1a5fb4;
+            border-bottom-color: #1a5fb4;
+            font-weight: 600;
+        }
+
+        .documents-list {
+            margin: 25px 0;
+        }
+
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            margin-bottom: 18px;
+            transition: all 0.3s;
+        }
+
+        .document-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .document-info {
+            display: flex;
+            align-items: center;
+            flex: 1;
+        }
+
+        .document-icon {
+            font-size: 36px;
+            margin-right: 18px;
+        }
+
+        .document-details h4 {
+            margin: 0;
+            color: #1a5fb4;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .document-details p {
+            margin: 6px 0 0 0;
+            color: #6c757d;
+            font-size: 14px;
+        }
+
+        .season-list {
+            margin: 25px 0;
+        }
+
+        .season-item {
+            padding: 30px;
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 16px;
+            margin-bottom: 18px;
+        }
+
+        .season-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .season-header h3 {
+            color: #1a5fb4;
+            font-size: 24px;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .trophy-section {
+            margin-bottom: 25px;
+        }
+
+        .trophy-section h4 {
+            color: #ffd700;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .trophy-list {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid #e9ecef;
+        }
+
+        .trophy-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f3f4;
+        }
+
+        .trophy-item:last-child {
+            border-bottom: none;
+        }
+
+        .trophy-name {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+        }
+
+        .trophy-winner {
+            color: #1a5fb4;
+            font-weight: 600;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+        }
+
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 35px;
+            border-radius: 20px;
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 32px;
+            cursor: pointer;
+            color: #666;
+            font-weight: 300;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        small {
+            color: #666;
+            font-size: 12px;
+            display: block;
+            margin-top: 6px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin: 18px 0;
+        }
+
+        .checkbox-group label {
+            text-align: left;
+            font-size: 14px;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 10px;
+                border-radius: 16px;
+            }
+            
+            .content {
+                padding: 30px 20px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .document-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 18px;
+            }
+            
+            .document-info {
+                flex-direction: column;
+            }
+            
+            .document-icon {
+                margin-right: 0;
+                margin-bottom: 12px;
+            }
+            
+            .modal-content {
+                margin: 10% auto;
+                padding: 25px;
+            }
+            
+            .trophy-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 6px;
+            }
+            
+            .action-btn {
+                padding: 22px 18px;
+                font-size: 16px;
+            }
+            
+            .action-btn .btn-icon {
+                font-size: 28px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -549,22 +550,6 @@
                 </div>
             </div>
 
-            <!-- SEZIONE CAMBIO PASSWORD -->
-            <div id="changePasswordSection" class="hidden">
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2>Imposta Nuova Password</h2>
-                    <p>Crea una nuova password per il tuo account</p>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="newPassword" placeholder="Nuova password (min. 6 caratteri)" required>
-                </div>
-                <div class="form-group">
-                    <input type="password" id="confirmNewPassword" placeholder="Conferma nuova password" required>
-                </div>
-                <button class="btn" onclick="changePassword()">SALVA NUOVA PASSWORD</button>
-                <div id="changePasswordMessage" class="message hidden"></div>
-            </div>
-
             <!-- SEZIONE UTENTE LOGGATO -->
             <div id="userSection" class="hidden">
                 <div class="user-info">
@@ -580,12 +565,12 @@
                     
                     <div class="actions-grid">
                         <button class="action-btn" style="background: #28a745;" onclick="showIscrizionePage()">
-    <span class="btn-icon">📝</span>
-    ISCRIZIONE 2026/2027
-    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-        Iscriviti alla nuova stagione
-    </div>
-</button>
+                            <span class="btn-icon">📝</span>
+                            ISCRIZIONE 2026/2027
+                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                                Iscriviti alla nuova stagione
+                            </div>
+                        </button>
                         
                         <button class="action-btn" style="background: #28a745;" onclick="showDownloadPage()">
                             <span class="btn-icon">📥</span>
@@ -692,7 +677,7 @@
                 </div>
             </div>
 
-                       <!-- SEZIONE ISCRIZIONE -->
+            <!-- SEZIONE ISCRIZIONE -->
             <div id="iscrizioneSection" class="hidden">
                 <div style="text-align: center; margin-bottom: 30px;">
                     <h2>📝 ISCRIZIONE STAGIONE 2026/2027</h2>
@@ -907,120 +892,123 @@
                 </div>
             </div>
 
-           <!-- SEZIONE STAFF -->
-<div id="staffPage" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>👨‍💼 STAFF FANTACALCIO VENEZIA</h2>
-        <p>Se hai bisogno di assistenza contatta il nostro staff via WhatsApp</p>
-    </div>
-
-    <div class="season-item">
-        <div class="season-header">
-            <h3>Il Nostro Team</h3>
-        </div>
-        
-        <div class="trophy-list">
-            <div style="margin-bottom: 20px;">
-                <div class="trophy-name" style="margin-bottom: 15px; font-size: 18px;">
-                    <strong>Organizzatori</strong>
+            <!-- SEZIONE STAFF -->
+            <div id="staffPage" class="hidden">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2>👨‍💼 STAFF FANTACALCIO VENEZIA</h2>
+                    <p>Se hai bisogno di assistenza contatta il nostro staff via WhatsApp</p>
                 </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Davide Galvan</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Alessandro Gandini</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Marco Molin Pradel</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Andrea Favaro</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Davide Travaglia</div>
+
+                <div class="season-item">
+                    <div class="season-header">
+                        <h3>Il Nostro Team</h3>
+                    </div>
+                    
+                    <div class="trophy-list">
+                        <div style="margin-bottom: 20px;">
+                            <div class="trophy-name" style="margin-bottom: 15px; font-size: 18px;">
+                                <strong>Organizzatori</strong>
+                            </div>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Davide Galvan</div>
+                                <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Alessandro Gandini</div>
+                                <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Marco Molin Pradel</div>
+                                <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Andrea Favaro</div>
+                                <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Davide Travaglia</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
 
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="tornaAllaHomeDaStaff()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
-          <!-- SEZIONE QUOTA ISCRIZIONE -->
-<div id="quotaIscrizionePage" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>💳 QUOTA ISCRIZIONE</h2>
-        <p>Pagamento quota stagionale</p>
-    </div>
-
-    <div class="season-item" style="text-align: center; padding: 40px;">
-        <h3 style="color: #1a5fb4; margin-bottom: 20px;">Pagamento Quota Stagione 2026/27</h3>
-        <p style="margin-bottom: 20px; font-size: 18px;">
-            <strong>Importo:</strong> €30,00
-        </p>
-       
-        <!-- PULSANTE PAYPAL PER QUOTA -->
-        <div style="margin: 30px 0;">
-            <a href="https://paypal.me/fantavenezia/30" target="_blank" 
-               class="btn" 
-               style="background: #0070ba; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
-                💳 Paga Quota €30 con PayPal
-            </a>
-        </div>
-        
-        <p style="color: #6c757d; font-size: 14px; margin-top: 20px;">
-            <strong>Importante:</strong> Dopo il pagamento, conserva la ricevuta
-        </p>
-    </div>
-
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="tornaAllaHomeDaQuota()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
-
-<!-- SEZIONE DONAZIONI -->
-<div id="donazioniPage" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>❤️ DONAZIONI</h2>
-        <p>Supporta FantaVenezia</p>
-    </div>
-
-    <div class="season-item" style="text-align: center; padding: 40px;">
-        <p style="margin-bottom: 20px; font-size: 16px;">
-            Le donazioni sostengono i costi del fantacalcio e lo sviluppo della community FantaVenezia! 
-            Ogni contributo è apprezzato 💙
-        </p>
-        
-        <!-- PULSANTE KO-FI -->
-        <div style="margin: 30px 0;">
-            <a href="https://ko-fi.com/fantavenezia" target="_blank" 
-               class="btn" 
-               style="background: #29ABE0; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
-                ☕ Dona su Ko-fi
-            </a>
-        </div>
-        
-        <p style="font-size: 14px; color: #6c757d; margin-top: 20px;">
-            Ko-fi è 100% gratis - zero commissioni! Donazioni libere e sicure.
-        </p>
-    </div>
-
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="tornaAllaHomeDaDonazioni()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
-
-    <!-- MODAL TERMINI E CONDIZIONI -->
-    <div id="terminiModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="chiudiTermini()">×</span>
-            <h3 style="text-align: center; margin-bottom: 20px;">Termini e Condizioni - Fantacalcio Venezia</h3>
-            <div id="terminiContent">
-                <div style="text-align: center; padding: 40px;">
-                    <p>Caricamento termini e condizioni...</p>
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-secondary" onclick="tornaAllaHomeDaStaff()">
+                        ← Torna alla Home
+                    </button>
                 </div>
             </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="chiudiTermini()">Chiudi</button>
+
+            <!-- SEZIONE QUOTA ISCRIZIONE -->
+            <div id="quotaIscrizionePage" class="hidden">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2>💳 QUOTA ISCRIZIONE</h2>
+                    <p>Pagamento quota stagionale</p>
+                </div>
+
+                <div class="season-item" style="text-align: center; padding: 40px;">
+                    <h3 style="color: #1a5fb4; margin-bottom: 20px;">Pagamento Quota Stagione 2026/27</h3>
+                    <p style="margin-bottom: 20px; font-size: 18px;">
+                        <strong>Importo:</strong> €30,00
+                    </p>
+                
+                    <!-- PULSANTE PAYPAL PER QUOTA -->
+                    <div style="margin: 30px 0;">
+                        <a href="https://paypal.me/fantavenezia/30" target="_blank" 
+                           class="btn" 
+                           style="background: #0070ba; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
+                            💳 Paga Quota €30 con PayPal
+                        </a>
+                    </div>
+                    
+                    <p style="color: #6c757d; font-size: 14px; margin-top: 20px;">
+                        <strong>Importante:</strong> Dopo il pagamento, conserva la ricevuta
+                    </p>
+                </div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-secondary" onclick="tornaAllaHomeDaQuota()">
+                        ← Torna alla Home
+                    </button>
+                </div>
+            </div>
+
+            <!-- SEZIONE DONAZIONI -->
+            <div id="donazioniPage" class="hidden">
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h2>❤️ DONAZIONI</h2>
+                    <p>Supporta FantaVenezia</p>
+                </div>
+
+                <div class="season-item" style="text-align: center; padding: 40px;">
+                    <p style="margin-bottom: 20px; font-size: 16px;">
+                        Le donazioni sostengono i costi del fantacalcio e lo sviluppo della community FantaVenezia! 
+                        Ogni contributo è apprezzato 💙
+                    </p>
+                    
+                    <!-- PULSANTE KO-FI -->
+                    <div style="margin: 30px 0;">
+                        <a href="https://ko-fi.com/fantavenezia" target="_blank" 
+                           class="btn" 
+                           style="background: #29ABE0; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
+                            ☕ Dona su Ko-fi
+                        </a>
+                    </div>
+                    
+                    <p style="font-size: 14px; color: #6c757d; margin-top: 20px;">
+                        Ko-fi è 100% gratis - zero commissioni! Donazioni libere e sicure.
+                    </p>
+                </div>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <button class="btn btn-secondary" onclick="tornaAllaHomeDaDonazioni()">
+                        ← Torna alla Home
+                    </button>
+                </div>
+            </div>
+
+            <!-- MODAL TERMINI E CONDIZIONI -->
+            <div id="terminiModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="chiudiTermini()">×</span>
+                    <h3 style="text-align: center; margin-bottom: 20px;">Termini e Condizioni - Fantacalcio Venezia</h3>
+                    <div id="terminiContent">
+                        <div style="text-align: center; padding: 40px;">
+                            <p>Caricamento termini e condizioni...</p>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-secondary" onclick="chiudiTermini()">Chiudi</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -1030,9 +1018,10 @@
         const supabaseUrl = 'https://norfhoxpzdnbainkbwlw.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                 // Inizializza EmailJS
+        
+        // Inizializza EmailJS
         emailjs.init("Q43lIRoGk8Gy3AuET");
-        console.log('EmailJS inizializzato con template_bqk6pxy');
+        
         const pdfs = [
             { 
                 name: "Regolamento - Fantacalcio Venezia.pdf", 
@@ -1047,7 +1036,7 @@
         // ==================== FUNZIONI PAGINE ====================
         function hideAllSections() {
             const sections = [
-                'authSection', 'changePasswordSection', 'userSection', 'downloadPage',
+                'authSection', 'userSection', 'downloadPage',
                 'iscrizioneSection', 'alboOroPage', 'stagione2526Page', 'partecipantiPage',
                 'listaPartecipanti2526Page', 'staffPage', 'quotaIscrizionePage', 'donazioniPage'
             ];
@@ -1078,7 +1067,12 @@
         function showIscrizionePage() {
             hideAllSections();
             document.getElementById('iscrizioneSection').classList.remove('hidden');
-            document.getElementById('iscrizioneForm').reset();
+            // Reset form
+            document.getElementById('nome').value = '';
+            document.getElementById('cognome').value = '';
+            document.getElementById('nomeSquadra').value = '';
+            document.getElementById('telefono').value = '';
+            document.getElementById('termini').checked = false;
             aggiornaBottoneIscrizione();
         }
 
@@ -1108,13 +1102,34 @@
         }
 
         // Funzioni di ritorno
-        function showUserSectionFromDownload() { showUserSection(getCurrentUserEmail()); }
-        function showUserSectionFromIscrizione() { showUserSection(getCurrentUserEmail()); }
-        function showUserSectionFromAlboOro() { showUserSection(getCurrentUserEmail()); }
-        function showUserSectionFromPartecipanti() { showUserSection(getCurrentUserEmail()); }
-        function tornaAllaHomeDaStaff() { showUserSection(getCurrentUserEmail()); }
-        function tornaAllaHomeDaQuota() { showUserSection(getCurrentUserEmail()); }
-        function tornaAllaHomeDaDonazioni() { showUserSection(getCurrentUserEmail()); }
+        function showUserSectionFromDownload() { 
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) showUserSection(session.user.email);
+        }
+        function showUserSectionFromIscrizione() { 
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) showUserSection(session.user.email);
+        }
+        function showUserSectionFromAlboOro() { 
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) showUserSection(session.user.email);
+        }
+        function showUserSectionFromPartecipanti() { 
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) showUserSection(session.user.email);
+        }
+        function tornaAllaHomeDaStaff() { 
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) showUserSection(session.user.email);
+        }
+        function tornaAllaHomeDaQuota() { 
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) showUserSection(session.user.email);
+        }
+        function tornaAllaHomeDaDonazioni() { 
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session?.user) showUserSection(session.user.email);
+        }
 
         // Funzioni navigazione secondarie
         function mostraStagione2526() {
@@ -1188,144 +1203,147 @@
             });
         }
 
-        // ==================== FUNZIONI ISCRIZIONE (MODIFICATA) ====================
-function aggiornaBottoneIscrizione() {
-    // ... (Il codice di aggiornaBottoneIscrizione resta invariato)
-    const nome = document.getElementById('nome').value.trim();
-    const cognome = document.getElementById('cognome').value.trim();
-    const nomeSquadra = document.getElementById('nomeSquadra').value.trim();
-    const telefono = document.getElementById('telefono').value.trim();
-    const termini = document.getElementById('termini').checked;
-    const bottone = document.getElementById('inviaIscrizione');
-    
-    const formCompleto = nome && cognome && nomeSquadra && telefono && termini;
-    
-    if (formCompleto) {
-        bottone.disabled = false;
-        bottone.style.background = '#28a745';
-    } else {
-        bottone.disabled = true;
-        bottone.style.background = '#6c757d';
-    }
-}
-async function getCurrentUserEmail() {
-    const { data: { session } } = await supabase.auth.getSession();
-    return session?.user?.email || 'Email non disponibile';
-}
-async function inviaIscrizione(event) {
-    if (event) event.preventDefault();
-    
-    const bottone = document.getElementById('inviaIscrizione');
-    const messaggio = document.getElementById('iscrizioneMessage');
-    
-    bottone.disabled = true;
-    bottone.textContent = 'INVIO IN CORSO...';
-    bottone.style.background = '#6c757d';
-    
-    try {
-        const userEmail = await getCurrentUserEmail();
-        const datiIscrizione = {
-            nome: document.getElementById('nome').value.trim(),
-            cognome: document.getElementById('cognome').value.trim(),
-            nome_squadra: document.getElementById('nomeSquadra').value.trim(),
-            telefono: document.getElementById('telefono').value.trim(),
-            email: userEmail,
-            data_iscrizione: new Date().toLocaleString('it-IT'),
-            stagione: '2026/2027'
-        };
-        
-        console.log('Dati da salvare:', datiIscrizione);
-        
-        // 1. SALVA SU SUPABASE
-        const { data, error } = await supabase
-            .from('iscrizioni')
-            .insert([datiIscrizione]);
-        
-        if (error) throw error;
-
-        // 2. INVIA L'EMAIL A STAFF
-        try {
-            await emailjs.send('service_eh1l8ai', 'template_bqk6pxy', {
-                to_email: 'veneziafanta@gmail.com',
-                from_name: `${datiIscrizione.nome} ${datiIscrizione.cognome}`,
-                nome: datiIscrizione.nome,
-                cognome: datiIscrizione.cognome,
-                nome_squadra: datiIscrizione.nome_squadra,
-                telefono: datiIscrizione.telefono,
-                email_utente: datiIscrizione.email,
-                data_iscrizione: datiIscrizione.data_iscrizione,
-                stagione: datiIscrizione.stagione,
-                subject: `Nuova Iscrizione Stagione ${datiIscrizione.stagione} - ${datiIscrizione.nome} ${datiIscrizione.cognome}`
-            });
+        // ==================== FUNZIONI ISCRIZIONE ====================
+        function aggiornaBottoneIscrizione() {
+            const nome = document.getElementById('nome').value.trim();
+            const cognome = document.getElementById('cognome').value.trim();
+            const nomeSquadra = document.getElementById('nomeSquadra').value.trim();
+            const telefono = document.getElementById('telefono').value.trim();
+            const termini = document.getElementById('termini').checked;
+            const bottone = document.getElementById('inviaIscrizione');
             
-            console.log('Email inviata con successo a veneziafanta@gmail.com');
+            const formCompleto = nome && cognome && nomeSquadra && telefono && termini;
             
-        } catch (emailError) {
-            console.error('Errore invio email:', emailError);
+            if (formCompleto) {
+                bottone.disabled = false;
+                bottone.style.background = '#28a745';
+            } else {
+                bottone.disabled = true;
+                bottone.style.background = '#6c757d';
+            }
         }
 
-        // 3. MOSTRA MESSAGGIO DI SUCCESSO
-        messaggio.innerHTML = `
-            <div style="text-align: center; padding: 15px;">
-                <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
-                <h3 style="color: #155724; margin-bottom: 15px;">Iscrizione Confermata!</h3>
-                <p style="margin-bottom: 10px;">
-                    <strong>La tua richiesta per la stagione ${datiIscrizione.stagione} è stata registrata con successo.</strong>
-                </p>
-                <p style="margin-bottom: 5px;">
-                    📋 <strong>Dati inseriti:</strong><br>
-                    - Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
-                    - Squadra: ${datiIscrizione.nome_squadra}<br>
-                    - Telefono: ${datiIscrizione.telefono}<br>
-                    - Email: ${datiIscrizione.email}
-                </p>
-                <p style="margin-top: 15px; padding: 12px; background: #e7f3ff; border-radius: 8px;">
-                    <strong>🚀 Prossimi passi:</strong><br>
-                    Una volta effettuato il pagamento della quota stagionale,<br>
-                    <strong>riceverai un messaggio WhatsApp di conferma dallo Staff entro 24/48 ore.</strong>
-                </p>
-                <p style="margin-top: 10px; font-size: 12px; color: #666;">
-                    Verrai reindirizzato alla home page tra 15 secondi...
-                </p>
-            </div>
-        `;
-        messaggio.className = 'message success';
-        messaggio.classList.remove('hidden');
-        
-        // RESET MANUALE DEI CAMPI (CORREZIONE)
-        document.getElementById('nome').value = '';
-        document.getElementById('cognome').value = '';
-        document.getElementById('nomeSquadra').value = '';
-        document.getElementById('telefono').value = '';
-        document.getElementById('termini').checked = false;
-        aggiornaBottoneIscrizione();
-        
-        // Reindirizza alla home dopo 5 secondi
-        setTimeout(() => {
-    showUserSectionFromIscrizione();
-}, 15000);
-        
-    } catch (error) {
-        console.error('Errore durante l\'iscrizione:', error);
-        messaggio.innerHTML = `
-            <div style="text-align: center; padding: 15px;">
-                <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
-                <h3 style="color: #721c24; margin-bottom: 10px;">Errore durante la registrazione</h3>
-                <p>Si è verificato un problema: ${error.message}</p>
-                <p style="margin-top: 15px; font-size: 14px;">
-                    Se il problema persiste, contatta lo Staff tramite la sezione "STAFF".
-                </p>
-            </div>
-        `;
-        messaggio.className = 'message error';
-        messaggio.classList.remove('hidden');
-        
-        // Riabilita il bottone
-        bottone.disabled = false;
-        bottone.textContent = 'INVIA ISCRIZIONE';
-        aggiornaBottoneIscrizione();
-    }
-}
+        async function getCurrentUserEmail() {
+            const { data: { session } } = await supabase.auth.getSession();
+            return session?.user?.email || 'Email non disponibile';
+        }
+
+        async function inviaIscrizione(event) {
+            if (event) event.preventDefault();
+            
+            const bottone = document.getElementById('inviaIscrizione');
+            const messaggio = document.getElementById('iscrizioneMessage');
+            
+            bottone.disabled = true;
+            bottone.textContent = 'INVIO IN CORSO...';
+            bottone.style.background = '#6c757d';
+            
+            try {
+                const userEmail = await getCurrentUserEmail();
+                const datiIscrizione = {
+                    nome: document.getElementById('nome').value.trim(),
+                    cognome: document.getElementById('cognome').value.trim(),
+                    nome_squadra: document.getElementById('nomeSquadra').value.trim(),
+                    telefono: document.getElementById('telefono').value.trim(),
+                    email: userEmail,
+                    data_iscrizione: new Date().toLocaleString('it-IT'),
+                    stagione: '2026/2027'
+                };
+                
+                console.log('Dati da salvare:', datiIscrizione);
+                
+                // 1. SALVA SU SUPABASE
+                const { data, error } = await supabase
+                    .from('iscrizioni')
+                    .insert([datiIscrizione]);
+                
+                if (error) throw error;
+
+                // 2. INVIA L'EMAIL A STAFF
+                try {
+                    await emailjs.send('service_eh1l8ai', 'template_bqk6pxy', {
+                        to_email: 'veneziafanta@gmail.com',
+                        from_name: `${datiIscrizione.nome} ${datiIscrizione.cognome}`,
+                        nome: datiIscrizione.nome,
+                        cognome: datiIscrizione.cognome,
+                        nome_squadra: datiIscrizione.nome_squadra,
+                        telefono: datiIscrizione.telefono,
+                        email_utente: datiIscrizione.email,
+                        data_iscrizione: datiIscrizione.data_iscrizione,
+                        stagione: datiIscrizione.stagione,
+                        subject: `Nuova Iscrizione Stagione ${datiIscrizione.stagione} - ${datiIscrizione.nome} ${datiIscrizione.cognome}`
+                    });
+                    
+                    console.log('Email inviata con successo a veneziafanta@gmail.com');
+                    
+                } catch (emailError) {
+                    console.error('Errore invio email:', emailError);
+                }
+
+                // 3. MOSTRA MESSAGGIO DI SUCCESSO
+                messaggio.innerHTML = `
+                    <div style="text-align: center; padding: 15px;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
+                        <h3 style="color: #155724; margin-bottom: 15px;">Iscrizione Confermata!</h3>
+                        <p style="margin-bottom: 10px;">
+                            <strong>La tua richiesta per la stagione ${datiIscrizione.stagione} è stata registrata con successo.</strong>
+                        </p>
+                        <p style="margin-bottom: 5px;">
+                            📋 <strong>Dati inseriti:</strong><br>
+                            - Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
+                            - Squadra: ${datiIscrizione.nome_squadra}<br>
+                            - Telefono: ${datiIscrizione.telefono}<br>
+                            - Email: ${datiIscrizione.email}
+                        </p>
+                        <p style="margin-top: 15px; padding: 12px; background: #e7f3ff; border-radius: 8px;">
+                            <strong>🚀 Prossimi passi:</strong><br>
+                            Una volta effettuato il pagamento della quota stagionale,<br>
+                            <strong>riceverai un messaggio WhatsApp di conferma dallo Staff entro 24/48 ore.</strong>
+                        </p>
+                        <p style="margin-top: 10px; font-size: 12px; color: #666;">
+                            Verrai reindirizzato alla home page tra 15 secondi...
+                        </p>
+                    </div>
+                `;
+                messaggio.className = 'message success';
+                messaggio.classList.remove('hidden');
+                
+                // RESET MANUALE DEI CAMPI (CORREZIONE)
+                document.getElementById('nome').value = '';
+                document.getElementById('cognome').value = '';
+                document.getElementById('nomeSquadra').value = '';
+                document.getElementById('telefono').value = '';
+                document.getElementById('termini').checked = false;
+                aggiornaBottoneIscrizione();
+                
+                // Reindirizza alla home dopo 15 secondi
+                setTimeout(() => {
+                    const { data: { session } } = await supabase.auth.getSession();
+                    if (session?.user) showUserSection(session.user.email);
+                }, 15000);
+                
+            } catch (error) {
+                console.error('Errore durante l\'iscrizione:', error);
+                messaggio.innerHTML = `
+                    <div style="text-align: center; padding: 15px;">
+                        <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
+                        <h3 style="color: #721c24; margin-bottom: 10px;">Errore durante la registrazione</h3>
+                        <p>Si è verificato un problema: ${error.message}</p>
+                        <p style="margin-top: 15px; font-size: 14px;">
+                            Se il problema persiste, contatta lo Staff tramite la sezione "STAFF".
+                        </p>
+                    </div>
+                `;
+                messaggio.className = 'message error';
+                messaggio.classList.remove('hidden');
+                
+                // Riabilita il bottone
+                bottone.disabled = false;
+                bottone.textContent = 'INVIA ISCRIZIONE';
+                aggiornaBottoneIscrizione();
+            }
+        }
+
         // ==================== FUNZIONI AUTH ====================
         async function checkAuth() {
             const { data: { session } } = await supabase.auth.getSession();
@@ -1378,7 +1396,7 @@ async function inviaIscrizione(event) {
             const { data, error } = await supabase.auth.signUp({
                 email: email,
                 password: password,
-                options: { emailRedirectTo: 'https://veneziafanta.github.io/fanta-venezia/' }
+                options: { emailRedirectTo: window.location.origin }
             });
 
             if (error) {
@@ -1400,7 +1418,7 @@ async function inviaIscrizione(event) {
             }
             
             const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-                redirectTo: 'https://veneziafanta.github.io/fanta-venezia/'
+                redirectTo: window.location.origin
             });
 
             if (error) {
@@ -1408,45 +1426,6 @@ async function inviaIscrizione(event) {
             } else {
                 showMessage('resetMessage', 'Link di reset inviato! Controlla la tua email.', 'success');
                 document.getElementById('resetEmail').value = '';
-            }
-        }
-
-        function showChangePasswordSection() {
-            hideAllSections();
-            document.getElementById('changePasswordSection').classList.remove('hidden');
-        }
-
-        async function changePassword() {
-            const newPassword = document.getElementById('newPassword').value;
-            const confirmPassword = document.getElementById('confirmNewPassword').value;
-            
-            if (!newPassword || !confirmPassword) {
-                showMessage('changePasswordMessage', 'Compila entrambi i campi', 'error');
-                return;
-            }
-            
-            if (newPassword.length < 6) {
-                showMessage('changePasswordMessage', 'La password deve essere di almeno 6 caratteri', 'error');
-                return;
-            }
-            
-            if (newPassword !== confirmPassword) {
-                showMessage('changePasswordMessage', 'Le password non coincidono', 'error');
-                return;
-            }
-            
-            const { data, error } = await supabase.auth.updateUser({ password: newPassword });
-
-            if (error) {
-                showMessage('changePasswordMessage', 'Errore: ' + error.message, 'error');
-            } else {
-                showMessage('changePasswordMessage', '✅ Password cambiata con successo! Ora puoi accedere con la nuova password.', 'success');
-                
-                setTimeout(async () => {
-                    await supabase.auth.signOut();
-                    showAuthSection();
-                    showMessage('loginMessage', 'Password cambiata! Accedi con la nuova password.', 'success');
-                }, 2000);
             }
         }
 
@@ -1478,38 +1457,11 @@ async function inviaIscrizione(event) {
             `;
         }
 
-        // ==================== GESTIONE PASSWORD RESET ====================
-        async function handlePasswordReset() {
-            const urlParams = new URLSearchParams(window.location.hash.substring(1));
-            const type = urlParams.get('type');
-            const accessToken = urlParams.get('access_token');
-            
-            if (type === 'recovery' && accessToken) {
-                try {
-                    const { data, error } = await supabase.auth.setSession({
-                        access_token: accessToken,
-                        refresh_token: urlParams.get('refresh_token')
-                    });
-                    
-                    if (!error) {
-                        showChangePasswordSection();
-                        window.location.hash = '';
-                    } else {
-                        throw error;
-                    }
-                } catch (error) {
-                    showAuthSection();
-                    showMessage('loginMessage', 'Link di reset non valido o scaduto', 'error');
-                }
-            }
-        }
-
         // ==================== INIZIALIZZAZIONE ====================
         document.addEventListener('DOMContentLoaded', function() {
             checkAuth();
-            handlePasswordReset();
             
-            // Event listeners per input
+            // Event listeners per tasti Enter
             document.getElementById('loginPassword').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') login();
             });
@@ -1520,10 +1472,6 @@ async function inviaIscrizione(event) {
             
             document.getElementById('resetEmail').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') resetPassword();
-            });
-            
-            document.getElementById('confirmNewPassword').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') changePassword();
             });
 
             // Event listeners per form iscrizione
@@ -1545,9 +1493,6 @@ async function inviaIscrizione(event) {
         // Auth state change listener
         supabase.auth.onAuthStateChange((event, session) => {
             if (event === 'SIGNED_IN' && session) {
-                if (!document.getElementById('changePasswordSection').classList.contains('hidden')) {
-                    return;
-                }
                 showUserSection(session.user.email);
             } else if (event === 'SIGNED_OUT') {
                 showAuthSection();
@@ -1556,22 +1501,3 @@ async function inviaIscrizione(event) {
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
