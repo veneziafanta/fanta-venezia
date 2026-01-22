@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FantaVenezia - Albo d'Oro</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(to right, #0055a4, #009246);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        .back-btn {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
+        .season-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+        }
+        .season-btn {
+            background: white;
+            border: 2px solid #0055a4;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #0055a4;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
+        }
+        .season-btn:hover {
+            background: #0055a4;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,85,164,0.3);
+        }
+        .coming-soon {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .coming-soon:hover {
+            background: white !important;
+            color: #0055a4 !important;
+            transform: none !important;
+        }
+        .current-season {
+            border-width: 3px;
+            background: linear-gradient(to right, #0055a410, #00924610);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="area-riservata.html" class="back-btn">← Torna ai Pulsanti</a>
+            <h1>🏆 Albo d'Oro</h1>
+            <p>Seleziona una stagione</p>
+        </header>
+        
+        <div class="season-list">
+            <!-- Stagione attuale (cliccabile) -->
+            <a href="stagione-25-26.html" class="season-btn current-season">
+                🏆 STAGIONE 2025/26
+            </a>
+            
+            <!-- Stagioni future (non cliccabili per ora) -->
+            <div class="season-btn coming-soon">
+                STAGIONE 2026/27
+                <br><small>(disponibile dal 2026)</small>
+            </div>
+            
+            <div class="season-btn coming-soon">
+                STAGIONE 2027/28
+                <br><small>(disponibile dal 2027)</small>
+            </div>
+            
+            <div class="season-btn coming-soon">
+                STAGIONE 2028/29
+                <br><small>(disponibile dal 2028)</small>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Controlla se l'utente è loggato
+        if (!localStorage.getItem('fantaLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
