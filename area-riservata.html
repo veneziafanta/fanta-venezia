@@ -7,256 +7,6 @@
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            margin: 0;
-            padding: 15px;
-            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 80px; /* Spazio per staff button */
-        }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        header {
-            text-align: center;
-            margin-bottom: 25px;
-            padding-top: 20px;
-        }
-        .main-title {
-            color: white;
-            font-size: 36px;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            letter-spacing: 1px;
-        }
-        .subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 14px;
-            margin-bottom: 30px;
-            font-style: italic;
-        }
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            padding: 10px;
-        }
-        /* Solo su schermi grandi (4 pulsanti per riga) */
-        @media (min-width: 900px) {
-            .buttons-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        /* Su tablet medio (3 pulsanti per riga) */
-        @media (min-width: 600px) and (max-width: 899px) {
-            .buttons-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        .btn {
-            background: white;
-            border: none;
-            padding: 20px 10px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 600;
-            color: #333;
-            cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: all 0.3s ease;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 110px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-        .btn:active {
-            transform: translateY(-1px);
-        }
-        .btn-icon {
-            font-size: 26px;
-            margin-bottom: 8px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .btn-text {
-            font-size: 13px;
-            line-height: 1.3;
-            max-width: 90%;
-        }
-        .file-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        /* Colori specifici per ogni pulsante */
-        .btn-1 { border-top: 4px solid #ff9f43; }
-        .btn-1:hover { background: #fff9f0; }
-        
-        .btn-2 { border-top: 4px solid #54a0ff; }
-        .btn-2:hover { background: #f0f8ff; }
-        
-        .btn-3 { border-top: 4px solid #00d2d3; }
-        .btn-3:hover { background: #f0ffff; }
-        
-        .btn-4 { border-top: 4px solid #5f27cd; }
-        .btn-4:hover { background: #f5f0ff; }
-        
-        .btn-5 { border-top: 4px solid #10ac84; }
-        .btn-5:hover { background: #f0fff9; }
-        
-        .btn-6 { border-top: 4px solid #ff6b81; }
-        .btn-6:hover { background: #fff0f3; }
-        
-        /* Area Staff button in basso */
-        .staff-btn-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 100;
-        }
-        .staff-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-decoration: none;
-        }
-        .staff-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-        .staff-icon {
-            font-size: 14px;
-        }
-        
-        .status-bar {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 15px;
-            border-radius: 12px;
-            margin: 25px 0;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            font-size: 13px;
-            color: white;
-        }
-        .status-highlight {
-            color: #ffdd59;
-            font-weight: bold;
-            background: rgba(255, 221, 89, 0.2);
-            padding: 4px 10px;
-            border-radius: 15px;
-            display: inline-block;
-            margin: 0 5px;
-        }
-        
-        /* Logout button in fondo */
-        .logout-container {
-            text-align: center;
-            margin-top: 40px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 40px;
-            border-radius: 25px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
-        }
-        
-        .footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 11px;
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            line-height: 1.4;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <header>
-            <h1 class="main-title">FANTAVENEZIA</h1>
-            <p class="subtitle">Fantacalcio aperto a tutti i ferrovieri</p>
-        </header>
-        
-        <div class="buttons-grid">
-            <!-- PULSANTE 1: Albo d'Oro -->
-            <a href="albo-d-oro.html" class="file-link">
-                <button class="btn btn-1">
-                    <div class="btn-icon">🏆</div>
-                    <div class="btn-text">Albo d'Oro</div>
-                </button>
-            </a>
-            
-            <!-- PULSANTE 2: Assistenza -->
-            <a href="assistenza.html" class="file-link">
-                <button class="btn btn-2">
-                    <div class="btn-icon">🤝</div>
-                    <div class="btn-text">Assistenza</div>
-                </button>
-            </a>
-            
-            <!-- PULSANTE 3: Documenti di Lega -->
-            <a href="documenti-lega.html" class="file-link">
-                <button class="btn btn-3">
-                    <div class="btn-icon">📄</div>
-                    <div class="btn-text">Documenti</div>
-                </button>
-            </a>
-            
-            <!-- PULSANTE 4: Iscrizione (senza 26/27) -->
-            <a href="iscrizione.html" class="file-link">
-                <button class="btn btn-4">
-                    <div class="btn-icon">📝</div>
-                    <div class="btn-text">Iscrizione</div>
-                </button>
-            </a>
-            
-            <!-- PULSANTE 5: Quota Iscrizione -->
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FantaVenezia - Area Riservata</title>
-    <style>
-        * {
-            box-sizing: border-box;
             font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
@@ -272,12 +22,16 @@
         .container {
             max-width: 1000px;
             margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
-        /* HEADER SEMPLICE - SENZA RETTANGOLO BIANCO */
+        /* HEADER */
         .site-header {
             text-align: center;
             margin: 30px 0 40px 0;
+            width: 100%;
         }
         .site-title {
             color: white;
@@ -293,243 +47,7 @@
             font-style: italic;
         }
         
-        /* GRIGLIA PULSANTI - TUTTI UGUALI */
-        .buttons-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
-            padding: 10px;
-            margin-bottom: 40px;
-        }
-        @media (min-width: 768px) {
-            .buttons-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        @media (min-width: 1024px) {
-            .buttons-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        .menu-btn {
-            background: white;
-            border: none;
-            border-radius: 16px;
-            padding: 25px 10px;
-            height: 120px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-        .menu-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
-        }
-        .btn-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-        }
-        .btn-label {
-            font-size: 15px;
-            font-weight: 600;
-            color: #2c3e50;
-            line-height: 1.3;
-            max-width: 90%;
-        }
-        
-        /* COLORI BORDI IN ALTO */
-        .btn-trophy { border-top: 6px solid #f39c12; }
-        .btn-help { border-top: 6px solid #3498db; }
-        .btn-docs { border-top: 6px solid #1abc9c; }
-        .btn-signup { border-top: 6px solid #9b59b6; }
-        .btn-fee { border-top: 6px solid #2ecc71; }
-        .btn-donate { border-top: 6px solid #e74c3c; }
-        
-        /* LINK */
-        .btn-link {
-            text-decoration: none;
-            color: inherit;
-            display: block;
-        }
-        
-        /* PULSANTE STAFF PICCOLO IN BASSO A SINISTRA */
-        .staff-mini-btn {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            z-index: 100;
-            transition: all 0.3s;
-        }
-        .staff-mini-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
-        }
-        
-        /* PULSANTE ESCI IN FONDO */
-        .logout-section {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
-        }
-        .logout-btn {
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 14px 45px;
-            border-radius: 30px;
-            font-size: 15px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
-        }
-        
-        /* INFO BOX */
-        .info-box {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 20px;
-            margin: 30px 0;
-            text-align: center;
-            color: white;
-        }
-        .info-highlight {
-            color: #f1c40f;
-            font-weight: bold;
-            background: rgba(241, 196, 15, 0.15);
-            padding: 6px 15px;
-            border-radius: 20px;
-            display: inline-block;
-            margin-bottom: 10px;
-        }
-        
-        /* FOOTER */
-        .site-footer {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
-            margin-top: 30px;
-            line-height: 1.5;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <!-- HEADER SENZA RETTANGOLO BIANCO -->
-        <header class="site-header">
-            <h1 class="site-title">FANTAVENEZIA</h1>
-            <p class="site-subtitle">Fantacalcio aperto a tutti i ferrovieri</p>
-        </header>
-        
-        <!-- GRIGLIA CON 6 PULSANTI UGUALI -->
-        <div class="buttons-grid">
-            <a href="albo-d-oro.html" class="btn-link">
-                <button class="menu-btn btn-trophy">
-                    <div class="btn-icon">🏆</div>
-                    <div class="btn-label">Albo d'Oro</div>
-                </button>
-            </a>
-            
-            <a href="assistenza.html" class="btn-link">
-                <button class="menu-btn btn-help">
-                    <div class="btn-icon">🤝</div>
-                    <div class="btn-label">Assistenza</div>
-                </button>
-            </a>
-            
-            <a href="documenti-lega.html" class="btn-link">
-                <button class="menu-btn btn-docs">
-                    <div class="btn-icon">📄</div>
-                    <div class="btn-label">Documenti</div>
-                </button>
-            </a>
-            
-            <!-- PULSANTE "ISCRIZIONE" (NON "ISCRIZIONE 26/27") -->
-            <a href="iscrizione.html" class="btn-link">
-                <button class="menu-btn btn-signup">
-                    <div class="btn-icon">📝</div>
-<!DOCTYPE html>
-<html lang="it">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FantaVenezia - Area Riservata</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            margin: 0;
-            padding: 15px;
-            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
-            min-height: 100vh;
-            position: relative;
-            padding-bottom: 70px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        /* HEADER CENTRATO */
-        .site-header {
-            text-align: center;
-            margin: 30px 0 40px 0;
-            width: 100%;
-            max-width: 800px;
-        }
-        .site-title {
-            color: white;
-            font-size: 42px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
-            margin-bottom: 8px;
-        }
-        .site-subtitle {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 16px;
-            font-style: italic;
-        }
-        
-        /* CONTAINER CENTRATO */
-        .main-container {
-            width: 100%;
-            max-width: 800px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        
-        /* GRIGLIA PULSANTI - TUTTI UGUALISSIMI */
+        /* GRIGLIA PULSANTI - MODIFICATA PER DIMENSIONI UGUALI */
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -544,14 +62,14 @@
             }
         }
         
-        /* PULSANTI CON DIMENSIONI FISSE UGUALI */
+        /* PULSANTI CON DIMENSIONI UGUALI - CORREZIONE */
         .menu-btn {
             background: white;
             border: none;
             border-radius: 16px;
-            padding: 25px 10px;
-            height: 130px; /* ALTEZZA FISSA PER TUTTI */
-            width: 100%; /* LARGHEZZA 100% DELLA CELLA */
+            padding: 25px 15px; /* AUMENTATO PADDING ORIZZONTALE */
+            height: 120px;
+            width: 100%;
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 6px 20px rgba(0,0,0,0.15);
@@ -560,33 +78,22 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            /* FORZA STESSE DIMENSIONI */
-            min-height: 130px;
-            max-height: 130px;
+            /* FORZIAMO STESSE DIMENSIONI */
+            min-height: 120px;
+            max-height: 120px;
         }
         .menu-btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 25px rgba(0,0,0,0.2);
         }
         
-        /* CONTENITORE INTERNO PER FORZARE STESSA DIMENSIONE */
-        .btn-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            width: 100%;
-        }
-        
         .btn-icon {
-            font-size: 34px;
+            font-size: 32px;
             margin-bottom: 12px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-shrink: 0; /* IMPEDISCE RIDIMENSIONAMENTO */
         }
         
         .btn-label {
@@ -594,18 +101,16 @@
             font-weight: 600;
             color: #2c3e50;
             line-height: 1.3;
-            max-width: 90%;
-            /* FORZA STESSO NUMERO DI RIGHE */
-            display: -webkit-box;
-            -webkit-line-clamp: 2; /* MASSIMO 2 RIGHE */
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            height: 36px; /* ALTEZZA FISSA PER IL TESTO */
-            flex-shrink: 0;
+            /* FORZA STESSA ALTEZZA PER TUTTI I TESTI */
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            width: 100%;
         }
         
-        /* COLORI BORDI IN ALTO - TUTTI UGUALI SPESSORE */
+        /* COLORI BORDI */
         .btn-trophy { border-top: 6px solid #f39c12; }
         .btn-help { border-top: 6px solid #3498db; }
         .btn-docs { border-top: 6px solid #1abc9c; }
@@ -613,7 +118,6 @@
         .btn-fee { border-top: 6px solid #2ecc71; }
         .btn-donate { border-top: 6px solid #e74c3c; }
         
-        /* LINK - OCCUPA TUTTO LO SPAZIO */
         .btn-link {
             text-decoration: none;
             color: inherit;
@@ -621,7 +125,7 @@
             height: 100%;
         }
         
-        /* PULSANTE STAFF PICCOLO IN BASSO A SINISTRA */
+        /* STAFF BUTTON PICCOLO */
         .staff-mini-btn {
             position: fixed;
             bottom: 20px;
@@ -645,14 +149,14 @@
             transform: translateY(-2px);
         }
         
-        /* PULSANTE ESCI IN FONDO - CENTRATO */
+        /* LOGOUT IN FONDO - CENTRATO */
         .logout-section {
             text-align: center;
             margin-top: 50px;
             padding-top: 30px;
             border-top: 1px solid rgba(255, 255, 255, 0.15);
             width: 100%;
-            max-width: 800px;
+            max-width: 700px;
         }
         .logout-btn {
             background: rgba(255, 255, 255, 0.1);
@@ -701,77 +205,61 @@
             margin-top: 30px;
             line-height: 1.5;
             width: 100%;
-            max-width: 800px;
+            max-width: 700px;
         }
     </style>
 </head>
 <body>
-    <!-- HEADER CENTRATO -->
-    <header class="site-header">
-        <h1 class="site-title">FANTAVENEZIA</h1>
-        <p class="site-subtitle">Fantacalcio aperto a tutti i ferrovieri</p>
-    </header>
-    
-    <!-- CONTENITORE PRINCIPALE CENTRATO -->
-    <div class="main-container">
-        <!-- GRIGLIA PULSANTI PERFETTAMENTE UGUALI -->
+    <div class="container">
+        <header class="site-header">
+            <h1 class="site-title">FANTAVENEZIA</h1>
+            <p class="site-subtitle">Fantacalcio aperto a tutti i ferrovieri</p>
+        </header>
+        
         <div class="buttons-grid">
             <a href="albo-d-oro.html" class="btn-link">
                 <button class="menu-btn btn-trophy">
-                    <div class="btn-content">
-                        <div class="btn-icon">🏆</div>
-                        <div class="btn-label">Albo d'Oro</div>
-                    </div>
+                    <div class="btn-icon">🏆</div>
+                    <div class="btn-label">Albo d'Oro</div>
                 </button>
             </a>
             
             <a href="assistenza.html" class="btn-link">
                 <button class="menu-btn btn-help">
-                    <div class="btn-content">
-                        <div class="btn-icon">🤝</div>
-                        <div class="btn-label">Assistenza</div>
-                    </div>
+                    <div class="btn-icon">🤝</div>
+                    <div class="btn-label">Assistenza</div>
                 </button>
             </a>
             
             <a href="documenti-lega.html" class="btn-link">
                 <button class="menu-btn btn-docs">
-                    <div class="btn-content">
-                        <div class="btn-icon">📄</div>
-                        <div class="btn-label">Documenti</div>
-                    </div>
+                    <div class="btn-icon">📄</div>
+                    <div class="btn-label">Documenti</div>
                 </button>
             </a>
             
             <a href="iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-signup">
-                    <div class="btn-content">
-                        <div class="btn-icon">📝</div>
-                        <div class="btn-label">Iscrizione</div>
-                    </div>
+                    <div class="btn-icon">📝</div>
+                    <div class="btn-label">Iscrizione</div>
                 </button>
             </a>
             
             <a href="quota-iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-fee">
-                    <div class="btn-content">
-                        <div class="btn-icon">💰</div>
-                        <div class="btn-label">Quota €30</div>
-                    </div>
+                    <div class="btn-icon">💰</div>
+                    <div class="btn-label">Quota €30</div>
                 </button>
             </a>
             
             <a href="donazioni.html" class="btn-link">
                 <button class="menu-btn btn-donate">
-                    <div class="btn-content">
-                        <div class="btn-icon">❤️</div>
-                        <div class="btn-label">Donazioni</div>
-                    </div>
+                    <div class="btn-icon">❤️</div>
+                    <div class="btn-label">Donazioni</div>
                 </button>
             </a>
         </div>
         
-        <!-- INFO BOX CENTRATO -->
         <div class="info-box">
             <div class="info-highlight">⚠️ Procedura di iscrizione</div>
             <p>1. Compila il modulo "Iscrizione"<br>
@@ -780,26 +268,22 @@
             </p>
         </div>
         
-        <!-- PULSANTE ESCI CENTRATO -->
         <div class="logout-section">
             <button class="logout-btn" onclick="logout()">ESCI DALL'AREA RISERVATA</button>
         </div>
         
-        <!-- FOOTER CENTRATO -->
         <footer class="site-footer">
             FantaVenezia © 2024 • Accesso riservato ai partecipanti<br>
             Community di fantacalcio per ferrovieri
         </footer>
     </div>
     
-    <!-- PULSANTE STAFF PICCOLO IN BASSO A SINISTRA -->
     <a href="area-staff.html" class="staff-mini-btn">
         <span style="font-size: 16px;">🔐</span>
         <span>Area Staff</span>
     </a>
 
     <script>
-        // Controlla se l'utente è loggato
         if (!localStorage.getItem('fantaLoggedIn')) {
             window.location.href = 'index.html';
         }
@@ -809,7 +293,6 @@
             window.location.href = 'index.html';
         }
         
-        // Effetto click sui pulsanti
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 this.style.transform = 'scale(0.95)';
@@ -818,15 +301,6 @@
                 }, 200);
             });
         });
-        
-        // Auto-logout dopo 4 ore
-        setTimeout(() => {
-            if (confirm('La tua sessione sta per scadere. Vuoi rimanere collegato?')) {
-                localStorage.setItem('fantaLoggedIn', 'true');
-            } else {
-                logout();
-            }
-        }, 14400000); // 4 ore
     </script>
 </body>
 </html>
