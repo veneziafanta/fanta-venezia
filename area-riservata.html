@@ -26,6 +26,7 @@
             border-radius: 15px 15px 0 0;
             text-align: center;
             margin-bottom: 30px;
+            position: relative;
         }
         .logout-btn {
             position: absolute;
@@ -42,15 +43,24 @@
         .logout-btn:hover {
             background: rgba(255,255,255,0.3);
         }
+        h1 {
+            margin: 0;
+            padding: 10px 0;
+        }
+        .welcome-text {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+            font-size: 14px;
+        }
         .buttons-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 20px;
             padding: 20px;
         }
-        @media (max-width: 768px) {
+        @media (min-width: 768px) {
             .buttons-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(3, 1fr);
             }
         }
         @media (max-width: 480px) {
@@ -61,9 +71,9 @@
         .btn {
             background: white;
             border: none;
-            padding: 30px 15px;
+            padding: 25px 15px;
             border-radius: 10px;
-            font-size: 24px;
+            font-size: 18px;
             font-weight: bold;
             color: #0055a4;
             cursor: pointer;
@@ -73,6 +83,8 @@
             justify-content: center;
             align-items: center;
             aspect-ratio: 1;
+            text-align: center;
+            line-height: 1.3;
         }
         .btn:hover {
             transform: translateY(-5px);
@@ -99,6 +111,16 @@
             color: #ff3860;
             font-weight: bold;
         }
+        .staff-btn {
+            background: linear-gradient(to right, #ff6b6b, #ff8e53);
+            color: white;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        }
+        .staff-btn:hover {
+            background: linear-gradient(to right, #ff5252, #ff7a3d);
+            box-shadow: 0 10px 20px rgba(255,107,107,0.4);
+        }
     </style>
 </head>
 <body>
@@ -106,37 +128,50 @@
         <header>
             <button class="logout-btn" onclick="logout()">LOGOUT</button>
             <h1>FantaVenezia</h1>
-            <p>Area Riservata - Seleziona un file</p>
+            <p class="welcome-text">Area Riservata - Scegli un'opzione</p>
         </header>
         
         <div class="buttons-grid" id="buttons-container">
-            <!-- I pulsanti 1-6 -->
-            <!-- MODIFICA QUI I LINK AI TUOI PDF -->
+            <!-- PULSANTE 1: Albo d'Oro -->
             <a href="albo-d-oro.html" class="file-link">
-                <button class="btn">Albo d'Oro</button>
+                <button class="btn">🏆<br>Albo d'Oro</button>
             </a>
+            
+            <!-- PULSANTE 2: Assistenza -->
             <a href="assistenza.html" class="file-link">
-    <button class="btn">Assistenza</button>
-</a>
+                <button class="btn">🤝<br>Assistenza</button>
+            </a>
+            
+            <!-- PULSANTE 3: Documenti di Lega -->
             <a href="documenti-lega.html" class="file-link">
-    <button class="btn">Documenti Lega</button>
-</a>
-            <a href="URL_FILE_4" target="_blank" class="file-link">
-                <button class="btn">4</button>
+                <button class="btn">📄<br>Documenti Lega</button>
             </a>
-            <a href="URL_FILE_5" target="_blank" class="file-link">
-                <button class="btn">5</button>
+            
+            <!-- PULSANTE 4: Iscrizione 26/27 -->
+            <a href="iscrizione.html" class="file-link">
+                <button class="btn">📝<br>Iscrizione 26/27</button>
             </a>
-            <a href="URL_FILE_6" target="_blank" class="file-link">
-                <button class="btn">6</button>
+            
+            <!-- PULSANTE 5: Disponibile (per ora placeholder) -->
+            <a href="#" class="file-link" onclick="comingSoon()">
+                <button class="btn">5<br><small style="font-size: 12px;">Disponibile a breve</small></button>
+            </a>
+            
+            <!-- PULSANTE 6: Disponibile (per ora placeholder) -->
+            <a href="#" class="file-link" onclick="comingSoon()">
+                <button class="btn">6<br><small style="font-size: 12px;">Disponibile a breve</small></button>
+            </a>
+            
+            <!-- PULSANTE 7: Area Staff (solo organizzatori) -->
+            <a href="area-staff.html" class="file-link">
+                <button class="btn staff-btn">🔐<br>Area Staff</button>
             </a>
         </div>
         
         <div class="instructions">
-            <p class="warning">⚠️ Per modificare i link dei PDF, modifica questo file: area-riservata.html</p>
-            <p>Clicca sui numeri per aprire i file. I PDF si apriranno in una nuova finestra.</p>
-            <p>I file 1 e 2 sono già collegati a Google Drive (sostituisci TUO_ID_FILE_1 e TUO_ID_FILE_2 con i tuoi).</p>
-            <p>Per i file 3-6, sostituisci URL_FILE_3, ecc. con i link ai tuoi PDF.</p>
+            <p class="warning">⚠️ L'Area Staff è riservata solo agli organizzatori</p>
+            <p>Per assistenza tecnica o problemi con il sito, contatta gli organizzatori tramite il pulsante "Assistenza".</p>
+            <p>I documenti della lega sono disponibili per il download nel pulsante "Documenti Lega".</p>
         </div>
     </div>
 
@@ -149,6 +184,11 @@
         function logout() {
             localStorage.removeItem('fantaLoggedIn');
             window.location.href = 'index.html';
+        }
+        
+        function comingSoon() {
+            alert('Questa sezione sarà disponibile a breve!');
+            return false;
         }
         
         // Auto-logout dopo 2 ore (opzionale)
