@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assistenza - FantaVenezia</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(to right, #0055a4, #009246);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+        .subtitle {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .whatsapp-section {
+            text-align: center;
+            padding: 25px;
+            background: linear-gradient(to right, #25D366, #128C7E);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
+        .whatsapp-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+        .whatsapp-btn {
+            display: inline-block;
+            background: white;
+            color: #25D366;
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        .whatsapp-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        .section-title {
+            color: #0055a4;
+            border-bottom: 3px solid #009246;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            font-size: 24px;
+            text-align: center;
+        }
+        .team-section {
+            margin-top: 30px;
+        }
+        .organizzatori {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            border-left: 5px solid #0055a4;
+        }
+        .team-member {
+            padding: 15px;
+            margin: 10px 0;
+            background: white;
+            border-radius: 8px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        .member-icon {
+            color: #0055a4;
+            font-size: 24px;
+        }
+        /* PULSANTE INDIETRO */
+        .back-container {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #0055a4;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: #003d82;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🤝 Assistenza</h1>
+            <p class="subtitle">Staff FantaCalcio Venezia</p>
+        </header>
+        
+        <div class="content">
+            <!-- Sezione WhatsApp -->
+            <div class="whatsapp-section">
+                <div class="whatsapp-icon">📱</div>
+                <h2>Hai bisogno di aiuto?</h2>
+                <p>Contatta il nostro staff via WhatsApp per assistenza immediata.</p>
+                <a href="https://wa.me/391234567890" target="_blank" class="whatsapp-btn">
+                    💬 Scrivici su WhatsApp
+                </a>
+            </div>
+            
+            <!-- Sezione Team -->
+            <div class="team-section">
+                <h2 class="section-title">Il Nostro Team</h2>
+                
+                <div class="organizzatori">
+                    <h3 style="color: #0055a4; margin-top: 0;">Organizzatori</h3>
+                    
+                    <div class="team-member">
+                        <span class="member-icon">👤</span>
+                        <span>Davide Galvan</span>
+                    </div>
+                    
+                    <div class="team-member">
+                        <span class="member-icon">👤</span>
+                        <span>Alessandro Gandini</span>
+                    </div>
+                    
+                    <div class="team-member">
+                        <span class="member-icon">👤</span>
+                        <span>Marco Molin Pradel</span>
+                    </div>
+                    
+                    <div class="team-member">
+                        <span class="member-icon">👤</span>
+                        <span>Andrea Favaro</span>
+                    </div>
+                    
+                    <div class="team-member">
+                        <span class="member-icon">👤</span>
+                        <span>Davide Travaglia</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Nota -->
+            <div style="text-align: center; margin-top: 30px; color: #666; font-size: 14px;">
+                <p>⏰ <strong>Orari di risposta:</strong> Generalmente entro 24 ore</p>
+                <p>📧 <strong>Alternative:</strong> Puoi anche contattarci via email se preferisci</p>
+            </div>
+        </div>
+        
+        <!-- PULSANTE INDIETRO -->
+        <div class="back-container">
+            <a href="area-riservata.html" class="back-btn">
+                ← INDIETRO
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Controlla se l'utente è loggato
+        if (!localStorage.getItem('fantaLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
