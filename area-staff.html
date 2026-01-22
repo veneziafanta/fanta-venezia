@@ -77,26 +77,26 @@
         .staff-content {
             display: none;
         }
-        .stats-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 30px;
-            text-align: center;
-            border-left: 5px solid #0055a4;
-        }
-        .stats-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: #0055a4;
-            margin: 10px 0;
-        }
         .access-box {
-            background: #e8f4fd;
+            background: #f0f9ff;
             padding: 25px;
             border-radius: 10px;
             margin: 25px 0;
             text-align: center;
+            border: 2px solid #0055a4;
+        }
+        .success-box {
+            background: #e8f7ef;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #28a745;
+            text-align: center;
+        }
+        .success-icon {
+            font-size: 48px;
+            color: #28a745;
+            margin-bottom: 10px;
         }
         .access-btn {
             display: inline-block;
@@ -120,6 +120,14 @@
             margin-top: 30px;
             font-size: 14px;
             color: #856404;
+        }
+        .data-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 2px dashed #0055a4;
+            text-align: left;
         }
         /* PULSANTE INDIETRO */
         .back-container {
@@ -166,38 +174,57 @@
             
             <!-- Contenuto staff (nascosto all'inizio) -->
             <div class="staff-content" id="staffContent">
-                <div class="stats-box">
-                    <h2 style="margin-top: 0;">📊 Iscrizioni FantaVenezia 26/27</h2>
-                    <div class="stats-number" id="subscribersCount">0</div>
-                    <p>iscritti totali</p>
+                <!-- Messaggio di successo -->
+                <div class="success-box">
+                    <div class="success-icon">✅</div>
+                    <h3 style="color: #28a745; margin-top: 0;">Iscrizioni attive!</h3>
+                    <p>Le iscrizioni si stanno salvando correttamente sul Google Sheets.</p>
                 </div>
                 
+                <!-- Accesso ai dati -->
                 <div class="access-box">
-                    <h3 style="color: #0055a4; margin-top: 0;">📋 Accesso ai dati</h3>
-                    <p>Visualizza e gestisci tutte le iscrizioni su Google Sheets:</p>
+                    <h3 style="color: #0055a4; margin-top: 0;">📊 Visualizza tutte le iscrizioni</h3>
+                    <p>Per vedere l'elenco completo degli iscritti:</p>
+                    
                     <a href="https://docs.google.com/spreadsheets/" target="_blank" class="access-btn">
-                        📊 APRI GOOGLE SHEETS
+                        📋 APRI GOOGLE SHEETS
                     </a>
                     
-                    <p style="margin-top: 25px; font-size: 14px; color: #666;">
-                        🔗 <strong>Link diretto:</strong> Controlla il tuo Google Drive per il foglio "Iscrizioni FantaVenezia 26/27"
-                    </p>
+                    <div class="data-box">
+                        <p>🔍 <strong>Dove trovare i dati:</strong></p>
+                        <ol>
+                            <li>Accedi al tuo <strong>Google Drive</strong></li>
+                            <li>Cerca il foglio: <code>"Iscrizioni FantaVenezia 26/27"</code></li>
+                            <li>Oppure usa il link diretto dal tuo Google Form</li>
+                        </ol>
+                        
+                        <p style="margin-top: 15px; color: #0055a4;">
+                            💡 <strong>Ogni nuova iscrizione appare automaticamente nel foglio!</strong>
+                        </p>
+                    </div>
                 </div>
                 
+                <!-- Istruzioni per lo staff -->
                 <div class="instructions">
                     <h4 style="margin-top: 0;">📝 Istruzioni per lo staff:</h4>
                     <ol style="text-align: left;">
-                        <li>Clicca "APRI GOOGLE SHEETS" per vedere le iscrizioni</li>
-                        <li>Le nuove iscrizioni appariranno automaticamente</li>
-                        <li>Puoi ordinare, filtrare ed esportare i dati</li>
-                        <li>Per condividere l'accesso: Google Sheets → Condividi</li>
+                        <li><strong>Verifica iscrizioni:</strong> Apri Google Sheets per vedere tutti gli iscritti</li>
+                        <li><strong>Ordina i dati:</strong> Puoi ordinare per data, nome, cognome</li>
+                        <li><strong>Esporta:</strong> File → Scarica come Excel/PDF per backup</li>
+                        <li><strong>Condividi:</strong> Puoi condividere il foglio con altri organizzatori</li>
                     </ol>
+                    
+                    <div style="margin-top: 15px; padding: 10px; background: #ffeaa7; border-radius: 5px;">
+                        <p>⚠️ <strong>Importante:</strong> Le iscrizioni si contano direttamente sul Google Sheets.</p>
+                        <p>Qui vedi solo il link di accesso, non il numero di iscritti.</p>
+                    </div>
                 </div>
                 
-                <!-- Note -->
+                <!-- Suggerimenti -->
                 <div style="margin-top: 30px; text-align: center; color: #666; font-size: 14px;">
-                    <p>🔄 <strong>Aggiornamento automatico:</strong> I dati si aggiornano in tempo reale</p>
-                    <p>📧 <strong>Notifiche:</strong> Attivale su Google Sheets per nuove iscrizioni</p>
+                    <p>📱 <strong>Per telefono:</strong> Scarica l'app "Fogli Google" per controllare ovunque</p>
+                    <p>🔔 <strong>Notifiche:</strong> Attivale su Google Sheets per nuove iscrizioni</p>
+                    <p>🔄 <strong>Tempo reale:</strong> I dati si aggiornano automaticamente</p>
                 </div>
             </div>
         </div>
