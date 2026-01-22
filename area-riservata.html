@@ -474,26 +474,304 @@
             <a href="iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-signup">
                     <div class="btn-icon">📝</div>
-                    <div class="btn-label">Iscrizione</div>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FantaVenezia - Area Riservata</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            margin: 0;
+            padding: 15px;
+            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 70px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* HEADER CENTRATO */
+        .site-header {
+            text-align: center;
+            margin: 30px 0 40px 0;
+            width: 100%;
+            max-width: 800px;
+        }
+        .site-title {
+            color: white;
+            font-size: 42px;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            margin-bottom: 8px;
+        }
+        .site-subtitle {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 16px;
+            font-style: italic;
+        }
+        
+        /* CONTAINER CENTRATO */
+        .main-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* GRIGLIA PULSANTI - TUTTI UGUALISSIMI */
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto 40px auto;
+        }
+        @media (min-width: 768px) {
+            .buttons-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        /* PULSANTI CON DIMENSIONI FISSE UGUALI */
+        .menu-btn {
+            background: white;
+            border: none;
+            border-radius: 16px;
+            padding: 25px 10px;
+            height: 130px; /* ALTEZZA FISSA PER TUTTI */
+            width: 100%; /* LARGHEZZA 100% DELLA CELLA */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            /* FORZA STESSE DIMENSIONI */
+            min-height: 130px;
+            max-height: 130px;
+        }
+        .menu-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+        }
+        
+        /* CONTENITORE INTERNO PER FORZARE STESSA DIMENSIONE */
+        .btn-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .btn-icon {
+            font-size: 34px;
+            margin-bottom: 12px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0; /* IMPEDISCE RIDIMENSIONAMENTO */
+        }
+        
+        .btn-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #2c3e50;
+            line-height: 1.3;
+            max-width: 90%;
+            /* FORZA STESSO NUMERO DI RIGHE */
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* MASSIMO 2 RIGHE */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            height: 36px; /* ALTEZZA FISSA PER IL TESTO */
+            flex-shrink: 0;
+        }
+        
+        /* COLORI BORDI IN ALTO - TUTTI UGUALI SPESSORE */
+        .btn-trophy { border-top: 6px solid #f39c12; }
+        .btn-help { border-top: 6px solid #3498db; }
+        .btn-docs { border-top: 6px solid #1abc9c; }
+        .btn-signup { border-top: 6px solid #9b59b6; }
+        .btn-fee { border-top: 6px solid #2ecc71; }
+        .btn-donate { border-top: 6px solid #e74c3c; }
+        
+        /* LINK - OCCUPA TUTTO LO SPAZIO */
+        .btn-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            height: 100%;
+        }
+        
+        /* PULSANTE STAFF PICCOLO IN BASSO A SINISTRA */
+        .staff-mini-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            z-index: 100;
+            transition: all 0.3s;
+        }
+        .staff-mini-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+        }
+        
+        /* PULSANTE ESCI IN FONDO - CENTRATO */
+        .logout-section {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            width: 100%;
+            max-width: 800px;
+        }
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 14px 45px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .logout-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        /* INFO BOX - CENTRATO */
+        .info-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+            color: white;
+            width: 100%;
+            max-width: 700px;
+        }
+        .info-highlight {
+            color: #f1c40f;
+            font-weight: bold;
+            background: rgba(241, 196, 15, 0.15);
+            padding: 6px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+        
+        /* FOOTER - CENTRATO */
+        .site-footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 13px;
+            margin-top: 30px;
+            line-height: 1.5;
+            width: 100%;
+            max-width: 800px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER CENTRATO -->
+    <header class="site-header">
+        <h1 class="site-title">FANTAVENEZIA</h1>
+        <p class="site-subtitle">Fantacalcio aperto a tutti i ferrovieri</p>
+    </header>
+    
+    <!-- CONTENITORE PRINCIPALE CENTRATO -->
+    <div class="main-container">
+        <!-- GRIGLIA PULSANTI PERFETTAMENTE UGUALI -->
+        <div class="buttons-grid">
+            <a href="albo-d-oro.html" class="btn-link">
+                <button class="menu-btn btn-trophy">
+                    <div class="btn-content">
+                        <div class="btn-icon">🏆</div>
+                        <div class="btn-label">Albo d'Oro</div>
+                    </div>
+                </button>
+            </a>
+            
+            <a href="assistenza.html" class="btn-link">
+                <button class="menu-btn btn-help">
+                    <div class="btn-content">
+                        <div class="btn-icon">🤝</div>
+                        <div class="btn-label">Assistenza</div>
+                    </div>
+                </button>
+            </a>
+            
+            <a href="documenti-lega.html" class="btn-link">
+                <button class="menu-btn btn-docs">
+                    <div class="btn-content">
+                        <div class="btn-icon">📄</div>
+                        <div class="btn-label">Documenti</div>
+                    </div>
+                </button>
+            </a>
+            
+            <a href="iscrizione.html" class="btn-link">
+                <button class="menu-btn btn-signup">
+                    <div class="btn-content">
+                        <div class="btn-icon">📝</div>
+                        <div class="btn-label">Iscrizione</div>
+                    </div>
                 </button>
             </a>
             
             <a href="quota-iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-fee">
-                    <div class="btn-icon">💰</div>
-                    <div class="btn-label">Quota €30</div>
+                    <div class="btn-content">
+                        <div class="btn-icon">💰</div>
+                        <div class="btn-label">Quota €30</div>
+                    </div>
                 </button>
             </a>
             
             <a href="donazioni.html" class="btn-link">
                 <button class="menu-btn btn-donate">
-                    <div class="btn-icon">❤️</div>
-                    <div class="btn-label">Donazioni</div>
+                    <div class="btn-content">
+                        <div class="btn-icon">❤️</div>
+                        <div class="btn-label">Donazioni</div>
+                    </div>
                 </button>
             </a>
         </div>
         
-        <!-- INFO BOX -->
+        <!-- INFO BOX CENTRATO -->
         <div class="info-box">
             <div class="info-highlight">⚠️ Procedura di iscrizione</div>
             <p>1. Compila il modulo "Iscrizione"<br>
@@ -502,12 +780,12 @@
             </p>
         </div>
         
-        <!-- PULSANTE ESCI IN FONDO -->
+        <!-- PULSANTE ESCI CENTRATO -->
         <div class="logout-section">
             <button class="logout-btn" onclick="logout()">ESCI DALL'AREA RISERVATA</button>
         </div>
         
-        <!-- FOOTER -->
+        <!-- FOOTER CENTRATO -->
         <footer class="site-footer">
             FantaVenezia © 2024 • Accesso riservato ai partecipanti<br>
             Community di fantacalcio per ferrovieri
