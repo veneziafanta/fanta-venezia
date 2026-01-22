@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FantaVenezia - Area Riservata</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(to right, #0055a4, #009246);
+            color: white;
+            padding: 20px;
+            border-radius: 15px 15px 0 0;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .logout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px;
+        }
+        @media (max-width: 768px) {
+            .buttons-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .btn {
+            background: white;
+            border: none;
+            padding: 30px 15px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #0055a4;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            aspect-ratio: 1;
+        }
+        .btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            background: #0055a4;
+            color: white;
+        }
+        .file-link {
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .instructions {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 30px auto;
+            max-width: 600px;
+            text-align: center;
+            color: #666;
+            font-size: 14px;
+        }
+        .warning {
+            color: #ff3860;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <button class="logout-btn" onclick="logout()">LOGOUT</button>
+            <h1>FantaVenezia</h1>
+            <p>Area Riservata - Seleziona un file</p>
+        </header>
+        
+        <div class="buttons-grid" id="buttons-container">
+            <!-- I pulsanti 1-6 -->
+            <!-- MODIFICA QUI I LINK AI TUOI PDF -->
+            <a href="https://drive.google.com/file/d/TUO_ID_FILE_1/preview" target="_blank" class="file-link">
+                <button class="btn">1</button>
+            </a>
+            <a href="https://drive.google.com/file/d/TUO_ID_FILE_2/preview" target="_blank" class="file-link">
+                <button class="btn">2</button>
+            </a>
+            <a href="URL_FILE_3" target="_blank" class="file-link">
+                <button class="btn">3</button>
+            </a>
+            <a href="URL_FILE_4" target="_blank" class="file-link">
+                <button class="btn">4</button>
+            </a>
+            <a href="URL_FILE_5" target="_blank" class="file-link">
+                <button class="btn">5</button>
+            </a>
+            <a href="URL_FILE_6" target="_blank" class="file-link">
+                <button class="btn">6</button>
+            </a>
+        </div>
+        
+        <div class="instructions">
+            <p class="warning">⚠️ Per modificare i link dei PDF, modifica questo file: area-riservata.html</p>
+            <p>Clicca sui numeri per aprire i file. I PDF si apriranno in una nuova finestra.</p>
+            <p>I file 1 e 2 sono già collegati a Google Drive (sostituisci TUO_ID_FILE_1 e TUO_ID_FILE_2 con i tuoi).</p>
+            <p>Per i file 3-6, sostituisci URL_FILE_3, ecc. con i link ai tuoi PDF.</p>
+        </div>
+    </div>
+
+    <script>
+        // Controlla se l'utente è loggato
+        if (!localStorage.getItem('fantaLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+        
+        function logout() {
+            localStorage.removeItem('fantaLoggedIn');
+            window.location.href = 'index.html';
+        }
+        
+        // Auto-logout dopo 2 ore (opzionale)
+        setTimeout(() => {
+            if (confirm('Sessione scaduta. Vuoi riaccedere?')) {
+                logout();
+            }
+        }, 7200000); // 2 ore in millisecondi
+    </script>
+</body>
+</html>
