@@ -1,6 +1,6 @@
 // ==================== CONFIGURAZIONE ====================
-const supabaseUrl = 'https://norfhoxpzdnbainkbwlw.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5vcmZob3hwemRuYmFpbmtid2x3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI4MDY4MzUsImV4cCI6MjA3ODM4MjgzNX0.SPP1DnlpnRMPVtEDir1pb74tGfMqNzxeIqMGSKaVr7A';
+const supabaseUrl = 'https://fzuzjijaveqpkkrucjhg.supabase.co';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6dXpqaWphdmVxcGtrcnVjamhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwNjUwNTksImV4cCI6MjA4NDY0MTA1OX0.k_p-Ku_FsyMg29Bzk7HTV5QYUGIVwH3LPu5V4t6cfJc';
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
 // Password unica per tutti gli utenti
@@ -418,3 +418,4 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
