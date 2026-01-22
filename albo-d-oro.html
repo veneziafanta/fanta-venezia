@@ -26,23 +26,6 @@
             border-radius: 15px;
             text-align: center;
             margin-bottom: 30px;
-            position: relative;
-        }
-        .back-btn {
-            position: absolute;
-            left: 20px;
-            top: 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            text-decoration: none;
-        }
-        .back-btn:hover {
-            background: rgba(255,255,255,0.3);
         }
         h1 {
             margin: 0;
@@ -53,6 +36,7 @@
             flex-direction: column;
             gap: 15px;
             padding: 20px;
+            margin-bottom: 40px;
         }
         .season-btn {
             background: white;
@@ -87,12 +71,39 @@
             border-width: 3px;
             background: linear-gradient(to right, #0055a410, #00924610);
         }
+        /* NUOVO: Pulsante in fondo */
+        .bottom-nav {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        .back-button {
+            display: inline-block;
+            background: linear-gradient(to right, #0055a4, #009246);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .back-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+        .back-icon {
+            margin-right: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <a href="area-riservata.html" class="back-btn">← Torna ai Pulsanti</a>
             <h1>🏆 Albo d'Oro</h1>
             <p>Seleziona una stagione</p>
         </header>
@@ -118,6 +129,13 @@
                 STAGIONE 2028/29
                 <br><small>(disponibile dal 2028)</small>
             </div>
+        </div>
+        
+        <!-- NUOVO: Pulsante in fondo alla pagina -->
+        <div class="bottom-nav">
+            <a href="area-riservata.html" class="back-button">
+                <span class="back-icon">←</span> TORNA AI PULSANTI
+            </a>
         </div>
     </div>
     
