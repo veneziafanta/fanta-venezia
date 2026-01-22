@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fantacalcio Venezia</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
     * {
         margin: 0;
@@ -15,14 +14,15 @@
     }
 
     body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-}
+        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+    }
+    
     .container {
         background: white;
         border-radius: 20px;
@@ -75,12 +75,6 @@
         box-shadow: 0 0 0 3px rgba(26, 95, 180, 0.1);
     }
 
-    input[type="checkbox"] {
-        width: 20px;
-        height: 20px;
-        margin: 0;
-    }
-
     .btn {
         width: 100%;
         padding: 16px;
@@ -102,14 +96,6 @@
         box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .btn-success {
-        background: #28a745;
-    }
-
-    .btn-success:hover {
-        background: #218838;
-    }
-
     .btn-secondary {
         background: #6c757d;
     }
@@ -118,25 +104,14 @@
         background: #5a6268;
     }
 
-    .btn-gold {
-        background: #ffd700;
-        color: #000;
+    .btn-live {
+        background: #dc3545;
+        font-size: 18px;
+        padding: 20px;
     }
 
-    .btn-gold:hover {
-        background: #ffed4e;
-    }
-
-    .link {
-        color: #1a5fb4;
-        text-decoration: none;
-        font-size: 14px;
-        cursor: pointer;
-        font-weight: 500;
-    }
-
-    .link:hover {
-        text-decoration: underline;
+    .btn-live:hover {
+        background: #c82333;
     }
 
     .message {
@@ -183,254 +158,11 @@
         font-size: 14px;
     }
 
-    .actions-section {
-        margin: 30px 0;
-    }
-
-    .actions-section h3 {
-        color: #1a5fb4;
-        margin-bottom: 25px;
-        text-align: center;
-        font-size: 22px;
-        font-weight: 600;
-    }
-
-    .actions-grid {
-        display: grid;
-        grid-template-columns: 1fr;
-        gap: 15px;
-        margin-bottom: 20px;
-    }
-
-    @media (min-width: 480px) {
-        .actions-grid {
-            grid-template-columns: 1fr 1fr;
-        }
-    }
-
-    .action-btn {
-        padding: 25px 20px;
-        color: white;
-        border: none;
-        border-radius: 16px;
-        font-size: 18px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s;
-        text-align: center;
-    }
-
-    .action-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    }
-
-    .action-btn .btn-icon {
-        font-size: 32px;
-        margin-bottom: 10px;
-        display: block;
-    }
-
-    .back-link {
-        text-align: center;
-        margin-top: 20px;
-    }
-
-    .tabs {
-        display: flex;
-        margin-bottom: 25px;
-        border-bottom: 2px solid #e9ecef;
-    }
-
-    .tab {
-        flex: 1;
-        padding: 16px;
-        text-align: center;
-        background: none;
-        border: none;
-        font-size: 16px;
-        cursor: pointer;
-        color: #6c757d;
-        border-bottom: 3px solid transparent;
-        font-weight: 500;
-    }
-
-    .tab.active {
-        color: #1a5fb4;
-        border-bottom-color: #1a5fb4;
-        font-weight: 600;
-    }
-
-    .documents-list {
-        margin: 25px 0;
-    }
-
-    .document-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 25px;
-        background: #f8f9fa;
-        border: 2px solid #e9ecef;
-        border-radius: 16px;
-        margin-bottom: 18px;
-        transition: all 0.3s;
-    }
-
-    .document-item:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-
-    .document-info {
-        display: flex;
-        align-items: center;
-        flex: 1;
-    }
-
-    .document-icon {
-        font-size: 36px;
-        margin-right: 18px;
-    }
-
-    .document-details h4 {
-        margin: 0;
-        color: #1a5fb4;
-        font-size: 18px;
-        font-weight: 600;
-    }
-
-    .document-details p {
-        margin: 6px 0 0 0;
-        color: #6c757d;
-        font-size: 14px;
-    }
-
-    .season-list {
-        margin: 25px 0;
-    }
-
-    .season-item {
-        padding: 30px;
-        background: #f8f9fa;
-        border: 2px solid #e9ecef;
-        border-radius: 16px;
-        margin-bottom: 18px;
-    }
-
-    .season-header {
-        text-align: center;
-        margin-bottom: 25px;
-    }
-
-    .season-header h3 {
-        color: #1a5fb4;
-        font-size: 24px;
-        margin-bottom: 12px;
-        font-weight: 600;
-    }
-
-    .trophy-section {
-        margin-bottom: 25px;
-    }
-
-    .trophy-section h4 {
-        color: #ffd700;
-        font-size: 18px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-    }
-
-    .trophy-list {
-        background: white;
-        padding: 20px;
-        border-radius: 12px;
-        border: 1px solid #e9ecef;
-    }
-
-    .trophy-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 0;
-        border-bottom: 1px solid #f1f3f4;
-    }
-
-    .trophy-item:last-child {
-        border-bottom: none;
-    }
-
-    .trophy-name {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-weight: 600;
-    }
-
-    .trophy-winner {
-        color: #1a5fb4;
-        font-weight: 600;
-    }
-
-    .modal {
-        display: none;
-        position: fixed;
-        z-index: 1000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0,0,0,0.7);
-    }
-
-    .modal-content {
-        background: white;
-        margin: 5% auto;
-        padding: 35px;
-        border-radius: 20px;
-        position: relative;
-        width: 90%;
-        max-width: 800px;
-        max-height: 80vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-    }
-
-    .close {
-        position: absolute;
-        top: 20px;
-        right: 25px;
-        font-size: 32px;
-        cursor: pointer;
-        color: #666;
-        font-weight: 300;
-    }
-
-    .close:hover {
-        color: #000;
-    }
-
     small {
         color: #666;
         font-size: 12px;
         display: block;
         margin-top: 6px;
-    }
-
-    .checkbox-group {
-        display: flex;
-        align-items: flex-start;
-        gap: 12px;
-        margin: 18px 0;
-    }
-
-    .checkbox-group label {
-        text-align: left;
-        font-size: 14px;
-        line-height: 1.4;
     }
 
     @media (max-width: 480px) {
@@ -450,43 +182,8 @@
         .header h1 {
             font-size: 28px;
         }
-        
-        .document-item {
-            flex-direction: column;
-            text-align: center;
-            gap: 18px;
-        }
-        
-        .document-info {
-            flex-direction: column;
-        }
-        
-        .document-icon {
-            margin-right: 0;
-            margin-bottom: 12px;
-        }
-        
-        .modal-content {
-            margin: 10% auto;
-            padding: 25px;
-        }
-        
-        .trophy-item {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 6px;
-        }
-        
-        .action-btn {
-            padding: 22px 18px;
-            font-size: 16px;
-        }
-        
-        .action-btn .btn-icon {
-            font-size: 28px;
-        }
     }
-</style>
+    </style>
 </head>
 <body>
     <div class="container">
@@ -496,7 +193,7 @@
         </div>
 
         <div class="content">
-            <!-- SEZIONE ACCESSO SEMPLIFICATO -->
+            <!-- SEZIONE LOGIN -->
             <div id="authSection">
                 <div style="text-align: center; margin-bottom: 30px;">
                     <h2 style="color: #1a5fb4;">ACCEDI A FANTAVENEZIA</h2>
@@ -508,7 +205,7 @@
                     🔐 <strong>Password unica per tutti:</strong> <code>FantaVenezia</code>
                 </div>
 
-                <!-- LOGIN SEMPLIFICATO -->
+                <!-- FORM LOGIN -->
                 <div class="form-group">
                     <input type="text" id="loginUsername" placeholder="Il tuo username" required>
                     <small>Username assegnato dallo staff (es: AlessandroG, MarcoZ, etc.)</small>
@@ -533,7 +230,7 @@
                 </div>
             </div>
 
-            <!-- SEZIONE UTENTE LOGGATO -->
+            <!-- SEZIONE UTENTE LOGGATO (SEMPLIFICATA) -->
             <div id="userSection" class="hidden">
                 <div class="user-info">
                     <h2 id="welcomeMessage">👋 Benvenuto!</h2>
@@ -543,452 +240,26 @@
                     </p>
                 </div>
 
-                <div class="actions-section">
-                    <h3>📋 AZIONI DISPONIBILI</h3>
+                <!-- SOLO CLASSIFICHE LIVE -->
+                <div style="text-align: center; margin: 40px 0;">
+                    <h3 style="color: #1a5fb4; margin-bottom: 25px;">📋 AZIONE DISPONIBILE</h3>
                     
-                    <div class="actions-grid">
-                        <button class="action-btn" style="background: #28a745;" onclick="showIscrizionePage()">
-    <span class="btn-icon">📝</span>
-    ISCRIZIONE 2026/2027
-    <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-        Iscriviti alla nuova stagione
-    </div>
-</button>
-                        
-                        <button class="action-btn" style="background: #28a745;" onclick="showDownloadPage()">
-                            <span class="btn-icon">📥</span>
-                            DOWNLOAD
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Vai alla pagina download
-                            </div>
-                        </button>
-
-                        <button class="action-btn" style="background: #dc3545; color: white;" onclick="apriClassificheLive()">
-                            <span class="btn-icon">📊</span>
-                            CLASSIFICHE LIVE
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Vai alle classifiche ufficiali
-                            </div>
-                        </button>
-
-                        <button class="action-btn" style="background: #ffd700; color: #000;" onclick="showAlboOroPage()">
-                            <span class="btn-icon">🏆</span>
-                            ALBO D'ORO
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Storia dei vincitori
-                            </div>
-                        </button>
-
-                        <button class="action-btn" style="background: #17a2b8; color: white;" onclick="showPartecipantiPage()">
-                            <span class="btn-icon">👥</span>
-                            PARTECIPANTI
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Lista partecipanti stagione
-                            </div>
-                        </button>
-
-                        <button class="action-btn" style="background: #20c997; color: white;" onclick="mostraStaff()">
-                            <span class="btn-icon">👨‍💼</span>
-                            STAFF
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Contatta lo staff
-                            </div>
-                        </button>
-
-                        <button class="action-btn" style="background: #6c757d; color: white; cursor: not-allowed;" onclick="mostraQuotaIscrizione()">
-                            <span class="btn-icon">💳</span>
-                            QUOTA ISCRIZIONE
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Pagamento quota stagionale
-                            </div>
-                        </button>
-
-                        <button class="action-btn" style="background: #ff6b6b; color: white;" onclick="mostraDonazioni()">
-                            <span class="btn-icon">❤️</span>
-                            DONAZIONI
-                            <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
-                                Supporta il fantacalcio
-                            </div>
-                        </button>
-                    </div>
+                    <button class="btn btn-live" onclick="apriClassificheLive()">
+                        <span style="font-size: 24px; margin-right: 10px;">📊</span>
+                        CLASSIFICHE LIVE
+                        <div style="font-size: 12px; opacity: 0.9; margin-top: 5px;">
+                            Vai alle classifiche ufficiali
+                        </div>
+                    </button>
+                    
+                    <p style="margin-top: 20px; font-size: 14px; color: #666;">
+                        Le altre funzioni saranno aggiunte prossimamente...
+                    </p>
                 </div>
 
                 <div style="margin-top: 30px; text-align: center;">
                     <button class="btn btn-secondary" onclick="logout()">ESCI</button>
                 </div>
-            </div>
-
-            <!-- PAGINA DOWNLOAD DOCUMENTI -->
-            <div id="downloadPage" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>📥 DOWNLOAD DOCUMENTI</h2>
-                    <p>Seleziona i documenti che vuoi scaricare</p>
-                </div>
-
-                <div class="documents-list">
-                    <div class="document-item">
-                        <div class="document-info">
-                            <div class="document-icon">📋</div>
-                            <div class="document-details">
-                                <h4>Regolamento Ufficiale</h4>
-                                <p>Il regolamento completo del Fantacalcio Venezia</p>
-                            </div>
-                        </div>
-                        <button class="btn btn-success" onclick="downloadDocument(pdfs[0])">
-                            SCARICA
-                        </button>
-                    </div>
-
-                    <div class="document-item">
-                        <div class="document-info">
-                            <div class="document-icon">📝</div>
-                            <div class="document-details">
-                                <h4>Termini e Condizioni</h4>
-                                <p>Termini e condizioni di partecipazione</p>
-                            </div>
-                        </div>
-                        <button class="btn btn-success" onclick="downloadDocument(pdfs[1])">
-                            SCARICA
-                        </button>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="showUserSection()">
-                        ← Torna alla Home
-                    </button>
-                </div>
-            </div>
-
-                       <!-- SEZIONE ISCRIZIONE -->
-            <div id="iscrizioneSection" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>📝 ISCRIZIONE STAGIONE 2026/2027</h2>
-                    <p>Compila il form per iscriverti alla nuova stagione</p>
-                </div>
-
-                <div id="iscrizioneForm">
-                    <div class="form-group">
-                        <input type="text" id="nome" name="nome" placeholder="Nome *" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="text" id="cognome" name="cognome" placeholder="Cognome *" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="text" id="nomeSquadra" name="nomesquadra" placeholder="Nome Squadra *" required>
-                        <small>Potrai modificare il nome squadra successivamente</small>
-                    </div>
-                    
-                    <div class="form-group">
-                        <input type="tel" id="telefono" name="telefono" placeholder="Numero di Telefono *" required>
-                        <small>Utilizzato solo per l'aggiunta al gruppo WhatsApp</small>
-                    </div>
-                    
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="termini" name="termini" required>
-                        <label for="termini">
-                            Accetto i 
-                            <a href="#" onclick="apriTermini()" class="link">
-                                Termini e Condizioni
-                            </a>
-                            del Fantacalcio Venezia *
-                        </label>
-                    </div>
-
-                    <button type="button" id="inviaIscrizione" class="btn" disabled style="background: #6c757d;" onclick="inviaIscrizione(event)">
-                        INVIA ISCRIZIONE
-                    </button>
-                </div>
-
-                <div id="iscrizioneMessage" class="message hidden"></div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="showUserSection()">
-                        ← Torna alla Home
-                    </button>
-                </div>
-            </div>
-
-            <!-- SEZIONE ALBO D'ORO -->
-            <div id="alboOroPage" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>🏆 ALBO D'ORO</h2>
-                    <p>La storia dei vincitori del Fantacalcio Venezia</p>
-                </div>
-
-                <div class="season-list">
-                    <div class="season-item" style="text-align: center; padding: 30px;">
-                        <button class="btn btn-gold" onclick="mostraStagione2526()" style="font-size: 20px; padding: 20px;">
-                            🏆 Stagione 25/26 🏆
-                        </button>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="showUserSection()">
-                        ← Torna alla Home
-                    </button>
-                </div>
-            </div>
-
-            <!-- SEZIONE STAGIONE 25/26 -->
-            <div id="stagione2526Page" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>🏆 STAGIONE 2025/26</h2>
-                    <p>I vincitori della stagione inaugurale</p>
-                </div>
-
-                <div class="season-item">
-                    <div class="season-header">
-                        <h3>Stagione 2025/26</h3>
-                    </div>
-                    
-                    <div class="trophy-section">
-                        <h4>🏆 Coppe</h4>
-                        <div class="trophy-list">
-                            <div class="trophy-item">
-                                <div class="trophy-name">Coppa Cavallino:</div>
-                                <div class="trophy-winner">???</div>
-                            </div>
-                            <div class="trophy-item">
-                                <div class="trophy-name">Pendolari Cup:</div>
-                                <div class="trophy-winner">???</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="trophy-section">
-                        <h4>🥇 Leghe</h4>
-                        <div class="trophy-list">
-                            <div class="trophy-item">
-                                <div class="trophy-name">Lega 464:</div>
-                                <div class="trophy-winner">1 ??? 🥇<br>2 ??? 🥈</div>
-                            </div>
-                            <div class="trophy-item">
-                                <div class="trophy-name">Lega Pop:</div>
-                                <div class="trophy-winner">1 ??? 🥇<br>2 ??? 🥈</div>
-                            </div>
-                            <div class="trophy-item">
-                                <div class="trophy-name">Lega Rock:</div>
-                                <div class="trophy-winner">1 ??? 🥇<br>2 ??? 🥈</div>
-                            </div>
-                            <div class="trophy-item">
-                                <div class="trophy-name">Lega Stadler:</div>
-                                <div class="trophy-winner">1 ??? 🥇<br>2 ??? 🥈</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="tornaAdAlboOro()">
-                        ← Torna all'Albo d'Oro
-                    </button>
-                </div>
-            </div>
-
-            <!-- SEZIONE PARTECIPANTI -->
-            <div id="partecipantiPage" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>👥 PARTECIPANTI</h2>
-                    <p>La lista completa dei partecipanti al Fantacalcio Venezia</p>
-                </div>
-
-                <div class="season-list">
-                    <div class="season-item" style="text-align: center; padding: 30px;">
-                        <button class="btn btn-gold" onclick="mostraListaPartecipanti2526()" style="font-size: 20px; padding: 20px;">
-                            👥 Stagione 25/26 👥
-                        </button>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="showUserSection()">
-                        ← Torna alla Home
-                    </button>
-                </div>
-            </div>
-
-            <!-- SEZIONE LISTA PARTECIPANTI 25/26 -->
-            <div id="listaPartecipanti2526Page" class="hidden">
-                <div style="text-align: center; margin-bottom: 30px;">
-                    <h2>👥 LISTA PARTECIPANTI 2025/26</h2>
-                    <p>Tutti i partecipanti della stagione inaugurale</p>
-                </div>
-
-                <div class="season-item">
-                    <div class="season-header">
-                        <h3>Partecipanti Stagione 2025/26</h3>
-                    </div>
-                    
-                    <div class="trophy-list" style="max-height: 500px; overflow-y: auto;">
-                        <!-- Lista partecipanti -->
-                        <div class="trophy-item"><div class="trophy-name"><strong>TotòRiino</strong></div><div class="trophy-winner">Alessandro Gandini</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Club Atletico San Lorenzosky</strong></div><div class="trophy-winner">AF</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>FC ETTANERA</strong></div><div class="trophy-winner">Galvs</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Dobbyk</strong></div><div class="trophy-winner">Fabio Callegari</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>GF Anticalcio</strong></div><div class="trophy-winner">GiacFanti</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Team Chiappetto</strong></div><div class="trophy-winner">Daniel Memo</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>StokeAzzo</strong></div><div class="trophy-winner">MarcoZana</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Papu Dance FC</strong></div><div class="trophy-winner">Edoardo Ferrara</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Locomotiv Frenz</strong></div><div class="trophy-winner">Claudio Fregonese</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>PORCO DIAO FC</strong></div><div class="trophy-winner">AleGrand</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Gioiello FC</strong></div><div class="trophy-winner">Gioele Busatto</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Pro Patriarcato</strong></div><div class="trophy-winner">Riccardo Vallotto</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>AC Picchia</strong></div><div class="trophy-winner">Francesco Zinato</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Duxlett</strong></div><div class="trophy-winner">Zoggione</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Ghesbgold</strong></div><div class="trophy-winner">Davide Travaglia</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>FC JOGA BENITO</strong></div><div class="trophy-winner">Gianmarco Formenti</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>LUDOgorets</strong></div><div class="trophy-winner">Ludovico</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>UC Diamoli</strong></div><div class="trophy-winner">DiegoSalvador</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Galetasaray</strong></div><div class="trophy-winner">Francesco Galleazzi</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>TEAM BARAZZO</strong></div><div class="trophy-winner">Davide Cornaviera</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Los Pizio</strong></div><div class="trophy-winner">Davide Lo Santo</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>AS ORCA</strong></div><div class="trophy-winner">Piero</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>SPERA EBBASTA</strong></div><div class="trophy-winner">Mattia Crivellin</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>GIN TONI</strong></div><div class="trophy-winner">Puggina Giacomo</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Gruppo Statico</strong></div><div class="trophy-winner">Fabbbio Galesi</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>PRO SECCO FC</strong></div><div class="trophy-winner">Matteo Pavan</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Atletico ma non troppo</strong></div><div class="trophy-winner">Luca Tognin</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Cuotamare</strong></div><div class="trophy-winner">Cipo</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>IL SESTO ASENSIO</strong></div><div class="trophy-winner">Davide Battagliarin</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>SPALtalino</strong></div><div class="trophy-winner">Marco Molin Pradel</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Vandeputtan Tour</strong></div><div class="trophy-winner">Federico Zamengo</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Lele Mosina</strong></div><div class="trophy-winner">Raffaele C</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Acchiappacolore</strong></div><div class="trophy-winner">Riccardo Busola</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Ciosa Capitale</strong></div><div class="trophy-winner">Francesco Nordio</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>AC CIUGHINA</strong></div><div class="trophy-winner">Matteo Dittadi</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>AC apocchia</strong></div><div class="trophy-winner">Francesco</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Vardyo merdoso</strong></div><div class="trophy-winner">Gianluca De Nardi</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>CortoMuso</strong></div><div class="trophy-winner">Davide Piran</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>BMM</strong></div><div class="trophy-winner">Jacopo Cattarinussi</div></div>
-                        <div class="trophy-item"><div class="trophy-name"><strong>Bassano AMOR</strong></div><div class="trophy-winner">Alby Ventrix</div></div>
-                    </div>
-                </div>
-
-                <div style="margin-top: 30px; text-align: center;">
-                    <button class="btn btn-secondary" onclick="tornaAPartecipanti()">
-                        ← Torna ai Partecipanti
-                    </button>
-                </div>
-            </div>
-
-           <!-- SEZIONE STAFF -->
-<div id="staffPage" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>👨‍💼 STAFF FANTACALCIO VENEZIA</h2>
-        <p>Se hai bisogno di assistenza contatta il nostro staff via WhatsApp</p>
-    </div>
-
-    <div class="season-item">
-        <div class="season-header">
-            <h3>Il Nostro Team</h3>
-        </div>
-        
-        <div class="trophy-list">
-            <div style="margin-bottom: 20px;">
-                <div class="trophy-name" style="margin-bottom: 15px; font-size: 18px;">
-                    <strong>Organizzatori</strong>
-                </div>
-                <div style="display: flex; flex-direction: column; gap: 10px;">
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Davide Galvan</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Alessandro Gandini</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Marco Molin Pradel</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Andrea Favaro</div>
-                    <div class="trophy-winner" style="padding: 8px; background: #f8f9fa; border-radius: 5px;">Davide Travaglia</div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="showUserSection()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
-          <!-- SEZIONE QUOTA ISCRIZIONE -->
-<div id="quotaIscrizionePage" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>💳 QUOTA ISCRIZIONE</h2>
-        <p>Pagamento quota stagionale</p>
-    </div>
-
-    <div class="season-item" style="text-align: center; padding: 40px;">
-        <h3 style="color: #1a5fb4; margin-bottom: 20px;">Pagamento Quota Stagione 2026/27</h3>
-        <p style="margin-bottom: 20px; font-size: 18px;">
-            <strong>Importo:</strong> €30,00
-        </p>
-       
-        <!-- PULSANTE PAYPAL PER QUOTA -->
-        <div style="margin: 30px 0;">
-            <a href="https://paypal.me/fantavenezia/30" target="_blank" 
-               class="btn" 
-               style="background: #0070ba; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
-                💳 Paga Quota €30 con PayPal
-            </a>
-        </div>
-        
-        <p style="color: #6c757d; font-size: 14px; margin-top: 20px;">
-            <strong>Importante:</strong> Dopo il pagamento, conserva la ricevuta
-        </p>
-    </div>
-
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="showUserSection()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
-
-<!-- SEZIONE DONAZIONI -->
-<div id="donazioniPage" class="hidden">
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h2>❤️ DONAZIONI</h2>
-        <p>Supporta FantaVenezia</p>
-    </div>
-
-    <div class="season-item" style="text-align: center; padding: 40px;">
-        <p style="margin-bottom: 20px; font-size: 16px;">
-            Le donazioni sostengono i costi del fantacalcio e lo sviluppo della community FantaVenezia! 
-            Ogni contributo è apprezzato 💙
-        </p>
-        
-        <!-- PULSANTE KO-FI -->
-        <div style="margin: 30px 0;">
-            <a href="https://ko-fi.com/fantavenezia" target="_blank" 
-               class="btn" 
-               style="background: #29ABE0; color: white; font-size: 18px; padding: 15px 30px; text-decoration: none; display: inline-block; margin: 10px;">
-                ☕ Dona su Ko-fi
-            </a>
-        </div>
-        
-        <p style="font-size: 14px; color: #6c757d; margin-top: 20px;">
-            Ko-fi è 100% gratis - zero commissioni! Donazioni libere e sicure.
-        </p>
-    </div>
-
-    <div style="margin-top: 30px; text-align: center;">
-        <button class="btn btn-secondary" onclick="showUserSection()">
-            ← Torna alla Home
-        </button>
-    </div>
-</div>
-
-    <!-- MODAL TERMINI E CONDIZIONI -->
-    <div id="terminiModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="chiudiTermini()">×</span>
-            <h3 style="text-align: center; margin-bottom: 20px;">Termini e Condizioni - Fantacalcio Venezia</h3>
-            <div id="terminiContent">
-                <div style="text-align: center; padding: 40px;">
-                    <p>Caricamento termini e condizioni...</p>
-                </div>
-            </div>
-            <div style="text-align: center; margin-top: 20px;">
-                <button class="btn btn-secondary" onclick="chiudiTermini()">Chiudi</button>
             </div>
         </div>
     </div>
@@ -998,26 +269,24 @@
         const supabaseUrl = 'https://fzuzjijaveqpkkrucjhg.supabase.co';
         const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6dXpqaWphdmVxcGtrcnVjamhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwNjUwNTksImV4cCI6MjA4NDY0MTA1OX0.k_p-Ku_FsyMg29Bzk7HTV5QYUGIVwH3LPu5V4t6cfJc';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-        
-        // Inizializza EmailJS
-        emailjs.init("Q43lIRoGk8Gy3AuET");
-        console.log('EmailJS inizializzato con template_bqk6pxy');
-        
-        const pdfs = [
-            { 
-                name: "Regolamento - Fantacalcio Venezia.pdf", 
-                link: "https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" 
-            },
-            { 
-                name: "Termini e Condizioni - Fantacalcio Venezia.pdf", 
-                link: "https://drive.google.com/uc?export=download&id=1P0_fQiFKq1IjCyEToVT515-Thpc1OtMe" 
-            }
-        ];
 
         // Password unica per tutti gli utenti
         const UNIVERSAL_PASSWORD = "FantaVenezia";
 
-        // ==================== SISTEMA DI AUTENTICAZIONE SEMPLIFICATO ====================
+        // ==================== FUNZIONI BASE ====================
+        function showMessage(elementId, message, type) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message ${type}`;
+            element.classList.remove('hidden');
+        }
+
+        function hideAllSections() {
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('userSection').classList.add('hidden');
+        }
+
+        // ==================== SISTEMA LOGIN SEMPLIFICATO ====================
         async function login() {
             const username = document.getElementById('loginUsername').value.trim();
             const password = document.getElementById('loginPassword').value;
@@ -1043,385 +312,138 @@
             }
             
             try {
-                // Cerca l'utente nella tabella "utenti" di Supabase
-                const { data, error } = await supabase
+                console.log('🔍 Cercando utente con username:', username.toLowerCase());
+                
+                // 1. Prima prova: cerca nella tabella 'utenti'
+                let userData = null;
+                
+                const { data: utentiData, error: utentiError } = await supabase
                     .from('utenti')
                     .select('*')
                     .eq('username', username.toLowerCase());
                 
-                if (error) {
-                    console.error('Errore Supabase:', error);
-                    showMessage('loginMessage', '❌ Errore di connessione al database', 'error');
-                    return;
+                console.log('📊 Risultati da "utenti":', utentiData);
+                
+                if (utentiError) {
+                    console.error('❌ Errore tabella utenti:', utentiError);
                 }
                 
-                // Controlla se sono stati trovati utenti
-                if (!data || data.length === 0) {
+                if (utentiData && utentiData.length > 0) {
+                    userData = utentiData[0];
+                    console.log('✅ Utente trovato in tabella "utenti"');
+                } else {
+                    console.log('ℹ️ Nessun utente trovato in tabella "utenti", provo con "iscrizioni"...');
+                    
+                    // 2. Seconda prova: cerca nella tabella 'iscrizioni'
+                    const { data: iscrizioniData, error: iscrizioniError } = await supabase
+                        .from('iscrizioni')
+                        .select('*')
+                        .ilike('nome_squadra', `%${username.toLowerCase()}%`);
+                    
+                    console.log('📊 Risultati da "iscrizioni":', iscrizioniData);
+                    
+                    if (iscrizioniError) {
+                        console.error('❌ Errore tabella iscrizioni:', iscrizioniError);
+                    }
+                    
+                    if (iscrizioniData && iscrizioniData.length > 0) {
+                        userData = iscrizioniData[0];
+                        console.log('✅ Utente trovato in tabella "iscrizioni"');
+                    }
+                }
+                
+                if (!userData) {
                     showMessage('loginMessage', '❌ Username non trovato. Contatta lo staff.', 'error');
                     return;
                 }
                 
-                // Prendi il primo utente trovato (dovrebbe essercene solo uno per username)
-                const user = data[0];
+                // Prepara i dati utente
+                const userInfo = {
+                    username: userData.username || username,
+                    nome_completo: userData.nome_completo || 
+                                 (userData.nome && userData.cognome ? 
+                                  `${userData.nome} ${userData.cognome}` : 
+                                  userData.nome_squadra || username),
+                    email: userData.email || '',
+                    squadra: userData.squadra || userData.nome_squadra || '',
+                    data_registrazione: userData.data_registrazione || 
+                                       userData.data_iscrizione || 
+                                       new Date().toISOString()
+                };
                 
-                // Salva i dati dell'utente in localStorage
-                localStorage.setItem('fantavenezia_user', JSON.stringify({
-                    username: user.username,
-                    nome_completo: user.nome_completo,
-                    email: user.email,
-                    squadra: user.squadra,
-                    data_registrazione: user.data_registrazione
-                }));
+                console.log('💾 Dati utente da salvare:', userInfo);
+                
+                // Salva in localStorage
+                localStorage.setItem('fantavenezia_user', JSON.stringify(userInfo));
                 
                 // Mostra messaggio di successo
                 showMessage('loginMessage', '✅ Accesso riuscito!', 'success');
                 
-                // Mostra la sezione utente dopo 1 secondo
+                // Mostra la sezione utente
                 setTimeout(() => {
-                    showUserSection(user.nome_completo, user.username);
+                    showUserSection(userInfo.nome_completo, userInfo.username);
                 }, 1000);
                 
             } catch (error) {
-                console.error('Errore durante il login:', error);
+                console.error('💥 Errore durante il login:', error);
                 showMessage('loginMessage', '❌ Errore di sistema. Riprova più tardi.', 'error');
             }
         }
 
-        function showUserSection(nomeCompleto = '', username = '') {
+        function showUserSection(nomeCompleto, username) {
             hideAllSections();
             document.getElementById('userSection').classList.remove('hidden');
             
             // Personalizza il messaggio di benvenuto
-            const userData = JSON.parse(localStorage.getItem('fantavenezia_user') || '{}');
-            const displayName = nomeCompleto || userData.nome_completo || userData.username || '';
-            
-            document.getElementById('welcomeMessage').textContent = `👋 Benvenuto ${displayName}!`;
-            document.getElementById('userDisplayName').textContent = `Accesso come: ${username || userData.username || ''}`;
+            document.getElementById('welcomeMessage').textContent = `👋 Benvenuto ${nomeCompleto || username}!`;
+            document.getElementById('userDisplayName').textContent = `Accesso come: ${username}`;
         }
 
         function showAuthSection() {
             hideAllSections();
             document.getElementById('authSection').classList.remove('hidden');
             
-            // Pulisci i campi del form
+            // Pulisci i campi
             document.getElementById('loginUsername').value = '';
             document.getElementById('loginPassword').value = '';
             
-            // Pulisci i messaggi
-            clearMessages();
+            // Pulisci messaggi
+            document.getElementById('loginMessage').classList.add('hidden');
         }
 
         function logout() {
-            // Rimuovi i dati dalla localStorage
             localStorage.removeItem('fantavenezia_user');
-            
-            // Torna alla schermata di login
             showAuthSection();
-        }
-
-        // ==================== FUNZIONI PAGINE ====================
-        function hideAllSections() {
-            const sections = [
-                'authSection', 'userSection', 'downloadPage', 'iscrizioneSection', 
-                'alboOroPage', 'stagione2526Page', 'partecipantiPage',
-                'listaPartecipanti2526Page', 'staffPage', 'quotaIscrizionePage', 'donazioniPage'
-            ];
-            sections.forEach(section => {
-                document.getElementById(section)?.classList.add('hidden');
-            });
-        }
-
-        function showDownloadPage() {
-            hideAllSections();
-            document.getElementById('downloadPage').classList.remove('hidden');
-        }
-
-        function showIscrizionePage() {
-            hideAllSections();
-            document.getElementById('iscrizioneSection').classList.remove('hidden');
-            document.getElementById('iscrizioneForm').reset();
-            aggiornaBottoneIscrizione();
-        }
-
-        function showAlboOroPage() {
-            hideAllSections();
-            document.getElementById('alboOroPage').classList.remove('hidden');
-        }
-
-        function showPartecipantiPage() {
-            hideAllSections();
-            document.getElementById('partecipantiPage').classList.remove('hidden');
-        }
-
-        function mostraStaff() {
-            hideAllSections();
-            document.getElementById('staffPage').classList.remove('hidden');
-        }
-
-        function mostraQuotaIscrizione() {
-            hideAllSections();
-            document.getElementById('quotaIscrizionePage').classList.remove('hidden');
-        }
-
-        function mostraDonazioni() {
-            hideAllSections();
-            document.getElementById('donazioniPage').classList.remove('hidden');
-        }
-
-        // Funzioni di navigazione secondarie
-        function mostraStagione2526() {
-            hideAllSections();
-            document.getElementById('stagione2526Page').classList.remove('hidden');
-        }
-
-        function tornaAdAlboOro() {
-            hideAllSections();
-            document.getElementById('alboOroPage').classList.remove('hidden');
-        }
-
-        function mostraListaPartecipanti2526() {
-            hideAllSections();
-            document.getElementById('listaPartecipanti2526Page').classList.remove('hidden');
-        }
-
-        function tornaAPartecipanti() {
-            hideAllSections();
-            document.getElementById('partecipantiPage').classList.remove('hidden');
-        }
-
-        // ==================== FUNZIONI UTILITY ====================
-        function downloadDocument(pdf) {
-            const link = document.createElement('a');
-            link.href = pdf.link;
-            link.download = pdf.name;
-            link.target = '_blank';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
         }
 
         function apriClassificheLive() {
             window.open('https://leghe.fantacalcio.it/fantaferroviavenezia?id=428212', '_blank');
         }
 
-        function showMessage(elementId, message, type) {
-            const element = document.getElementById(elementId);
-            element.textContent = message;
-            element.className = `message ${type}`;
-            element.classList.remove('hidden');
-        }
-
-        function clearMessages() {
-            const messages = ['loginMessage', 'registerMessage', 'resetMessage', 'changePasswordMessage', 'iscrizioneMessage'];
-            messages.forEach(msg => {
-                document.getElementById(msg)?.classList.add('hidden');
-            });
-        }
-
-        // ==================== FUNZIONI ISCRIZIONE ====================
-        function aggiornaBottoneIscrizione() {
-            const nome = document.getElementById('nome').value.trim();
-            const cognome = document.getElementById('cognome').value.trim();
-            const nomeSquadra = document.getElementById('nomeSquadra').value.trim();
-            const telefono = document.getElementById('telefono').value.trim();
-            const termini = document.getElementById('termini').checked;
-            const bottone = document.getElementById('inviaIscrizione');
-            
-            const formCompleto = nome && cognome && nomeSquadra && telefono && termini;
-            
-            if (formCompleto) {
-                bottone.disabled = false;
-                bottone.style.background = '#28a745';
-            } else {
-                bottone.disabled = true;
-                bottone.style.background = '#6c757d';
-            }
-        }
-
-        async function getCurrentUserEmail() {
-            const userData = JSON.parse(localStorage.getItem('fantavenezia_user') || '{}');
-            return userData.email || 'Email non disponibile';
-        }
-
-        async function inviaIscrizione(event) {
-            if (event) event.preventDefault();
-            
-            const bottone = document.getElementById('inviaIscrizione');
-            const messaggio = document.getElementById('iscrizioneMessage');
-            
-            bottone.disabled = true;
-            bottone.textContent = 'INVIO IN CORSO...';
-            bottone.style.background = '#6c757d';
-            
-            try {
-                const userData = JSON.parse(localStorage.getItem('fantavenezia_user') || '{}');
-                const userEmail = userData.email || '';
-                
-                const datiIscrizione = {
-                    nome: document.getElementById('nome').value.trim(),
-                    cognome: document.getElementById('cognome').value.trim(),
-                    nome_squadra: document.getElementById('nomeSquadra').value.trim(),
-                    telefono: document.getElementById('telefono').value.trim(),
-                    email: userEmail,
-                    data_iscrizione: new Date().toLocaleString('it-IT'),
-                    stagione: '2026/2027'
-                };
-                
-                console.log('Dati da salvare:', datiIscrizione);
-                
-                // 1. SALVA SU SUPABASE
-                const { data, error } = await supabase
-                    .from('iscrizioni')
-                    .insert([datiIscrizione]);
-                
-                if (error) throw error;
-
-                // 2. INVIA L'EMAIL A STAFF
-                try {
-                    await emailjs.send('service_eh1l8ai', 'template_bqk6pxy', {
-                        to_email: 'veneziafanta@gmail.com',
-                        from_name: `${datiIscrizione.nome} ${datiIscrizione.cognome}`,
-                        nome: datiIscrizione.nome,
-                        cognome: datiIscrizione.cognome,
-                        nome_squadra: datiIscrizione.nome_squadra,
-                        telefono: datiIscrizione.telefono,
-                        email_utente: datiIscrizione.email,
-                        data_iscrizione: datiIscrizione.data_iscrizione,
-                        stagione: datiIscrizione.stagione,
-                        subject: `Nuova Iscrizione Stagione ${datiIscrizione.stagione} - ${datiIscrizione.nome} ${datiIscrizione.cognome}`
-                    });
-                    
-                    console.log('Email inviata con successo a veneziafanta@gmail.com');
-                    
-                } catch (emailError) {
-                    console.error('Errore invio email:', emailError);
-                }
-
-                // 3. MOSTRA MESSAGGIO DI SUCCESSO
-                messaggio.innerHTML = `
-                    <div style="text-align: center; padding: 15px;">
-                        <div style="font-size: 48px; margin-bottom: 15px;">✅</div>
-                        <h3 style="color: #155724; margin-bottom: 15px;">Iscrizione Confermata!</h3>
-                        <p style="margin-bottom: 10px;">
-                            <strong>La tua richiesta per la stagione ${datiIscrizione.stagione} è stata registrata con successo.</strong>
-                        </p>
-                        <p style="margin-bottom: 5px;">
-                            📋 <strong>Dati inseriti:</strong><br>
-                            - Nome: ${datiIscrizione.nome} ${datiIscrizione.cognome}<br>
-                            - Squadra: ${datiIscrizione.nome_squadra}<br>
-                            - Telefono: ${datiIscrizione.telefono}<br>
-                            - Email: ${datiIscrizione.email}
-                        </p>
-                        <p style="margin-top: 15px; padding: 12px; background: #e7f3ff; border-radius: 8px;">
-                            <strong>🚀 Prossimi passi:</strong><br>
-                            Una volta effettuato il pagamento della quota stagionale,<br>
-                            <strong>riceverai un messaggio WhatsApp di conferma dallo Staff entro 24/48 ore.</strong>
-                        </p>
-                        <p style="margin-top: 10px; font-size: 12px; color: #666;">
-                            Verrai reindirizzato alla home page tra 15 secondi...
-                        </p>
-                    </div>
-                `;
-                messaggio.className = 'message success';
-                messaggio.classList.remove('hidden');
-                
-                // RESET MANUALE DEI CAMPI
-                document.getElementById('nome').value = '';
-                document.getElementById('cognome').value = '';
-                document.getElementById('nomeSquadra').value = '';
-                document.getElementById('telefono').value = '';
-                document.getElementById('termini').checked = false;
-                aggiornaBottoneIscrizione();
-                
-                // Reindirizza alla home dopo 15 secondi
-                setTimeout(() => {
-                    showUserSection();
-                }, 15000);
-                
-            } catch (error) {
-                console.error('Errore durante l\'iscrizione:', error);
-                messaggio.innerHTML = `
-                    <div style="text-align: center; padding: 15px;">
-                        <div style="font-size: 48px; margin-bottom: 15px;">❌</div>
-                        <h3 style="color: #721c24; margin-bottom: 10px;">Errore durante la registrazione</h3>
-                        <p>Si è verificato un problema: ${error.message}</p>
-                        <p style="margin-top: 15px; font-size: 14px;">
-                            Se il problema persiste, contatta lo Staff tramite la sezione "STAFF".
-                        </p>
-                    </div>
-                `;
-                messaggio.className = 'message error';
-                messaggio.classList.remove('hidden');
-                
-                // Riabilita il bottone
-                bottone.disabled = false;
-                bottone.textContent = 'INVIA ISCRIZIONE';
-                aggiornaBottoneIscrizione();
-            }
-        }
-
-        // ==================== MODAL TERMINI ====================
-        function apriTermini() {
-            document.getElementById('terminiModal').style.display = 'block';
-            caricaTermini();
-        }
-
-        function chiudiTermini() {
-            document.getElementById('terminiModal').style.display = 'none';
-        }
-
-        function caricaTermini() {
-            const terminiContent = document.getElementById('terminiContent');
-            terminiContent.innerHTML = `
-                <iframe 
-                    src="https://drive.google.com/file/d/1P0_fQiFKq1IjCyEToVT515-Thpc1OtMe/preview" 
-                    width="100%" 
-                    height="500" 
-                    style="border: none; border-radius: 8px;"
-                    allow="autoplay"
-                ></iframe>
-            `;
-        }
-
         // ==================== INIZIALIZZAZIONE ====================
         document.addEventListener('DOMContentLoaded', function() {
             // Controlla se l'utente è già loggato
-            const userData = localStorage.getItem('fantavenezia_user');
+            const savedUser = localStorage.getItem('fantavenezia_user');
             
-            if (userData) {
+            if (savedUser) {
                 try {
-                    const user = JSON.parse(userData);
+                    const user = JSON.parse(savedUser);
                     showUserSection(user.nome_completo, user.username);
                 } catch (error) {
-                    // Se ci sono errori, mostra la schermata di login
+                    console.error('Errore nel parsing user data:', error);
                     showAuthSection();
                 }
             } else {
                 showAuthSection();
             }
             
-            // Aggiungi listener per il tasto Enter
+            // Tasto Enter per login
             document.getElementById('loginPassword').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') login();
             });
             
             document.getElementById('loginUsername').addEventListener('keypress', function(e) {
                 if (e.key === 'Enter') login();
-            });
-            
-            // Event listeners per form iscrizione
-            const iscrizioneInputs = ['nome', 'cognome', 'nomeSquadra', 'telefono'];
-            iscrizioneInputs.forEach(input => {
-                document.getElementById(input).addEventListener('input', aggiornaBottoneIscrizione);
-            });
-            document.getElementById('termini').addEventListener('change', aggiornaBottoneIscrizione);
-
-            // Click outside modal
-            window.addEventListener('click', function(e) {
-                const modal = document.getElementById('terminiModal');
-                if (e.target === modal) {
-                    chiudiTermini();
-                }
             });
         });
     </script>
