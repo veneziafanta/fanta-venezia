@@ -16,7 +16,7 @@
             min-height: 100vh;
         }
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
         }
         header {
@@ -54,16 +54,11 @@
         }
         .buttons-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
             padding: 20px;
         }
-        @media (min-width: 768px) {
-            .buttons-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        @media (max-width: 480px) {
+        @media (max-width: 600px) {
             .buttons-grid {
                 grid-template-columns: 1fr;
             }
@@ -71,7 +66,7 @@
         .btn {
             background: white;
             border: none;
-            padding: 25px 15px;
+            padding: 30px 15px;
             border-radius: 10px;
             font-size: 18px;
             font-weight: bold;
@@ -80,17 +75,22 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             transition: all 0.3s;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            aspect-ratio: 1;
+            height: 140px;
             text-align: center;
-            line-height: 1.3;
+            line-height: 1.4;
         }
         .btn:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0,0,0,0.2);
             background: #0055a4;
             color: white;
+        }
+        .btn-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
         }
         .file-link {
             display: block;
@@ -102,7 +102,7 @@
             padding: 20px;
             border-radius: 10px;
             margin: 30px auto;
-            max-width: 600px;
+            max-width: 800px;
             text-align: center;
             color: #666;
             font-size: 14px;
@@ -120,6 +120,29 @@
         .staff-btn:hover {
             background: linear-gradient(to right, #ff5252, #ff7a3d);
             box-shadow: 0 10px 20px rgba(255,107,107,0.4);
+            color: white;
+        }
+        .quota-btn {
+            background: linear-gradient(to right, #28a745, #20c997);
+            color: white;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        }
+        .quota-btn:hover {
+            background: linear-gradient(to right, #218838, #1ba87e);
+            box-shadow: 0 10px 20px rgba(40,167,69,0.4);
+            color: white;
+        }
+        .donation-btn {
+            background: linear-gradient(to right, #e83e8c, #fd7e14);
+            color: white;
+            border: 3px solid white;
+            box-shadow: 0 5px 15px rgba(232,62,140,0.3);
+        }
+        .donation-btn:hover {
+            background: linear-gradient(to right, #d6307c, #e86b12);
+            box-shadow: 0 10px 20px rgba(232,62,140,0.4);
+            color: white;
         }
     </style>
 </head>
@@ -134,44 +157,66 @@
         <div class="buttons-grid" id="buttons-container">
             <!-- PULSANTE 1: Albo d'Oro -->
             <a href="albo-d-oro.html" class="file-link">
-                <button class="btn">🏆<br>Albo d'Oro</button>
+                <button class="btn">
+                    <div class="btn-icon">🏆</div>
+                    Albo d'Oro
+                </button>
             </a>
             
             <!-- PULSANTE 2: Assistenza -->
             <a href="assistenza.html" class="file-link">
-                <button class="btn">🤝<br>Assistenza</button>
+                <button class="btn">
+                    <div class="btn-icon">🤝</div>
+                    Assistenza
+                </button>
             </a>
             
             <!-- PULSANTE 3: Documenti di Lega -->
             <a href="documenti-lega.html" class="file-link">
-                <button class="btn">📄<br>Documenti Lega</button>
+                <button class="btn">
+                    <div class="btn-icon">📄</div>
+                    Documenti Lega
+                </button>
             </a>
             
             <!-- PULSANTE 4: Iscrizione 26/27 -->
             <a href="iscrizione.html" class="file-link">
-                <button class="btn">📝<br>Iscrizione 26/27</button>
+                <button class="btn">
+                    <div class="btn-icon">📝</div>
+                    Iscrizione 26/27
+                </button>
             </a>
             
-            <!-- PULSANTE 5: Disponibile (per ora placeholder) -->
-            <a href="#" class="file-link" onclick="comingSoon()">
-                <button class="btn">5<br><small style="font-size: 12px;">Disponibile a breve</small></button>
+            <!-- PULSANTE 5: Quota Iscrizione -->
+            <a href="quota-iscrizione.html" class="file-link">
+                <button class="btn quota-btn">
+                    <div class="btn-icon">💰</div>
+                    Quota Iscrizione
+                </button>
             </a>
             
-            <!-- PULSANTE 6: Disponibile (per ora placeholder) -->
-            <a href="#" class="file-link" onclick="comingSoon()">
-                <button class="btn">6<br><small style="font-size: 12px;">Disponibile a breve</small></button>
+            <!-- PULSANTE 6: Donazioni -->
+            <a href="donazioni.html" class="file-link">
+                <button class="btn donation-btn">
+                    <div class="btn-icon">❤️</div>
+                    Donazioni
+                </button>
             </a>
             
             <!-- PULSANTE 7: Area Staff (solo organizzatori) -->
             <a href="area-staff.html" class="file-link">
-                <button class="btn staff-btn">🔐<br>Area Staff</button>
+                <button class="btn staff-btn">
+                    <div class="btn-icon">🔐</div>
+                    Area Staff
+                </button>
             </a>
         </div>
         
         <div class="instructions">
             <p class="warning">⚠️ L'Area Staff è riservata solo agli organizzatori</p>
-            <p>Per assistenza tecnica o problemi con il sito, contatta gli organizzatori tramite il pulsante "Assistenza".</p>
-            <p>I documenti della lega sono disponibili per il download nel pulsante "Documenti Lega".</p>
+            <p><strong>Per completare l'iscrizione:</strong> 1) Compila il modulo "Iscrizione 26/27" → 2) Paga la "Quota Iscrizione"</p>
+            <p>Le donazioni sono volontarie e aiutano a migliorare il torneo.</p>
+            <p>Per problemi tecnici, contatta gli organizzatori tramite "Assistenza".</p>
         </div>
     </div>
 
@@ -184,11 +229,6 @@
         function logout() {
             localStorage.removeItem('fantaLoggedIn');
             window.location.href = 'index.html';
-        }
-        
-        function comingSoon() {
-            alert('Questa sezione sarà disponibile a breve!');
-            return false;
         }
         
         // Auto-logout dopo 2 ore (opzionale)
