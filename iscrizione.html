@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iscrizione - FantaVenezia</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        header {
+            background: linear-gradient(to right, #0055a4, #009246);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0 0 10px 0;
+            font-size: 28px;
+        }
+        .subtitle {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        .content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 40px;
+        }
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            margin: 30px 0;
+        }
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #0055a4;
+        }
+        .step-number {
+            background: #0055a4;
+            color: white;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .step-content h3 {
+            margin: 0 0 10px 0;
+            color: #0055a4;
+        }
+        .step-content p {
+            margin: 0;
+            color: #666;
+        }
+        .documents-box {
+            background: #e8f4fd;
+            border: 2px solid #0055a4;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        .doc-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .doc-btn {
+            display: inline-block;
+            background: #0055a4;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        .doc-btn:hover {
+            background: #003d82;
+            transform: translateY(-2px);
+        }
+        .form-btn-container {
+            text-align: center;
+            margin: 40px 0 20px 0;
+        }
+        .form-btn {
+            display: inline-block;
+            background: linear-gradient(to right, #0055a4, #009246);
+            color: white;
+            padding: 18px 50px;
+            border-radius: 50px;
+            font-size: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0,85,164,0.3);
+        }
+        .form-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,85,164,0.4);
+        }
+        .warning {
+            color: #d9534f;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+        /* PULSANTE INDIETRO */
+        .back-container {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        .back-btn {
+            display: inline-block;
+            background: #0055a4;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        .back-btn:hover {
+            background: #003d82;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Iscrizione FantaVenezia 26/27</h1>
+            <p class="subtitle">Compila il modulo per partecipare alla prossima stagione</p>
+        </header>
+        
+        <div class="content">
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Scarica i documenti</h3>
+                        <p>Leggi attentamente il regolamento e i termini prima di iscriverti.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Compila il modulo</h3>
+                        <p>Inserisci i tuoi dati e conferma di aver letto i documenti.</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Conferma</h3>
+                        <p>Riceverai una conferma e ti contatteremo per i prossimi passi.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Documenti da scaricare -->
+            <div class="documents-box">
+                <h2 style="color: #0055a4; margin-top: 0;">📄 Documenti obbligatori</h2>
+                <p>Scarica e leggi questi documenti PRIMA di compilare il modulo:</p>
+                
+                <div class="doc-buttons">
+                    <a href="https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" 
+                       class="doc-btn" download>
+                        📥 Scarica REGOLAMENTO
+                    </a>
+                    <a href="https://drive.google.com/uc?export=download&id=1P0_fQiFKq1IjCyEToVT515-Thpc1OtMe" 
+                       class="doc-btn" download>
+                        📥 Scarica TERMINI
+                    </a>
+                </div>
+                
+                <p class="warning">⚠️ È obbligatorio aver letto entrambi i documenti</p>
+            </div>
+            
+            <!-- Pulsante per Google Form -->
+            <div class="form-btn-container">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLScsnlaWR8a9fyrqnV12_4xPU7TTFNL2NqQGRb0-ZGKC0NdPLw/viewform" 
+                   target="_blank" class="form-btn">
+                    🚀 COMPILA IL MODULO DI ISCRIZIONE
+                </a>
+                <p style="margin-top: 15px; color: #666; font-size: 14px;">
+                    Si aprirà Google Forms in una nuova finestra
+                </p>
+            </div>
+            
+            <!-- Note importanti -->
+            <div style="background: #fff3cd; padding: 20px; border-radius: 10px; margin-top: 30px;">
+                <h3 style="color: #856404; margin-top: 0;">💡 Informazioni importanti</h3>
+                <ul style="color: #856404;">
+                    <li>Il modulo richiede circa 2 minuti per essere completato</li>
+                    <li>Assicurati di aver letto i documenti prima di compilare</li>
+                    <li>Riceverai conferma dell'iscrizione via email (se fornita)</li>
+                    <li>Per problemi tecnici, contatta lo staff tramite il pulsante "Assistenza"</li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- PULSANTE INDIETRO -->
+        <div class="back-container">
+            <a href="area-riservata.html" class="back-btn">
+                ← INDIETRO
+            </a>
+        </div>
+    </div>
+    
+    <script>
+        // Controlla se l'utente è loggato
+        if (!localStorage.getItem('fantaLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
