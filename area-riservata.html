@@ -8,215 +8,285 @@
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
         body {
             margin: 0;
-            padding: 20px;
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 15px;
+            background: linear-gradient(135deg, #1a2980 0%, #26d0ce 100%);
             min-height: 100vh;
         }
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
         header {
-            background: linear-gradient(to right, #0055a4, #009246);
-            color: white;
+            background: rgba(255, 255, 255, 0.95);
             padding: 20px;
-            border-radius: 15px 15px 0 0;
+            border-radius: 15px;
             text-align: center;
-            margin-bottom: 30px;
-            position: relative;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
         }
-        .logout-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(255,255,255,0.2);
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
+        .logo {
             font-size: 14px;
-        }
-        .logout-btn:hover {
-            background: rgba(255,255,255,0.3);
+            color: #0055a4;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
         }
         h1 {
-            margin: 0;
-            padding: 10px 0;
+            color: #0055a4;
+            margin: 0 0 8px 0;
+            font-size: 24px;
         }
-        .welcome-text {
-            margin: 5px 0 0 0;
-            opacity: 0.9;
+        .subtitle {
+            color: #666;
             font-size: 14px;
+            margin-bottom: 15px;
+        }
+        .logout-btn {
+            background: #0055a4;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 5px;
+        }
+        .logout-btn:hover {
+            background: #003d82;
+            transform: translateY(-2px);
         }
         .buttons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 20px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            padding: 10px;
         }
-        @media (max-width: 600px) {
+        /* Solo su schermi grandi (4 pulsanti per riga) */
+        @media (min-width: 900px) {
             .buttons-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        /* Su tablet medio (3 pulsanti per riga) */
+        @media (min-width: 600px) and (max-width: 899px) {
+            .buttons-grid {
+                grid-template-columns: repeat(3, 1fr);
             }
         }
         .btn {
             background: white;
             border: none;
-            padding: 30px 15px;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #0055a4;
+            padding: 20px 10px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #333;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 140px;
+            height: 110px;
             text-align: center;
-            line-height: 1.4;
+            position: relative;
+            overflow: hidden;
         }
         .btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            background: #0055a4;
-            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .btn:active {
+            transform: translateY(-1px);
         }
         .btn-icon {
-            font-size: 32px;
-            margin-bottom: 10px;
+            font-size: 26px;
+            margin-bottom: 8px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .file-link {
-            display: block;
-            text-decoration: none;
-            color: inherit;
+        .btn-text {
+            font-size: 13px;
+            line-height: 1.3;
+            max-width: 90%;
         }
-        .instructions {
-            background: white;
-            padding: 20px;
+        .btn-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #ff4757;
+            color: white;
+            font-size: 10px;
+            padding: 2px 6px;
             border-radius: 10px;
-            margin: 30px auto;
-            max-width: 800px;
-            text-align: center;
-            color: #666;
-            font-size: 14px;
-        }
-        .warning {
-            color: #ff3860;
             font-weight: bold;
         }
-        .staff-btn {
-            background: linear-gradient(to right, #ff6b6b, #ff8e53);
-            color: white;
-            border: 3px solid white;
-            box-shadow: 0 5px 15px rgba(255,107,107,0.3);
+        .file-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
         }
-        .staff-btn:hover {
-            background: linear-gradient(to right, #ff5252, #ff7a3d);
-            box-shadow: 0 10px 20px rgba(255,107,107,0.4);
-            color: white;
+        /* Colori specifici per ogni pulsante */
+        .btn-1 { border-top: 4px solid #ff9f43; }
+        .btn-1:hover { background: #fff9f0; }
+        
+        .btn-2 { border-top: 4px solid #54a0ff; }
+        .btn-2:hover { background: #f0f8ff; }
+        
+        .btn-3 { border-top: 4px solid #00d2d3; }
+        .btn-3:hover { background: #f0ffff; }
+        
+        .btn-4 { border-top: 4px solid #5f27cd; }
+        .btn-4:hover { background: #f5f0ff; }
+        
+        .btn-5 { border-top: 4px solid #10ac84; }
+        .btn-5:hover { background: #f0fff9; }
+        
+        .btn-6 { border-top: 4px solid #ff6b81; }
+        .btn-6:hover { background: #fff0f3; }
+        
+        .btn-7 { border-top: 4px solid #ff9ff3; }
+        .btn-7:hover { background: #fff0fd; }
+        
+        .status-bar {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 12px;
+            margin: 25px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            font-size: 13px;
+            color: #666;
         }
-        .quota-btn {
-            background: linear-gradient(to right, #28a745, #20c997);
-            color: white;
-            border: 3px solid white;
-            box-shadow: 0 5px 15px rgba(40,167,69,0.3);
+        .status-highlight {
+            color: #0055a4;
+            font-weight: bold;
+            background: #e8f4fd;
+            padding: 4px 10px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 0 5px;
         }
-        .quota-btn:hover {
-            background: linear-gradient(to right, #218838, #1ba87e);
-            box-shadow: 0 10px 20px rgba(40,167,69,0.4);
-            color: white;
+        .footer {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 12px;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .donation-btn {
-            background: linear-gradient(to right, #e83e8c, #fd7e14);
-            color: white;
-            border: 3px solid white;
-            box-shadow: 0 5px 15px rgba(232,62,140,0.3);
-        }
-        .donation-btn:hover {
-            background: linear-gradient(to right, #d6307c, #e86b12);
-            box-shadow: 0 10px 20px rgba(232,62,140,0.4);
-            color: white;
+        .pulsante-numero {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            background: rgba(0, 0, 0, 0.05);
+            color: #666;
+            font-size: 11px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <button class="logout-btn" onclick="logout()">LOGOUT</button>
-            <h1>FantaVenezia</h1>
-            <p class="welcome-text">Area Riservata - Scegli un'opzione</p>
+            <div class="logo">FANTAVENEZIA</div>
+            <h1>Area Riservata</h1>
+            <p class="subtitle">Stagione 2026/27 - Accesso partecipanti</p>
+            <button class="logout-btn" onclick="logout()">ESCI</button>
         </header>
         
-        <div class="buttons-grid" id="buttons-container">
+        <div class="buttons-grid">
             <!-- PULSANTE 1: Albo d'Oro -->
             <a href="albo-d-oro.html" class="file-link">
-                <button class="btn">
+                <button class="btn btn-1">
+                    <div class="pulsante-numero">1</div>
                     <div class="btn-icon">🏆</div>
-                    Albo d'Oro
+                    <div class="btn-text">Albo d'Oro</div>
                 </button>
             </a>
             
             <!-- PULSANTE 2: Assistenza -->
             <a href="assistenza.html" class="file-link">
-                <button class="btn">
+                <button class="btn btn-2">
+                    <div class="pulsante-numero">2</div>
                     <div class="btn-icon">🤝</div>
-                    Assistenza
+                    <div class="btn-text">Assistenza</div>
                 </button>
             </a>
             
             <!-- PULSANTE 3: Documenti di Lega -->
             <a href="documenti-lega.html" class="file-link">
-                <button class="btn">
+                <button class="btn btn-3">
+                    <div class="pulsante-numero">3</div>
                     <div class="btn-icon">📄</div>
-                    Documenti Lega
+                    <div class="btn-text">Documenti</div>
                 </button>
             </a>
             
             <!-- PULSANTE 4: Iscrizione 26/27 -->
             <a href="iscrizione.html" class="file-link">
-                <button class="btn">
+                <button class="btn btn-4">
+                    <div class="pulsante-numero">4</div>
                     <div class="btn-icon">📝</div>
-                    Iscrizione 26/27
+                    <div class="btn-text">Iscrizione 26/27</div>
                 </button>
             </a>
             
             <!-- PULSANTE 5: Quota Iscrizione -->
             <a href="quota-iscrizione.html" class="file-link">
-                <button class="btn quota-btn">
+                <button class="btn btn-5">
+                    <div class="pulsante-numero">5</div>
                     <div class="btn-icon">💰</div>
-                    Quota Iscrizione
+                    <div class="btn-text">Quota €30</div>
                 </button>
             </a>
             
             <!-- PULSANTE 6: Donazioni -->
             <a href="donazioni.html" class="file-link">
-                <button class="btn donation-btn">
+                <button class="btn btn-6">
+                    <div class="pulsante-numero">6</div>
                     <div class="btn-icon">❤️</div>
-                    Donazioni
+                    <div class="btn-text">Donazioni</div>
                 </button>
             </a>
             
-            <!-- PULSANTE 7: Area Staff (solo organizzatori) -->
+            <!-- PULSANTE 7: Area Staff -->
             <a href="area-staff.html" class="file-link">
-                <button class="btn staff-btn">
+                <button class="btn btn-7">
+                    <div class="pulsante-numero">7</div>
                     <div class="btn-icon">🔐</div>
-                    Area Staff
+                    <div class="btn-text">Area Staff</div>
                 </button>
             </a>
         </div>
         
-        <div class="instructions">
-            <p class="warning">⚠️ L'Area Staff è riservata solo agli organizzatori</p>
-            <p><strong>Per completare l'iscrizione:</strong> 1) Compila il modulo "Iscrizione 26/27" → 2) Paga la "Quota Iscrizione"</p>
-            <p>Le donazioni sono volontarie e aiutano a migliorare il torneo.</p>
-            <p>Per problemi tecnici, contatta gli organizzatori tramite "Assistenza".</p>
+        <div class="status-bar">
+            <p>
+                <span class="status-highlight">⚠️ Importante</span> 
+                Per iscriversi: 1) Modulo → 2) Pagamento quota
+            </p>
+            <p style="margin-top: 8px; font-size: 12px;">
+                Area Staff riservata agli organizzatori • Donazioni volontarie
+            </p>
+        </div>
+        
+        <div class="footer">
+            FantaVenezia © 2024 • Accesso protetto • Versione 1.0
         </div>
     </div>
 
@@ -231,12 +301,25 @@
             window.location.href = 'index.html';
         }
         
-        // Auto-logout dopo 2 ore (opzionale)
+        // Auto-logout dopo 3 ore
         setTimeout(() => {
-            if (confirm('Sessione scaduta. Vuoi riaccedere?')) {
+            if (confirm('Sessione in scadenza. Vuoi rimanere collegato?')) {
+                // Rinnova la sessione
+                localStorage.setItem('fantaLoggedIn', 'true');
+            } else {
                 logout();
             }
-        }, 7200000); // 2 ore in millisecondi
+        }, 10800000); // 3 ore
+        
+        // Aggiungi effetto click sui pulsanti
+        document.querySelectorAll('.btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 150);
+            });
+        });
     </script>
 </body>
 </html>
