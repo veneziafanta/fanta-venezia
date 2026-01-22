@@ -996,11 +996,13 @@
     <script>
         // ==================== CONFIGURAZIONE ====================
         const supabaseUrl = 'https://fzuzjijaveqpkkrucjhg.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6dXpqaWphdmVxcGtrcnVjamhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwNjUwNTksImV4cCI6MjA4NDY0MTA1OX0.k_p-Ku_FsyMg29Bzk7HTV5QYUGIVwH3LPu5V4t6cfJc';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZ6dXpqaWphdmVxcGtrcnVjamhnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwNjUwNTksImV4cCI6MjA4NDY0MTA1OX0.k_p-Ku_FsyMg29Bzk7HTV5QYUGIVwH3LPu5V4t6cfJc';
         const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
-                 // Inizializza EmailJS
+        
+        // Inizializza EmailJS
         emailjs.init("Q43lIRoGk8Gy3AuET");
         console.log('EmailJS inizializzato con template_bqk6pxy');
+        
         const pdfs = [
             { 
                 name: "Regolamento - Fantacalcio Venezia.pdf", 
@@ -1045,21 +1047,30 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
                 const { data, error } = await supabase
                     .from('utenti')
                     .select('*')
-                    .eq('username', username.toLowerCase())
-                    .single();
+                    .eq('username', username.toLowerCase());
                 
-                if (error || !data) {
+                if (error) {
+                    console.error('Errore Supabase:', error);
+                    showMessage('loginMessage', '❌ Errore di connessione al database', 'error');
+                    return;
+                }
+                
+                // Controlla se sono stati trovati utenti
+                if (!data || data.length === 0) {
                     showMessage('loginMessage', '❌ Username non trovato. Contatta lo staff.', 'error');
                     return;
                 }
                 
+                // Prendi il primo utente trovato (dovrebbe essercene solo uno per username)
+                const user = data[0];
+                
                 // Salva i dati dell'utente in localStorage
                 localStorage.setItem('fantavenezia_user', JSON.stringify({
-                    username: data.username,
-                    nome_completo: data.nome_completo,
-                    email: data.email,
-                    squadra: data.squadra,
-                    data_registrazione: data.data_registrazione
+                    username: user.username,
+                    nome_completo: user.nome_completo,
+                    email: user.email,
+                    squadra: user.squadra,
+                    data_registrazione: user.data_registrazione
                 }));
                 
                 // Mostra messaggio di successo
@@ -1067,7 +1078,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
                 
                 // Mostra la sezione utente dopo 1 secondo
                 setTimeout(() => {
-                    showUserSection(data.nome_completo, data.username);
+                    showUserSection(user.nome_completo, user.username);
                 }, 1000);
                 
             } catch (error) {
@@ -1416,5 +1427,3 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
     </script>
 </body>
 </html>
-
-
