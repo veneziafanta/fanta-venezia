@@ -43,6 +43,19 @@
             font-style: italic;
         }
         
+        /* MEDIA QUERY PER MOBILE */
+        @media (max-width: 600px) {
+            .site-title {
+                font-size: 38px; /* Leggermente più piccolo per mobile */
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .site-title {
+                font-size: 34px; /* Ancora più piccolo per schermi molto piccoli */
+            }
+        }
+        
         /* DUE PULSANTI PRINCIPALI */
         .main-buttons {
             display: grid;
@@ -216,17 +229,6 @@
             transform: translateY(-2px);
         }
         
-        /* CREDENZIALI */
-        .credentials-box {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 25px;
-            font-size: 14px;
-            color: #666;
-            text-align: left;
-        }
-        
         /* FOOTER */
         .footer {
             color: rgba(255, 255, 255, 0.7);
@@ -279,12 +281,6 @@
             </div>
             
             <button class="back-btn" onclick="showMainMenu()">← Torna al menu</button>
-            
-            <div class="credentials-box">
-                <strong>Credenziali per tutti i partecipanti:</strong><br>
-                Username: <code>FantaVenezia1</code><br>
-                Password: <code>FantaVenezia1</code>
-            </div>
         </div>
         
         <!-- INFO BOX (NASCOSTO) -->
@@ -292,7 +288,7 @@
             <h2 class="info-title">ℹ️ Informazioni</h2>
             
             <div class="info-content">
-                <p>Se cerchi informazioni per partecipare al torneo o ti servono le credenziali di accesso, manda una mail a:</p>
+                <p>Se cerchi informazioni per partecipare al torneo o ti servono le credenziali di accesso, manda una mail con il tuo nome cognome numero di telefono a:</p>
                 
                 <p style="text-align: center;">
                     <a href="mailto:veneziafanta@gmail.com" class="email-link">
@@ -316,9 +312,9 @@
     </div>
 
     <script>
-        // Credenziali
-        const CORRECT_USERNAME = "FantaVenezia1";
-        const CORRECT_PASSWORD = "FantaVenezia1";
+        // Credenziali MODIFICATE
+        const CORRECT_USERNAME = "Utente?"; // CAMBIATO DA "FantaVenezia1"
+        const CORRECT_PASSWORD = "FantaVenezia1"; // RIMANE COSÌ
         
         // Elementi
         const mainButtons = document.getElementById('mainButtons');
