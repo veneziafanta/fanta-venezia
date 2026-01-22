@@ -71,33 +71,28 @@
             border-width: 3px;
             background: linear-gradient(to right, #0055a410, #00924610);
         }
-        /* NUOVO: Pulsante in fondo */
-        .bottom-nav {
+        /* PULSANTE INDIETRO */
+        .back-container {
             text-align: center;
             margin-top: 40px;
             padding-top: 30px;
             border-top: 2px solid #ddd;
         }
-        .back-button {
+        .back-btn {
             display: inline-block;
-            background: linear-gradient(to right, #0055a4, #009246);
+            background: #0055a4;
             color: white;
             border: none;
-            padding: 15px 40px;
-            border-radius: 50px;
-            font-size: 18px;
-            font-weight: bold;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
-        .back-button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
-        }
-        .back-icon {
-            margin-right: 10px;
+        .back-btn:hover {
+            background: #003d82;
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -109,12 +104,10 @@
         </header>
         
         <div class="season-list">
-            <!-- Stagione attuale (cliccabile) -->
             <a href="stagione-25-26.html" class="season-btn current-season">
                 🏆 STAGIONE 2025/26
             </a>
             
-            <!-- Stagioni future (non cliccabili per ora) -->
             <div class="season-btn coming-soon">
                 STAGIONE 2026/27
                 <br><small>(disponibile dal 2026)</small>
@@ -131,16 +124,15 @@
             </div>
         </div>
         
-        <!-- NUOVO: Pulsante in fondo alla pagina -->
-        <div class="bottom-nav">
-            <a href="area-riservata.html" class="back-button">
-                <span class="back-icon">←</span> TORNA AI PULSANTI
+        <!-- PULSANTE INDIETRO -->
+        <div class="back-container">
+            <a href="area-riservata.html" class="back-btn">
+                ← INDIETRO
             </a>
         </div>
     </div>
     
     <script>
-        // Controlla se l'utente è loggato
         if (!localStorage.getItem('fantaLoggedIn')) {
             window.location.href = 'index.html';
         }
