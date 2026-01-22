@@ -63,17 +63,13 @@
         .document-title {
             color: #0055a4;
             font-size: 20px;
-            margin: 0 0 10px 0;
+            margin: 0 0 15px 0;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         .document-icon {
             font-size: 24px;
-        }
-        .document-desc {
-            color: #666;
-            margin: 0 0 15px 0;
         }
         .download-btn {
             display: inline-block;
@@ -93,21 +89,6 @@
         }
         .download-icon {
             margin-right: 8px;
-        }
-        .file-size {
-            color: #888;
-            font-size: 14px;
-            margin-left: 15px;
-        }
-        .info-box {
-            background: #e8f4fd;
-            border-left: 4px solid #0055a4;
-            padding: 15px;
-            margin: 25px 0;
-            border-radius: 8px;
-            text-align: center;
-            font-size: 14px;
-            color: #0055a4;
         }
         /* PULSANTE INDIETRO */
         .back-container {
@@ -142,23 +123,16 @@
         </header>
         
         <div class="content">
-            <div class="info-box">
-                ⚠️ <strong>Nota:</strong> I file si scaricheranno automaticamente cliccando sui pulsanti.
-            </div>
-            
             <div class="documents-list">
                 <!-- Documento 1 -->
                 <div class="document-card">
                     <h3 class="document-title">
                         <span class="document-icon">📋</span>
-                        Documento 1
+                        Termini e condizioni
                     </h3>
-                    <p class="document-desc">
-                        Documento ufficiale della lega - Regolamento e norme
-                    </p>
                     <a href="https://drive.google.com/uc?export=download&id=1P0_fQiFKq1IjCyEToVT515-Thpc1OtMe" 
                        class="download-btn" download>
-                        <span class="download-icon">⬇️</span> Scarica Documento 1
+                        <span class="download-icon">⬇️</span> Scarica Termini e condizioni
                     </a>
                 </div>
                 
@@ -166,14 +140,11 @@
                 <div class="document-card">
                     <h3 class="document-title">
                         <span class="document-icon">📋</span>
-                        Documento 2
+                        Regolamento Fantavenezia
                     </h3>
-                    <p class="document-desc">
-                        Documento ufficiale della lega - Formato e calendario
-                    </p>
                     <a href="https://drive.google.com/uc?export=download&id=1iZwtWh7W_U4YzYeAAucUB_5LBFcHJRj1" 
                        class="download-btn" download>
-                        <span class="download-icon">⬇️</span> Scarica Documento 2
+                        <span class="download-icon">⬇️</span> Scarica Regolamento
                     </a>
                 </div>
             </div>
@@ -206,7 +177,8 @@
         // Aggiungi conferma download
         document.querySelectorAll('.download-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
-                const docName = this.textContent.includes('Documento 1') ? 'Documento 1' : 'Documento 2';
+                // Estrae il nome del documento dal testo del pulsante
+                const docName = this.textContent.replace('⬇️ Scarica ', '');
                 if (!confirm(`Stai per scaricare "${docName}". Vuoi continuare?`)) {
                     e.preventDefault();
                 }
