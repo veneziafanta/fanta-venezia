@@ -22,10 +22,24 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
+            background-attachment: fixed;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+        
+        /* MODIFICA SOLO PER DESKTOP: immagine più grande */
+        @media (min-width: 768px) {
+            body {
+                background: 
+                    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+                    url('logo-fantavenezia.jpg');
+                background-size: 110% auto; /* INGRANDITA DEL 10% solo su desktop */
+                background-position: center;
+                background-attachment: fixed;
+                background-repeat: no-repeat;
+            }
         }
         
         .container {
@@ -40,7 +54,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* HEADER PERFETTO PER MOBILE */
+        /* HEADER CON SCRITTA COLORATA */
         .site-header {
             margin-bottom: 40px;
             position: relative;
@@ -383,14 +397,8 @@
             }
         }
         
-        /* MEDIA QUERY PER DESKTOP */
+        /* MODIFICA PER DESKTOP (> 768px) */
         @media (min-width: 768px) {
-            body {
-                padding: 20px;
-                background-size: contain;
-                background-color: #f8f9fa;
-            }
-            
             .container {
                 max-width: 700px;
             }
@@ -401,6 +409,7 @@
             
             .site-subtitle {
                 font-size: 18px;
+                padding: 10px 30px;
             }
             
             .buttons-grid {
@@ -412,12 +421,41 @@
                 height: 130px;
                 min-height: 130px;
                 max-height: 130px;
+                padding: 25px 15px;
+            }
+            
+            .btn-icon {
+                font-size: 36px;
+                margin-bottom: 12px;
+            }
+            
+            .btn-label {
+                font-size: 15px;
+                height: 38px;
             }
             
             .info-box {
                 max-width: 650px;
                 margin-left: auto;
                 margin-right: auto;
+                padding: 25px;
+            }
+            
+            .logout-btn {
+                max-width: 350px;
+                padding: 16px 40px;
+                font-size: 16px;
+            }
+            
+            /* IMMAGINE DI SFONDO PIÙ GRANDE SOLO PER DESKTOP */
+            /* La modifica è già in cima al CSS nella regola @media (min-width: 768px) per body */
+        }
+        
+        /* MEDIA QUERY PER DESKTOP LARGE */
+        @media (min-width: 1024px) {
+            /* Per schermi molto grandi, possiamo ingrandire ulteriormente l'immagine */
+            body {
+                background-size: 115% auto;
             }
         }
         
@@ -572,7 +610,10 @@
             bgImage.src = 'logo-fantavenezia.jpg';
             bgImage.onerror = function() {
                 console.error('Immagine di sfondo non trovata');
-                document.body.style.background = 'linear-gradient(135deg, #FF8C00 0%, #000000 50%, #008000 100%)';
+                // Fallback per desktop
+                if (window.innerWidth >= 768) {
+                    document.body.style.background = 'linear-gradient(135deg, #FF8C00 0%, #000000 50%, #008000 100%)';
+                }
             };
         });
         
@@ -587,11 +628,27 @@
             }
         }
         
-        window.addEventListener('resize', handleOrientation);
+        // Regola la dimensione dell'immagine su desktop al resize
+        function handleResize() {
+            if (window.innerWidth >= 768) {
+                // Per desktop: puoi regolare la percentuale in base alla dimensione dello schermo
+                if (window.innerWidth >= 1024) {
+                    document.body.style.backgroundSize = '115% auto';
+                } else {
+                    document.body.style.backgroundSize = '110% auto';
+                }
+            } else {
+                // Per mobile: reset a cover
+                document.body.style.backgroundSize = 'cover';
+            }
+        }
+        
+        window.addEventListener('resize', handleResize);
         window.addEventListener('orientationchange', handleOrientation);
         
         // Inizializza
         handleOrientation();
+        handleResize(); // Imposta la dimensione corretta all'inizio
     </script>
 </body>
 </html>
