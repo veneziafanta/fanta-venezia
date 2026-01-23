@@ -8,7 +8,7 @@
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
         }
@@ -17,37 +17,21 @@
             margin: 0;
             padding: 15px;
             background: 
-                /* Overlay molto leggero per non oscurare l'immagine */
-                linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)),
-                /* Immagine di sfondo con gestione ottimizzata */
+                linear-gradient(rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.05)),
                 url('logo-fantavenezia.jpg');
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            background-attachment: fixed;
             min-height: 100vh;
-            position: relative;
-            padding-bottom: 70px;
-        }
-        
-        /* Ottimizzazione per PC - migliora la nitidezza */
-        @media (min-width: 768px) {
-            body {
-                background-image: 
-                    linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03)),
-                    url('logo-fantavenezia.jpg');
-                background-size: contain; /* Cambiato per PC per evitare sgranatura */
-                background-position: center;
-                background-color: #f8f9fa; /* Colore di fallback per bordi su PC */
-            }
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
         
         .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
             animation: fadeIn 0.8s ease-out;
         }
         
@@ -56,153 +40,149 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* HEADER IDENTICO A INDEX.HTML */
+        /* HEADER PERFETTO PER MOBILE */
         .site-header {
-            text-align: center;
-            margin: 30px 0 50px 0;
-            width: 100%;
+            margin-bottom: 40px;
             position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 20%;
+            width: 60%;
+            height: 3px;
+            background: linear-gradient(90deg, #FF8C00, #000000, #008000);
+            border-radius: 3px;
         }
         
         .site-title {
-            color: white;
-            font-size: 52px;
+            font-size: 44px;
             font-weight: 900;
-            letter-spacing: 1.5px;
-            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #fff 0%, #2ecc71 50%, #3498db 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            /* Aggiungo un leggero contorno per maggiore visibilità */
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2px;
             text-shadow: 
-                2px 2px 0 rgba(0, 0, 0, 0.2),
-                -1px -1px 0 rgba(0, 0, 0, 0.2),
-                0 0 10px rgba(0, 0, 0, 0.5);
+                2px 2px 0 rgba(255, 255, 255, 0.3),
+                -2px -2px 0 rgba(255, 255, 255, 0.3),
+                0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        
+        .title-part {
+            display: inline-block;
+        }
+        
+        .fant {
+            color: #FF8C00;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .aven {
+            color: #000000;
+            text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3);
+        }
+        
+        .ezia {
+            color: #008000;
+            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
         }
         
         .site-subtitle {
-            color: rgba(0, 0, 0, 0.9);
-            font-size: 18px;
-            font-weight: 600;
-            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
-            background: rgba(255, 255, 255, 0.8);
-            padding: 8px 20px;
+            color: rgba(0, 0, 0, 0.95);
+            font-size: 16px;
+            font-weight: 700;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 8px 18px;
             border-radius: 25px;
             display: inline-block;
             backdrop-filter: blur(5px);
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin-top: 10px;
         }
         
-        /* GRIGLIA PULSANTI - DIMENSIONI UGUALI */
+        /* GRIGLIA PULSANTI PER MOBILE */
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 16px;
             width: 100%;
-            max-width: 750px;
-            margin: 0 auto 40px auto;
+            margin: 0 auto 30px auto;
         }
         
-        @media (min-width: 768px) {
-            .buttons-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        /* PULSANTI CON DIMENSIONI UGUALI */
+        /* PULSANTI PERFETTAMENTE UGUALI */
         .menu-btn {
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.97);
             border: none;
             border-radius: 18px;
-            padding: 25px 15px;
-            height: 130px;
+            padding: 20px 12px;
+            height: 115px;
             width: 100%;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            min-height: 130px;
-            max-height: 130px;
+            min-height: 115px;
+            max-height: 115px;
             backdrop-filter: blur(5px);
-            border: 2px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.4);
             position: relative;
             overflow: hidden;
         }
         
-        .menu-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.7s;
-        }
-        
         .menu-btn:hover {
-            transform: translateY(-8px) scale(1.03);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-        }
-        
-        .menu-btn:hover::before {
-            left: 100%;
+            transform: translateY(-5px) scale(1.03);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
         }
         
         .btn-icon {
-            font-size: 36px;
-            margin-bottom: 12px;
-            height: 40px;
+            font-size: 32px;
+            margin-bottom: 10px;
+            height: 35px;
             display: flex;
             align-items: center;
             justify-content: center;
-            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.15));
         }
         
         .btn-label {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 700;
             color: #2c3e50;
             line-height: 1.3;
-            height: 38px;
+            height: 34px;
             display: flex;
             align-items: center;
             justify-content: center;
             text-align: center;
             width: 100%;
+            padding: 0 5px;
         }
         
-        /* COLORI BORDI - TEMA ARANCIO/NERO/VERDE */
-        .btn-trophy { 
-            border-top: 8px solid #FF8C00;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.95));
-        }
-        .btn-help { 
-            border-top: 8px solid #000000;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.95));
-        }
-        .btn-docs { 
-            border-top: 8px solid #008000;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.95));
-        }
-        .btn-signup { 
-            border-top: 8px solid #FF8C00;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.95));
-        }
-        .btn-fee { 
-            border-top: 8px solid #000000;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.95));
-        }
-        .btn-donate { 
-            border-top: 8px solid #008000;
-            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.95));
-        }
+        /* COLORI BORDI */
+        .btn-trophy { border-top: 6px solid #FF8C00; }
+        .btn-help { border-top: 6px solid #000000; }
+        .btn-docs { border-top: 6px solid #008000; }
+        .btn-signup { border-top: 6px solid #FF8C00; }
+        .btn-fee { border-top: 6px solid #000000; }
+        .btn-donate { border-top: 6px solid #008000; }
+        
+        /* BACKGROUND LEGGERMENTE COLORATO PER PULSANTI */
+        .btn-trophy { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.97)); }
+        .btn-help { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.97)); }
+        .btn-docs { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.97)); }
+        .btn-signup { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.97)); }
+        .btn-fee { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.97)); }
+        .btn-donate { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.97)); }
         
         .btn-link {
             text-decoration: none;
@@ -211,23 +191,22 @@
             height: 100%;
         }
         
-        /* STAFF BUTTON PICCOLO */
+        /* STAFF BUTTON PER MOBILE */
         .staff-mini-btn {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            bottom: 15px;
+            left: 15px;
             background: linear-gradient(135deg, #FF8C00 0%, #e67e00 100%);
-            backdrop-filter: blur(10px);
             border: 2px solid #000000;
             color: white;
-            padding: 10px 18px;
+            padding: 10px 16px;
             border-radius: 25px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             z-index: 100;
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
@@ -237,52 +216,20 @@
             background: linear-gradient(135deg, #e67e00 0%, #cc7000 100%);
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 140, 0, 0.6);
-            border-color: #008000;
         }
         
-        /* LOGOUT IN FONDO */
-        .logout-section {
-            text-align: center;
-            margin-top: 50px;
-            padding-top: 30px;
-            border-top: 2px solid rgba(255, 255, 255, 0.3);
-            width: 100%;
-            max-width: 750px;
-        }
-        
-        .logout-btn {
-            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
-            color: white;
-            border: none;
-            padding: 16px 50px;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
-            letter-spacing: 1px;
-        }
-        
-        .logout-btn:hover {
-            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
-        }
-        
-        /* INFO BOX */
+        /* INFO BOX PER MOBILE */
         .info-box {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.97);
             border: 2px solid #3498db;
-            border-radius: 20px;
-            padding: 25px;
-            margin: 30px 0;
+            border-radius: 18px;
+            padding: 22px;
+            margin: 25px 0;
             text-align: center;
             color: #333;
             width: 100%;
-            max-width: 750px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            backdrop-filter: blur(5px);
         }
         
         .info-highlight {
@@ -292,17 +239,17 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            padding: 8px 20px;
+            padding: 8px 18px;
             border-radius: 25px;
             display: inline-block;
             margin-bottom: 15px;
-            font-size: 18px;
+            font-size: 17px;
             border: 2px solid rgba(255, 140, 0, 0.3);
         }
         
         .info-box p {
-            font-size: 16px;
-            line-height: 1.6;
+            font-size: 15px;
+            line-height: 1.5;
             color: #444;
             font-weight: 500;
         }
@@ -310,27 +257,57 @@
         .info-box strong {
             color: #2c3e50;
             background: rgba(255, 140, 0, 0.1);
-            padding: 2px 8px;
-            border-radius: 5px;
+            padding: 2px 6px;
+            border-radius: 4px;
         }
         
-        /* FOOTER */
+        /* LOGOUT PER MOBILE */
+        .logout-section {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px solid rgba(255, 255, 255, 0.4);
+            width: 100%;
+        }
+        
+        .logout-btn {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
+            letter-spacing: 0.5px;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .logout-btn:hover {
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        /* FOOTER PER MOBILE */
         .site-footer {
             text-align: center;
-            color: rgba(0, 0, 0, 0.8);
-            font-size: 14px;
-            margin-top: 30px;
+            color: rgba(0, 0, 0, 0.85);
+            font-size: 13px;
+            margin-top: 25px;
             line-height: 1.5;
             width: 100%;
-            max-width: 750px;
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.85);
             padding: 15px;
             border-radius: 15px;
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
         
-        /* Icone colorate per ogni pulsante */
+        /* Icone colorate */
         .btn-trophy .btn-icon { color: #FF8C00; }
         .btn-help .btn-icon { color: #000000; }
         .btn-docs .btn-icon { color: #008000; }
@@ -338,90 +315,139 @@
         .btn-fee .btn-icon { color: #000000; }
         .btn-donate .btn-icon { color: #008000; }
         
-        /* Media queries per mobile */
-        @media (max-width: 600px) {
+        /* MEDIA QUERY PER SCHEMI PICCOLI */
+        @media (max-width: 380px) {
             .site-title {
-                font-size: 42px;
-            }
-            
-            .site-subtitle {
-                font-size: 16px;
-                padding: 6px 15px;
+                font-size: 38px;
+                gap: 1px;
             }
             
             .buttons-grid {
-                gap: 15px;
+                grid-template-columns: 1fr;
+                max-width: 280px;
+                gap: 14px;
             }
             
             .menu-btn {
-                height: 120px;
-                min-height: 120px;
-                max-height: 120px;
-                padding: 20px 12px;
+                height: 110px;
+                min-height: 110px;
+                max-height: 110px;
+                padding: 18px 10px;
             }
             
             .btn-icon {
-                font-size: 32px;
-                margin-bottom: 10px;
+                font-size: 30px;
+                margin-bottom: 8px;
+            }
+            
+            .btn-label {
+                font-size: 13px;
+                height: 32px;
+            }
+        }
+        
+        /* MEDIA QUERY PER TABLET (over 600px) */
+        @media (min-width: 600px) {
+            .container {
+                max-width: 550px;
+            }
+            
+            .site-title {
+                font-size: 50px;
+            }
+            
+            .site-subtitle {
+                font-size: 17px;
+                padding: 10px 25px;
+            }
+            
+            .buttons-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 18px;
+            }
+            
+            .menu-btn {
+                height: 125px;
+                min-height: 125px;
+                max-height: 125px;
+                padding: 22px 15px;
+            }
+            
+            .btn-icon {
+                font-size: 34px;
             }
             
             .btn-label {
                 font-size: 14px;
                 height: 36px;
             }
-            
+        }
+        
+        /* MEDIA QUERY PER DESKTOP */
+        @media (min-width: 768px) {
             body {
-                background-attachment: scroll; /* Migliora performance mobile */
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .site-title {
-                font-size: 36px;
+                padding: 20px;
+                background-size: contain;
+                background-color: #f8f9fa;
             }
             
-            .buttons-grid {
-                grid-template-columns: 1fr;
-                max-width: 300px;
-            }
-        }
-        
-        /* Ottimizzazione per schermi molto grandi (PC) */
-        @media (min-width: 1400px) {
             .container {
-                max-width: 1200px;
+                max-width: 700px;
+            }
+            
+            .site-title {
+                font-size: 56px;
+            }
+            
+            .site-subtitle {
+                font-size: 18px;
             }
             
             .buttons-grid {
-                max-width: 900px;
-                gap: 25px;
+                gap: 20px;
+                max-width: 650px;
             }
             
             .menu-btn {
-                height: 140px;
-                min-height: 140px;
-                max-height: 140px;
+                height: 130px;
+                min-height: 130px;
+                max-height: 130px;
             }
             
-            body {
-                background-size: contain; /* Mostra l'immagine intera senza stretch */
-                background-color: #f0f2f5; /* Sfondo per i bordi */
+            .info-box {
+                max-width: 650px;
+                margin-left: auto;
+                margin-right: auto;
             }
         }
         
-        /* Effetto per pulsanti al click */
+        /* ANIMAZIONE CLICK */
         .menu-btn:active {
             transform: scale(0.98);
             transition: transform 0.1s;
+        }
+        
+        /* SOTTOLINEA DECORATIVA SOTTO TITOLO */
+        .title-underline {
+            height: 4px;
+            width: 80%;
+            margin: 5px auto 15px;
+            background: linear-gradient(90deg, transparent, #FF8C00, #000000, #008000, transparent);
+            border-radius: 2px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- HEADER IDENTICO A INDEX.HTML -->
+        <!-- HEADER CON SCRITTA COLORATA -->
         <header class="site-header">
-            <h1 class="site-title">FANTAVENEZIA</h1>
-            <p class="site-subtitle">Il fantacalcio aperto a tutti i ferrovieri</p>
+            <h1 class="site-title">
+                <span class="title-part fant">FANT</span>
+                <span class="title-part aven">AVEN</span>
+                <span class="title-part ezia">EZIA</span>
+            </h1>
+            <div class="title-underline"></div>
+            <p class="site-subtitle">Fantacalcio aperto a tutti i ferrovieri</p>
         </header>
         
         <!-- GRIGLIA PULSANTI -->
@@ -443,7 +469,7 @@
             <a href="documenti-lega.html" class="btn-link">
                 <button class="menu-btn btn-docs">
                     <div class="btn-icon"><i class="fas fa-file-alt"></i></div>
-                    <div class="btn-label">Documenti Lega</div>
+                    <div class="btn-label">Documenti</div>
                 </button>
             </a>
             
@@ -486,9 +512,9 @@
         
         <!-- FOOTER -->
         <footer class="site-footer">
-            <p>FantaVenezia © 2024 • Accesso riservato ai partecipanti autorizzati</p>
-            <p style="font-size: 13px; margin-top: 8px; color: rgba(0, 0, 0, 0.7);">
-                Community di fantacalcio dedicata ai ferrovieri
+            <p>FantaVenezia © 2024 • Accesso riservato ai partecipanti</p>
+            <p style="font-size: 12px; margin-top: 6px; color: rgba(0, 0, 0, 0.7);">
+                Colori ufficiali: Arancio • Nero • Verde
             </p>
         </footer>
     </div>
@@ -523,30 +549,15 @@
         // Effetto click sui pulsanti
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                this.style.transform = 'scale(0.98)';
+                this.style.transform = 'scale(0.97)';
                 setTimeout(() => {
-                    if (this.style.transform.includes('translateY')) {
-                        // Mantiene l'effetto hover se presente
-                        this.style.transform = 'translateY(-8px) scale(1.03)';
-                    } else {
-                        this.style.transform = '';
-                    }
+                    this.style.transform = '';
                 }, 200);
             });
         });
         
-        // Animazione al caricamento della pagina
+        // Animazione al caricamento
         window.addEventListener('load', function() {
-            // Forza il ricaricamento dell'immagine di sfondo per PC (se necessario)
-            if (window.innerWidth > 768) {
-                const bg = document.body.style.backgroundImage;
-                document.body.style.backgroundImage = 'none';
-                setTimeout(() => {
-                    document.body.style.backgroundImage = bg;
-                }, 10);
-            }
-            
-            // Animazione container
             document.querySelector('.container').style.opacity = '0';
             document.querySelector('.container').style.transform = 'translateY(20px)';
             
@@ -555,30 +566,32 @@
                 document.querySelector('.container').style.opacity = '1';
                 document.querySelector('.container').style.transform = 'translateY(0)';
             }, 100);
+            
+            // Verifica se l'immagine si carica
+            const bgImage = new Image();
+            bgImage.src = 'logo-fantavenezia.jpg';
+            bgImage.onerror = function() {
+                console.error('Immagine di sfondo non trovata');
+                document.body.style.background = 'linear-gradient(135deg, #FF8C00 0%, #000000 50%, #008000 100%)';
+            };
         });
         
-        // Gestione resize per ottimizzare l'immagine su PC
-        let resizeTimer;
-        window.addEventListener('resize', function() {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                if (window.innerWidth > 768) {
-                    // Su PC, usa 'contain' per una visualizzazione migliore
-                    document.body.style.backgroundSize = 'contain';
-                    document.body.style.backgroundColor = '#f8f9fa';
-                } else {
-                    // Su mobile, usa 'cover' per riempire lo schermo
-                    document.body.style.backgroundSize = 'cover';
-                    document.body.style.backgroundColor = 'transparent';
-                }
-            }, 250);
-        });
-        
-        // Inizializza in base alla dimensione attuale
-        if (window.innerWidth > 768) {
-            document.body.style.backgroundSize = 'contain';
-            document.body.style.backgroundColor = '#f8f9fa';
+        // Adatta layout in base all'orientamento
+        function handleOrientation() {
+            if (window.innerHeight > window.innerWidth) {
+                // Verticale
+                document.querySelector('.buttons-grid').style.gridTemplateColumns = 'repeat(2, 1fr)';
+            } else {
+                // Orizzontale
+                document.querySelector('.buttons-grid').style.gridTemplateColumns = 'repeat(3, 1fr)';
+            }
         }
+        
+        window.addEventListener('resize', handleOrientation);
+        window.addEventListener('orientationchange', handleOrientation);
+        
+        // Inizializza
+        handleOrientation();
     </script>
 </body>
 </html>
