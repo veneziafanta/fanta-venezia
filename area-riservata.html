@@ -4,21 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FantaVenezia - Area Riservata</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
+            font-family: 'Segoe UI', 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
         }
+        
         body {
             margin: 0;
             padding: 15px;
-            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            background: 
+                /* Overlay più chiaro per vedere meglio l'immagine */
+                linear-gradient(rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05)),
+                /* Immagine di sfondo */
+                url('logo-fantavenezia.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             min-height: 100vh;
             position: relative;
             padding-bottom: 70px;
         }
+        
+        /* Pattern decorativo veneziano */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(255, 140, 0, 0.08) 2px, transparent 2px),
+                radial-gradient(circle at 90% 80%, rgba(0, 128, 0, 0.08) 2px, transparent 2px);
+            background-size: 60px 60px;
+            z-index: -1;
+            pointer-events: none;
+        }
+        
         .container {
             max-width: 1000px;
             margin: 0 auto;
@@ -27,81 +54,141 @@
             align-items: center;
         }
         
-        /* HEADER */
+        /* HEADER con colori veneziani */
         .site-header {
             text-align: center;
             margin: 30px 0 40px 0;
             width: 100%;
-        }
-        .site-title {
-            color: white;
-            font-size: 42px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
-            margin-bottom: 8px;
-        }
-        .site-subtitle {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 16px;
-            font-style: italic;
+            position: relative;
+            padding-bottom: 20px;
         }
         
-        /* GRIGLIA PULSANTI - MODIFICATA PER DIMENSIONI UGUALI */
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FF8C00, #000000, #008000, transparent);
+            border-radius: 3px;
+        }
+        
+        .site-title {
+            font-size: 46px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
+            margin-bottom: 8px;
+            
+            /* Effetto multicolore: arancio, nero, verde */
+            background: linear-gradient(
+                to right,
+                #FF8C00 0%, 
+                #FF8C00 33%,
+                #000000 33%,
+                #000000 66%,
+                #008000 66%,
+                #008000 100%
+            );
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            
+            /* Contorno per leggibilità */
+            text-shadow: 
+                2px 2px 0 rgba(255, 255, 255, 0.1),
+                -2px -2px 0 rgba(255, 255, 255, 0.1),
+                0 0 10px rgba(0, 0, 0, 0.5);
+        }
+        
+        .site-subtitle {
+            color: rgba(0, 0, 0, 0.9);
+            font-size: 17px;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.7);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            backdrop-filter: blur(5px);
+        }
+        
+        /* GRIGLIA PULSANTI - DIMENSIONI UGUALI */
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 18px;
+            gap: 20px;
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
             margin: 0 auto 40px auto;
         }
+        
         @media (min-width: 768px) {
             .buttons-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
         
-        /* PULSANTI CON DIMENSIONI UGUALI - CORREZIONE */
+        /* PULSANTI CON DIMENSIONI UGUALI - DESIGN MIGLIORATO */
         .menu-btn {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border: none;
-            border-radius: 16px;
-            padding: 25px 15px; /* AUMENTATO PADDING ORIZZONTALE */
-            height: 120px;
+            border-radius: 18px;
+            padding: 25px 15px;
+            height: 130px;
             width: 100%;
             cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.2);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             text-align: center;
-            /* FORZIAMO STESSE DIMENSIONI */
-            min-height: 120px;
-            max-height: 120px;
+            min-height: 130px;
+            max-height: 130px;
+            backdrop-filter: blur(5px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
         }
+        
+        .menu-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.7s;
+        }
+        
         .menu-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .menu-btn:hover::before {
+            left: 100%;
         }
         
         .btn-icon {
-            font-size: 32px;
+            font-size: 36px;
             margin-bottom: 12px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));
         }
         
         .btn-label {
             font-size: 15px;
-            font-weight: 600;
+            font-weight: 700;
             color: #2c3e50;
             line-height: 1.3;
-            /* FORZA STESSA ALTEZZA PER TUTTI I TESTI */
             height: 38px;
             display: flex;
             align-items: center;
@@ -110,13 +197,25 @@
             width: 100%;
         }
         
-        /* COLORI BORDI */
-        .btn-trophy { border-top: 6px solid #f39c12; }
-        .btn-help { border-top: 6px solid #3498db; }
-        .btn-docs { border-top: 6px solid #1abc9c; }
-        .btn-signup { border-top: 6px solid #9b59b6; }
-        .btn-fee { border-top: 6px solid #2ecc71; }
-        .btn-donate { border-top: 6px solid #e74c3c; }
+        /* COLORI BORDI CON TEMA VENEZIANO */
+        .btn-trophy { 
+            border-top: 8px solid #FF8C00; /* Arancio */
+        }
+        .btn-help { 
+            border-top: 8px solid #000000; /* Nero */
+        }
+        .btn-docs { 
+            border-top: 8px solid #008000; /* Verde */
+        }
+        .btn-signup { 
+            border-top: 8px solid #FF8C00; /* Arancio */
+        }
+        .btn-fee { 
+            border-top: 8px solid #000000; /* Nero */
+        }
+        .btn-donate { 
+            border-top: 8px solid #008000; /* Verde */
+        }
         
         .btn-link {
             text-decoration: none;
@@ -130,23 +229,28 @@
             position: fixed;
             bottom: 20px;
             left: 20px;
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 2px solid #FF8C00;
             color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 13px;
+            padding: 10px 18px;
+            border-radius: 25px;
+            font-size: 14px;
+            font-weight: 600;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
             z-index: 100;
             transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
+        
         .staff-mini-btn:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-2px);
+            background: rgba(255, 140, 0, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
+            border-color: #000000;
         }
         
         /* LOGOUT IN FONDO - CENTRATO */
@@ -154,62 +258,159 @@
             text-align: center;
             margin-top: 50px;
             padding-top: 30px;
-            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-top: 2px solid rgba(255, 255, 255, 0.3);
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
         }
+        
         .logout-btn {
-            background: rgba(255, 255, 255, 0.1);
+            background: linear-gradient(135deg, #FF8C00 0%, #e67e00 100%);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 14px 45px;
+            border: none;
+            padding: 16px 50px;
             border-radius: 30px;
-            font-size: 15px;
-            font-weight: 600;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 140, 0, 0.3);
+            letter-spacing: 1px;
         }
+        
         .logout-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-3px);
+            background: linear-gradient(135deg, #e67e00 0%, #cc7000 100%);
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.4);
         }
         
         /* INFO BOX - CENTRATO */
         .info-box {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 15px;
-            padding: 20px;
+            border: 2px solid #008000;
+            border-radius: 18px;
+            padding: 25px;
             margin: 30px 0;
             text-align: center;
-            color: white;
+            color: #333;
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
         }
+        
         .info-highlight {
-            color: #f1c40f;
-            font-weight: bold;
-            background: rgba(241, 196, 15, 0.15);
-            padding: 6px 15px;
-            border-radius: 20px;
+            color: #FF8C00;
+            font-weight: 800;
+            background: rgba(255, 140, 0, 0.1);
+            padding: 8px 20px;
+            border-radius: 25px;
             display: inline-block;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border: 2px solid rgba(255, 140, 0, 0.3);
+        }
+        
+        .info-box p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #444;
+            font-weight: 500;
         }
         
         /* FOOTER - CENTRATO */
         .site-footer {
             text-align: center;
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 13px;
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 14px;
             margin-top: 30px;
             line-height: 1.5;
             width: 100%;
-            max-width: 700px;
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.7);
+            padding: 15px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Animazioni */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .container {
+            animation: fadeIn 0.8s ease-out;
+        }
+        
+        /* Icone colorate per ogni pulsante */
+        .btn-trophy .btn-icon { color: #FF8C00; }
+        .btn-help .btn-icon { color: #000000; }
+        .btn-docs .btn-icon { color: #008000; }
+        .btn-signup .btn-icon { color: #FF8C00; }
+        .btn-fee .btn-icon { color: #000000; }
+        .btn-donate .btn-icon { color: #008000; }
+        
+        /* DEBUG per immagine di sfondo */
+        .debug-message {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 11px;
+            z-index: 9999;
+            display: none;
+        }
+        
+        /* Media queries per mobile */
+        @media (max-width: 600px) {
+            .site-title {
+                font-size: 38px;
+            }
+            
+            .buttons-grid {
+                gap: 15px;
+            }
+            
+            .menu-btn {
+                height: 120px;
+                min-height: 120px;
+                max-height: 120px;
+                padding: 20px 12px;
+            }
+            
+            .btn-icon {
+                font-size: 32px;
+                margin-bottom: 10px;
+            }
+            
+            .btn-label {
+                font-size: 14px;
+                height: 36px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .site-title {
+                font-size: 32px;
+            }
+            
+            .buttons-grid {
+                grid-template-columns: 1fr;
+                max-width: 300px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Messaggio debug -->
+    <div class="debug-message" id="debugMsg">
+        Area Riservata • Immagine: logo-fantavenezia.jpg
+    </div>
+    
     <div class="container">
         <header class="site-header">
             <h1 class="site-title">FANTAVENEZIA</h1>
@@ -219,42 +420,42 @@
         <div class="buttons-grid">
             <a href="albo-d-oro.html" class="btn-link">
                 <button class="menu-btn btn-trophy">
-                    <div class="btn-icon">🏆</div>
+                    <div class="btn-icon"><i class="fas fa-trophy"></i></div>
                     <div class="btn-label">Albo d'Oro</div>
                 </button>
             </a>
             
             <a href="assistenza.html" class="btn-link">
                 <button class="menu-btn btn-help">
-                    <div class="btn-icon">🤝</div>
+                    <div class="btn-icon"><i class="fas fa-hands-helping"></i></div>
                     <div class="btn-label">Assistenza</div>
                 </button>
             </a>
             
             <a href="documenti-lega.html" class="btn-link">
                 <button class="menu-btn btn-docs">
-                    <div class="btn-icon">📄</div>
-                    <div class="btn-label">Documenti</div>
+                    <div class="btn-icon"><i class="fas fa-file-alt"></i></div>
+                    <div class="btn-label">Documenti Lega</div>
                 </button>
             </a>
             
             <a href="iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-signup">
-                    <div class="btn-icon">📝</div>
+                    <div class="btn-icon"><i class="fas fa-edit"></i></div>
                     <div class="btn-label">Iscrizione</div>
                 </button>
             </a>
             
             <a href="quota-iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-fee">
-                    <div class="btn-icon">💰</div>
+                    <div class="btn-icon"><i class="fas fa-euro-sign"></i></div>
                     <div class="btn-label">Quota €30</div>
                 </button>
             </a>
             
             <a href="donazioni.html" class="btn-link">
                 <button class="menu-btn btn-donate">
-                    <div class="btn-icon">❤️</div>
+                    <div class="btn-icon"><i class="fas fa-heart"></i></div>
                     <div class="btn-label">Donazioni</div>
                 </button>
             </a>
@@ -262,43 +463,101 @@
         
         <div class="info-box">
             <div class="info-highlight">⚠️ Procedura di iscrizione</div>
-            <p>1. Compila il modulo "Iscrizione"<br>
-               2. Paga la "Quota €30"<br>
+            <p>1. Compila il modulo <strong>"Iscrizione"</strong><br>
+               2. Paga la <strong>"Quota €30"</strong><br>
                3. Quando verrai inserito nel gruppo WhatsApp puoi considerarti iscritto
             </p>
         </div>
         
         <div class="logout-section">
-            <button class="logout-btn" onclick="logout()">ESCI DALL'AREA RISERVATA</button>
+            <button class="logout-btn" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> ESCI DALL'AREA RISERVATA
+            </button>
         </div>
         
         <footer class="site-footer">
-            FantaVenezia © 2024 • Accesso riservato ai partecipanti<br>
-            Community di fantacalcio per ferrovieri
+            <p>FantaVenezia © 2024 • Accesso riservato ai partecipanti</p>
+            <p style="font-size: 12px; margin-top: 5px; color: rgba(0, 0, 0, 0.7);">
+                Colori ufficiali: Arancio • Nero • Verde
+            </p>
         </footer>
     </div>
     
     <a href="area-staff.html" class="staff-mini-btn">
-        <span style="font-size: 16px;">🔐</span>
+        <i class="fas fa-lock"></i>
         <span>Area Staff</span>
     </a>
 
     <script>
+        // Verifica login
         if (!localStorage.getItem('fantaLoggedIn')) {
             window.location.href = 'index.html';
         }
         
+        // Logout
         function logout() {
-            localStorage.removeItem('fantaLoggedIn');
-            window.location.href = 'index.html';
+            const btn = document.querySelector('.logout-btn');
+            const originalText = btn.innerHTML;
+            
+            // Effetto di caricamento
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uscita in corso...';
+            btn.disabled = true;
+            
+            setTimeout(() => {
+                localStorage.removeItem('fantaLoggedIn');
+                window.location.href = 'index.html';
+            }, 800);
         }
         
+        // Effetto click sui pulsanti
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 this.style.transform = 'scale(0.95)';
                 setTimeout(() => {
                     this.style.transform = '';
                 }, 200);
+            });
+        });
+        
+        // Debug per immagine di sfondo
+        window.addEventListener('load', function() {
+            const debugMsg = document.getElementById('debugMsg');
+            debugMsg.style.display = 'block';
+            setTimeout(() => {
+                debugMsg.style.display = 'none';
+            }, 5000);
+            
+            // Verifica se l'immagine si carica
+            const bgImage = new Image();
+            bgImage.src = 'logo-fantavenezia.jpg';
+            bgImage.onerror = function() {
+                debugMsg.innerHTML = 'ERRORE: Immagine non trovata!';
+                debugMsg.style.background = 'rgba(231, 76, 60, 0.9)';
+                debugMsg.style.display = 'block';
+                
+                // Fallback: usa un gradiente se l'immagine non si carica
+                document.body.style.background = 'linear-gradient(135deg, #FF8C00 0%, #000000 50%, #008000 100%)';
+            };
+            
+            // Animazione al caricamento
+            document.querySelector('.container').style.opacity = '0';
+            document.querySelector('.container').style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                document.querySelector('.container').style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                document.querySelector('.container').style.opacity = '1';
+                document.querySelector('.container').style.transform = 'translateY(0)';
+            }, 100);
+        });
+        
+        // Effetto hover per pulsanti con tastiera
+        document.querySelectorAll('.btn-link').forEach(link => {
+            link.addEventListener('focus', function() {
+                this.querySelector('.menu-btn').style.transform = 'translateY(-5px) scale(1.05)';
+            });
+            
+            link.addEventListener('blur', function() {
+                this.querySelector('.menu-btn').style.transform = '';
             });
         });
     </script>
