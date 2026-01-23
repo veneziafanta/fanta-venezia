@@ -15,9 +15,7 @@
             margin: 0;
             padding: 20px;
             background: 
-                /* Overlay scuro per leggibilità */
                 linear-gradient(rgba(10, 10, 10, 0.85), rgba(20, 20, 20, 0.9)),
-                /* Immagine di sfondo */
                 url('logo-fantavenezia.jpg');
             background-size: cover;
             background-position: center;
@@ -29,6 +27,18 @@
             align-items: center;
             position: relative;
             overflow-x: hidden;
+        }
+        
+        /* Ottimizzazione per desktop - immagine più grande */
+        @media (min-width: 768px) {
+            body {
+                background: 
+                    linear-gradient(rgba(10, 10, 10, 0.85), rgba(20, 20, 20, 0.9)),
+                    url('logo-fantavenezia.jpg');
+                background-size: 110% auto;
+                background-position: center;
+                background-attachment: fixed;
+            }
         }
         
         /* Pattern veneziano decorativo */
@@ -59,7 +69,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* HEADER CON COLORI VENEZIANI */
+        /* HEADER CON SCRITTA COLORATA */
         .site-header {
             margin-bottom: 50px;
             position: relative;
@@ -70,8 +80,8 @@
             content: '';
             position: absolute;
             bottom: 0;
-            left: 20%;
-            width: 60%;
+            left: 15%;
+            width: 70%;
             height: 4px;
             background: linear-gradient(90deg, transparent, #FF8C00, #000000, #008000, transparent);
             border-radius: 2px;
@@ -80,29 +90,32 @@
         .site-title {
             font-size: 52px;
             font-weight: 900;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
             margin-bottom: 10px;
-            text-transform: uppercase;
-            
-            /* Effetto multicolore: arancio, nero, verde */
-            background: linear-gradient(
-                to right,
-                #FF8C00 0%, 
-                #FF8C00 33%,
-                #000000 33%,
-                #000000 66%,
-                #008000 66%,
-                #008000 100%
-            );
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            
-            /* Contorno per far risaltare le lettere */
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1px;
             text-shadow: 
-                2px 2px 0 rgba(255, 255, 255, 0.1),
-                -2px -2px 0 rgba(255, 255, 255, 0.1),
-                0 0 10px rgba(0, 0, 0, 0.8);
+                2px 2px 0 rgba(0, 0, 0, 0.3),
+                -1px -1px 0 rgba(255, 255, 255, 0.1),
+                0 0 15px rgba(0, 0, 0, 0.7);
+        }
+        
+        .title-part {
+            display: inline-block;
+        }
+        
+        .fant {
+            color: #FF8C00;
+        }
+        
+        .aven {
+            color: #000000;
+        }
+        
+        .ezia {
+            color: #008000;
         }
         
         .site-subtitle {
@@ -458,6 +471,15 @@
             z-index: 9999;
             display: none;
         }
+        
+        /* SOTTOLINEA DECORATIVA */
+        .title-underline {
+            height: 4px;
+            width: 80%;
+            margin: 5px auto 15px;
+            background: linear-gradient(90deg, transparent, #FF8C00, #000000, #008000, transparent);
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -467,9 +489,14 @@
     </div>
     
     <div class="main-container">
-        <!-- HEADER -->
+        <!-- HEADER CON SCRITTA COLORATA -->
         <header class="site-header">
-            <h1 class="site-title">FANTAVENEZIA</h1>
+            <h1 class="site-title">
+                <span class="title-part fant">FANT</span>
+                <span class="title-part aven">AVEN</span>
+                <span class="title-part ezia">EZIA</span>
+            </h1>
+            <div class="title-underline"></div>
             <p class="site-subtitle">Il fantacalcio aperto a tutti i ferrovieri</p>
         </header>
         
@@ -692,6 +719,20 @@
                 document.querySelector('.main-container').style.opacity = '1';
                 document.querySelector('.main-container').style.transform = 'translateY(0)';
             }, 100);
+            
+            // Regola la dimensione dell'immagine in base al dispositivo
+            if (window.innerWidth >= 768) {
+                document.body.style.backgroundSize = '110% auto';
+            }
+        });
+        
+        // Gestione resize per desktop
+        window.addEventListener('resize', function() {
+            if (window.innerWidth >= 768) {
+                document.body.style.backgroundSize = '110% auto';
+            } else {
+                document.body.style.backgroundSize = 'cover';
+            }
         });
     </script>
 </body>
