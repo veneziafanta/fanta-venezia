@@ -4,349 +4,542 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FantaVenezia - Accesso</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', 'Montserrat', Tahoma, Geneva, Verdana, sans-serif;
         }
+        
         body {
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #0c2461 0%, #1e3799 100%);
+            background: 
+                linear-gradient(135deg, rgba(12, 36, 97, 0.88) 0%, rgba(30, 55, 153, 0.9) 100%),
+                url('logo-fantavenezia.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        /* Effetto veneziano decorativo */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%231e3799' fill-opacity='0.03' fill-rule='evenodd'/%3E%3C/svg%3E");
+            opacity: 0.3;
+            z-index: -1;
         }
         
         .main-container {
             width: 100%;
             max-width: 500px;
             text-align: center;
+            animation: fadeIn 0.8s ease-out;
         }
         
-        /* HEADER - STESSO STILE AREA RISERVATA */
-        .site-header {
-            margin-bottom: 40px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        
+        /* HEADER CON EFFETTO VENEZIANO */
+        .site-header {
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .site-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 25%;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #2ecc71, #3498db, transparent);
+            border-radius: 3px;
+        }
+        
         .site-title {
             color: white;
-            font-size: 46px;
-            font-weight: 800;
-            letter-spacing: 2px;
-            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            font-size: 52px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.5);
             margin-bottom: 10px;
+            background: linear-gradient(to right, #fff 0%, #2ecc71 50%, #3498db 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
+        
         .site-subtitle {
-            color: rgba(255, 255, 255, 0.85);
-            font-size: 17px;
-            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 18px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
         }
         
-        /* MEDIA QUERY PER MOBILE */
-        @media (max-width: 600px) {
-            .site-title {
-                font-size: 38px; /* Leggermente più piccolo per mobile */
-            }
-        }
-        
-        @media (max-width: 400px) {
-            .site-title {
-                font-size: 34px; /* Ancora più piccolo per schermi molto piccoli */
-            }
-        }
-        
-        /* DUE PULSANTI PRINCIPALI */
+        /* PULSANTI PRINCIPALI CON EFFETTO MODERNO */
         .main-buttons {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 25px;
             margin-bottom: 40px;
         }
         
         .action-btn {
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border: none;
-            border-radius: 15px;
-            padding: 25px 20px;
-            font-size: 18px;
-            font-weight: 600;
+            border-radius: 20px;
+            padding: 30px 25px;
+            font-size: 20px;
+            font-weight: 700;
             color: #2c3e50;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-            transition: all 0.3s;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 120px;
+            height: 140px;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+        }
+        
+        .action-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.7s;
         }
         
         .action-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0,0,0,0.2);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+        }
+        
+        .action-btn:hover::before {
+            left: 100%;
         }
         
         .login-btn {
-            border-top: 6px solid #2ecc71;
+            border-top: 8px solid #2ecc71;
+            background: rgba(255, 255, 255, 0.98);
         }
         
         .info-btn {
-            border-top: 6px solid #3498db;
+            border-top: 8px solid #3498db;
+            background: rgba(255, 255, 255, 0.98);
         }
         
         .btn-icon {
-            font-size: 32px;
-            margin-bottom: 12px;
+            font-size: 40px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 3px 5px rgba(0,0,0,0.1));
         }
         
-        /* FORM LOGIN (NASCOSTO INIZIALMENTE) */
+        /* FORM LOGIN ELEGANTE */
         .login-form {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 35px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
             margin-bottom: 30px;
-            display: none; /* NASCOSTO ALL'INIZIO */
+            display: none;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.5s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .form-title {
             color: #0c2461;
-            margin: 0 0 25px 0;
-            font-size: 24px;
+            margin: 0 0 30px 0;
+            font-size: 28px;
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 35%;
+            width: 30%;
+            height: 4px;
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            border-radius: 2px;
         }
         
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             text-align: left;
         }
         
         .input-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             color: #333;
             font-weight: 600;
+            font-size: 16px;
+            padding-left: 5px;
         }
         
         .input-group input {
             width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
+            padding: 18px 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
             font-size: 16px;
-            transition: border 0.3s;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.9);
         }
         
         .input-group input:focus {
-            border-color: #0c2461;
+            border-color: #2ecc71;
             outline: none;
+            box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.2);
+            transform: translateY(-2px);
         }
         
         .submit-btn {
-            background: #2ecc71;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
             border: none;
-            padding: 16px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
             transition: all 0.3s;
             margin-top: 10px;
+            letter-spacing: 1px;
+            box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3);
         }
         
         .submit-btn:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
+            background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
         }
         
         .error {
             color: #e74c3c;
-            margin-top: 15px;
+            margin-top: 20px;
             display: none;
-            padding: 10px;
-            background: #ffeaea;
-            border-radius: 8px;
+            padding: 15px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+            border-left: 4px solid #e74c3c;
+            font-weight: 500;
         }
         
-        /* INFO BOX (NASCOSTO INIZIALMENTE) */
+        /* INFO BOX MIGLIORATO */
         .info-box {
-            background: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px 35px;
+            border-radius: 25px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.25);
             margin-bottom: 30px;
-            display: none; /* NASCOSTO ALL'INIZIO */
+            display: none;
             text-align: left;
-            border-left: 6px solid #3498db;
+            border-left: 8px solid #3498db;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.5s ease-out;
         }
         
         .info-title {
             color: #0c2461;
-            margin: 0 0 20px 0;
-            font-size: 24px;
+            margin: 0 0 25px 0;
+            font-size: 28px;
+            font-weight: 700;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
         .info-content {
-            color: #555;
-            line-height: 1.6;
-            font-size: 16px;
+            color: #444;
+            line-height: 1.7;
+            font-size: 17px;
+        }
+        
+        .info-content p {
+            margin-bottom: 20px;
         }
         
         .email-link {
-            color: #0c2461;
-            font-weight: bold;
-            text-decoration: none;
             display: inline-block;
-            margin: 15px 0;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
             font-size: 18px;
+            margin: 25px 0;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            text-align: center;
+            width: 100%;
         }
         
         .email-link:hover {
-            text-decoration: underline;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+            background: linear-gradient(135deg, #2980b9 0%, #1c6ea4 100%);
         }
         
-        /* PULSANTE INDIETRO */
+        .email-link i {
+            margin-right: 10px;
+        }
+        
+        /* PULSANTE INDIETRO MIGLIORATO */
         .back-btn {
-            background: #95a5a6;
+            background: rgba(149, 165, 166, 0.9);
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 30px;
-            font-size: 15px;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            margin-top: 25px;
+            margin-top: 30px;
             transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .back-btn:hover {
-            background: #7f8c8d;
-            transform: translateY(-2px);
+            background: rgba(127, 140, 141, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
         
-        /* FOOTER */
+        /* FOOTER ELEGANTE */
         .footer {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 14px;
-            margin-top: 30px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 15px;
+            margin-top: 40px;
             padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            border-top: 1px solid rgba(255, 255, 255, 0.3);
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        /* MEDIA QUERY PER MOBILE */
+        @media (max-width: 600px) {
+            .site-title {
+                font-size: 42px;
+            }
+            
+            .site-subtitle {
+                font-size: 16px;
+            }
+            
+            .action-btn {
+                padding: 25px 20px;
+                height: 130px;
+            }
+            
+            .login-form, .info-box {
+                padding: 30px 25px;
+            }
+            
+            body {
+                padding: 15px;
+            }
+        }
+        
+        @media (max-width: 400px) {
+            .site-title {
+                font-size: 36px;
+            }
+            
+            .action-btn {
+                font-size: 18px;
+                height: 120px;
+            }
+            
+            .btn-icon {
+                font-size: 35px;
+            }
+        }
+        
+        /* ANIMAZIONE PER CAMBIO SCHERMATA */
+        .fade-out {
+            animation: fadeOut 0.3s ease-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(20px); }
         }
     </style>
 </head>
 <body>
     <div class="main-container">
-        <!-- HEADER (UGUALE AD AREA RISERVATA) -->
+        <!-- HEADER ELEGANTE -->
         <header class="site-header">
             <h1 class="site-title">FANTAVENEZIA</h1>
-            <p class="site-subtitle">Fantacalcio aperto a tutti i ferrovieri</p>
+            <p class="site-subtitle">Il fantacalcio aperto a tutti i ferrovieri</p>
         </header>
         
-        <!-- DUE PULSANTI PRINCIPALI -->
+        <!-- PULSANTI PRINCIPALI -->
         <div class="main-buttons" id="mainButtons">
             <button class="action-btn login-btn" id="showLoginBtn">
-                <div class="btn-icon">🔐</div>
-                LOGIN
+                <div class="btn-icon"><i class="fas fa-lock"></i></div>
+                ACCEDI ALL'AREA RISERVATA
             </button>
             
             <button class="action-btn info-btn" id="showInfoBtn">
-                <div class="btn-icon">ℹ️</div>
-                INFO
+                <div class="btn-icon"><i class="fas fa-info-circle"></i></div>
+                INFORMAZIONI E CONTATTI
             </button>
         </div>
         
-        <!-- FORM LOGIN (NASCOSTO) -->
+        <!-- FORM LOGIN MIGLIORATO -->
         <div class="login-form" id="loginForm">
-            <h2 class="form-title">Accedi all'Area Riservata</h2>
+            <h2 class="form-title">Accesso Area Riservata</h2>
             
             <div class="input-group">
-                <label for="username">Username</label>
-                <input type="text" id="username" placeholder="Inserisci username">
+                <label for="username"><i class="fas fa-user"></i> Username</label>
+                <input type="text" id="username" placeholder="Inserisci il tuo username">
             </div>
             
             <div class="input-group">
-                <label for="password">Password</label>
-                <input type="password" id="password" placeholder="Inserisci password">
+                <label for="password"><i class="fas fa-key"></i> Password</label>
+                <input type="password" id="password" placeholder="Inserisci la tua password">
             </div>
             
-            <button class="submit-btn" onclick="checkLogin()">ACCEDI</button>
+            <button class="submit-btn" onclick="checkLogin()">
+                <i class="fas fa-sign-in-alt"></i> ACCEDI
+            </button>
             
             <div id="error-message" class="error">
-                Username o password errati!
+                <i class="fas fa-exclamation-circle"></i> Username o password errati!
             </div>
             
-            <button class="back-btn" onclick="showMainMenu()">← Torna al menu</button>
+            <button class="back-btn" onclick="showMainMenu()">
+                <i class="fas fa-arrow-left"></i> Torna al menu principale
+            </button>
         </div>
         
-        <!-- INFO BOX (NASCOSTO) -->
+        <!-- INFO BOX MIGLIORATO -->
         <div class="info-box" id="infoBox">
-            <h2 class="info-title">ℹ️ Informazioni</h2>
+            <h2 class="info-title"><i class="fas fa-info-circle"></i> Informazioni & Contatti</h2>
             
             <div class="info-content">
-                <p>Se cerchi informazioni per partecipare al torneo o ti servono le credenziali di accesso, manda una mail con il tuo nome cognome numero di telefono a:</p>
+                <p>Benvenuto su <strong>FantaVenezia</strong>, il fantacalcio dedicato a tutti i ferrovieri!</p>
                 
-                <p style="text-align: center;">
-                    <a href="mailto:veneziafanta@gmail.com" class="email-link">
-                        📧 veneziafanta@gmail.com
-                    </a>
-                </p>
+                <p>Se desideri partecipare al torneo, avere informazioni o hai bisogno delle credenziali di accesso, invia una email con i tuoi dati (nome, cognome e numero di telefono) al nostro indirizzo:</p>
                 
-                <p>Ti risponderemo il prima possibile con tutte le informazioni necessarie.</p>
+                <a href="mailto:veneziafanta@gmail.com" class="email-link">
+                    <i class="fas fa-envelope"></i> veneziafanta@gmail.com
+                </a>
                 
-                <p><strong>A presto!</strong><br>
-                Lo staff di FantaVenezia</p>
+                <p>Il nostro staff ti risponderà nel più breve tempo possibile fornendoti tutte le informazioni necessarie per partecipare.</p>
+                
+                <p><strong>Buon fantacalcio e... Forza Venezia!</strong></p>
             </div>
             
-            <button class="back-btn" onclick="showMainMenu()">← Torna al menu</button>
+            <button class="back-btn" onclick="showMainMenu()">
+                <i class="fas fa-arrow-left"></i> Torna al menu principale
+            </button>
         </div>
         
         <!-- FOOTER -->
         <div class="footer">
-            FantaVenezia © 2024 • Accesso riservato ai partecipanti autorizzati
+            <p>FantaVenezia © 2024 • Accesso riservato ai partecipanti autorizzati</p>
+            <p style="font-size: 13px; margin-top: 5px;">Progetto dedicato alla comunità ferroviaria</p>
         </div>
     </div>
 
     <script>
-        // Credenziali MODIFICATE
-        const CORRECT_USERNAME = "Utente?"; // CAMBIATO DA "FantaVenezia1"
-        const CORRECT_PASSWORD = "FantaVenezia1"; // RIMANE COSÌ
+        // Credenziali
+        const CORRECT_USERNAME = "Utente?";
+        const CORRECT_PASSWORD = "FantaVenezia1";
         
-        // Elementi
+        // Elementi DOM
         const mainButtons = document.getElementById('mainButtons');
         const loginForm = document.getElementById('loginForm');
         const infoBox = document.getElementById('infoBox');
         const showLoginBtn = document.getElementById('showLoginBtn');
         const showInfoBtn = document.getElementById('showInfoBtn');
         
-        // Mostra form login
-        showLoginBtn.addEventListener('click', function() {
-            mainButtons.style.display = 'none';
-            loginForm.style.display = 'block';
-            infoBox.style.display = 'none';
-            
-            // Focus sul campo username
+        // Animazione per nascondere elementi
+        function hideWithAnimation(element, callback) {
+            element.classList.add('fade-out');
             setTimeout(() => {
-                document.getElementById('username').focus();
+                element.style.display = 'none';
+                element.classList.remove('fade-out');
+                if (callback) callback();
             }, 300);
+        }
+        
+        // Mostra form login con animazione
+        showLoginBtn.addEventListener('click', function() {
+            hideWithAnimation(mainButtons, () => {
+                loginForm.style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('username').focus();
+                }, 100);
+            });
         });
         
-        // Mostra info box
+        // Mostra info box con animazione
         showInfoBtn.addEventListener('click', function() {
-            mainButtons.style.display = 'none';
-            infoBox.style.display = 'block';
-            loginForm.style.display = 'none';
+            hideWithAnimation(mainButtons, () => {
+                infoBox.style.display = 'block';
+            });
         });
         
         // Torna al menu principale
         function showMainMenu() {
-            mainButtons.style.display = 'grid';
-            loginForm.style.display = 'none';
-            infoBox.style.display = 'none';
+            if (loginForm.style.display === 'block') {
+                hideWithAnimation(loginForm, () => {
+                    mainButtons.style.display = 'grid';
+                });
+            } else if (infoBox.style.display === 'block') {
+                hideWithAnimation(infoBox, () => {
+                    mainButtons.style.display = 'grid';
+                });
+            }
         }
         
         // Controlla login
@@ -354,15 +547,40 @@
             const username = document.getElementById('username').value;
             const password = document.getElementById('password').value;
             const error = document.getElementById('error-message');
+            const submitBtn = document.querySelector('.submit-btn');
             
-            if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
-                localStorage.setItem('fantaLoggedIn', 'true');
-                window.location.href = 'area-riservata.html';
-            } else {
-                error.style.display = 'block';
-                document.getElementById('password').value = '';
-                document.getElementById('password').focus();
-            }
+            // Effetto di caricamento
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifica in corso...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                if (username === CORRECT_USERNAME && password === CORRECT_PASSWORD) {
+                    // Effetto di successo
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> Accesso confermato!';
+                    submitBtn.style.background = 'linear-gradient(135deg, #2ecc71 0%, #27ae60 100%)';
+                    
+                    setTimeout(() => {
+                        localStorage.setItem('fantaLoggedIn', 'true');
+                        window.location.href = 'area-riservata.html';
+                    }, 800);
+                } else {
+                    // Ripristina pulsante
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Mostra errore
+                    error.style.display = 'block';
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                    
+                    // Effetto shake sull'errore
+                    error.style.animation = 'none';
+                    setTimeout(() => {
+                        error.style.animation = 'shake 0.5s';
+                    }, 10);
+                }
+            }, 800); // Simula un ritardo di verifica
         }
         
         // Login con Enter
@@ -370,6 +588,34 @@
             if (e.key === 'Enter' && loginForm.style.display === 'block') {
                 checkLogin();
             }
+        });
+        
+        // Aggiungi animazione shake per errore
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes shake {
+                0%, 100% { transform: translateX(0); }
+                10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+                20%, 40%, 60%, 80% { transform: translateX(5px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // Focus automatico su username quando appare il form
+        document.getElementById('username').addEventListener('focus', function() {
+            this.style.borderColor = '#2ecc71';
+        });
+        
+        // Effetto al caricamento
+        window.addEventListener('load', function() {
+            document.querySelector('.main-container').style.opacity = '0';
+            document.querySelector('.main-container').style.transform = 'translateY(20px)';
+            
+            setTimeout(() => {
+                document.querySelector('.main-container').style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
+                document.querySelector('.main-container').style.opacity = '1';
+                document.querySelector('.main-container').style.transform = 'translateY(0)';
+            }, 100);
         });
     </script>
 </body>
