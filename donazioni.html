@@ -56,28 +56,6 @@
             font-size: 64px;
             margin-bottom: 20px;
         }
-        .donation-amounts {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin: 30px 0;
-        }
-        .amount-box {
-            background: white;
-            color: #0055a4;
-            padding: 20px;
-            border-radius: 10px;
-            font-size: 24px;
-            font-weight: bold;
-            min-width: 100px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            transition: all 0.3s;
-        }
-        .amount-box:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-        }
         .ko-fi-btn {
             display: inline-block;
             background: #29abe0;
@@ -123,35 +101,6 @@
         .info-icon {
             font-size: 24px;
         }
-        .qr-container {
-            background: white;
-            padding: 25px;
-            border-radius: 10px;
-            margin: 30px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-        .qr-placeholder {
-            width: 200px;
-            height: 200px;
-            background: #f0f0f0;
-            margin: 0 auto;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 14px;
-            border: 2px dashed #ddd;
-        }
-        .security-note {
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            color: #856404;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 30px;
-            font-size: 14px;
-        }
         /* PULSANTE INDIETRO */
         .back-container {
             text-align: center;
@@ -176,11 +125,6 @@
             transform: translateY(-2px);
         }
         @media (max-width: 600px) {
-            .amount-box {
-                min-width: 80px;
-                padding: 15px;
-                font-size: 20px;
-            }
             .ko-fi-btn {
                 padding: 18px 30px;
                 font-size: 20px;
@@ -210,26 +154,12 @@
                 <span class="ko-fi-icon">💖</span> DONA SU KO-FI
             </a>
             
-            <p style="color: #666; margin-bottom: 30px;">
-                Clicca qui sopra per andare alla nostra pagina donazioni su Ko-fi
-            </p>
-            
-            <!-- Importi suggeriti -->
-            <h3 style="color: #0055a4;">Importi suggeriti</h3>
-            <div class="donation-amounts">
-                <div class="amount-box">€5</div>
-                <div class="amount-box">€10</div>
-                <div class="amount-box">€20</div>
-                <div class="amount-box">€50</div>
-                <div class="amount-box">€💝</div>
-            </div>
-            
             <!-- Sezione informazioni -->
             <div class="info-section">
                 <div class="info-box">
                     <h3><span class="info-icon">🎯</span> A cosa servono le donazioni?</h3>
                     <ul>
-                        <li>Premi per i vincitori delle leghe e coppe</li>
+                        <li>Caffè per gli organizzatori</li>
                         <li>Mantenimento e miglioramento del sito</li>
                         <li>Spese organizzative del torneo</li>
                         <li>Eventuali costi di piattaforme e servizi</li>
@@ -242,7 +172,7 @@
                         <li>Ko-fi è una piattaforma sicura e affidabile</li>
                         <li>Puoi donare con carta, PayPal o Satispay</li>
                         <li>Nessun obbligo di abbonamento</li>
-                        <li>Donazione una tantum o mensile</li>
+                        <li>Donazione una tantum</li>
                     </ul>
                 </div>
                 
@@ -251,28 +181,9 @@
                     <ul>
                         <li>Le donazioni sono volontarie</li>
                         <li>Non influenzano il gioco o i risultati</li>
-                        <li>Aggiornamenti su come vengono usati i fondi</li>
                         <li>Grazie a tutti i sostenitori! ❤️</li>
                     </ul>
                 </div>
-            </div>
-            
-            <!-- QR Code placeholder (se vuoi aggiungerlo dopo) -->
-            <div class="qr-container">
-                <h3 style="color: #0055a4; margin-top: 0;">📱 Scansiona il QR Code</h3>
-                <p>Per donare rapidamente dal telefono:</p>
-                <div class="qr-placeholder">
-                    QR Code Ko-fi<br>(puoi aggiungerlo dopo)
-                </div>
-                <p style="color: #666; font-size: 14px; margin-top: 15px;">
-                    Suggerimento: Puoi generare un QR Code dal tuo profilo Ko-fi
-                </p>
-            </div>
-            
-            <!-- Nota sicurezza -->
-            <div class="security-note">
-                ⚠️ <strong>Sicurezza:</strong> Verifica di essere su <code>https://ko-fi.com/fantavenezia</code><br>
-                Le donazioni vanno direttamente a Ko-fi, non passano dal nostro sito.
             </div>
         </div>
         
