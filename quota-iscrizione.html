@@ -58,55 +58,6 @@
             color: white;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
-        .requirements-box {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 10px;
-            margin: 25px 0;
-            border-left: 5px solid #0055a4;
-        }
-        .step-by-step {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .step {
-            display: flex;
-            align-items: flex-start;
-            gap: 15px;
-            padding: 20px;
-            background: #e8f4fd;
-            border-radius: 10px;
-            border-left: 5px solid #0055a4;
-        }
-        .step-number {
-            background: #0055a4;
-            color: white;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-        .step-content h3 {
-            margin: 0 0 10px 0;
-            color: #0055a4;
-        }
-        .step-content p {
-            margin: 0;
-            color: #666;
-        }
-        .completed {
-            background: #e8f7ef;
-            border-left-color: #28a745;
-        }
-        .completed .step-number {
-            background: #28a745;
-        }
         .paypal-placeholder {
             background: #f0f0f0;
             padding: 40px;
@@ -140,39 +91,6 @@
             margin-top: 30px;
             border: 2px solid #ffc107;
         }
-        .prize-distribution {
-            background: #e8f7ef;
-            padding: 25px;
-            border-radius: 10px;
-            margin-top: 30px;
-            border-left: 5px solid #28a745;
-        }
-        .prize-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .prize-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            text-align: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
-        }
-        .prize-icon {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        .deadline-box {
-            background: #f8d7da;
-            color: #721c24;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 25px 0;
-            text-align: center;
-            border: 2px solid #f5c6cb;
-        }
         /* PULSANTE INDIETRO */
         .back-container {
             text-align: center;
@@ -196,10 +114,28 @@
             background: #003d82;
             transform: translateY(-2px);
         }
-        @media (max-width: 600px) {
-            .prize-list {
-                grid-template-columns: 1fr;
-            }
+        .info-box {
+            margin-top: 30px;
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .info-box h3 {
+            color: #0055a4;
+            margin-top: 0;
+        }
+        .info-box ul {
+            padding-left: 20px;
+        }
+        .info-box li {
+            margin-bottom: 10px;
+        }
+        .modulo-link {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            background: #e8f4fd;
+            border-radius: 10px;
         }
     </style>
 </head>
@@ -218,54 +154,9 @@
                 <p style="font-size: 18px; margin: 0;">per la stagione 2026/27</p>
             </div>
             
-            <!-- Scadenza -->
-            <div class="deadline-box">
-                <h3 style="margin: 0 0 10px 0;">⏰ Ricorda!</h3>
-                <p style="margin: 0; font-size: 16px;">
-                    Per essere considerati ufficialmente iscritti, è necessario versare la quota <strong>entro la data stabilita</strong>.
-                </p>
-            </div>
-            
-            <!-- Requisiti completi -->
-            <div class="requirements-box">
-                <h3 style="color: #0055a4; margin-top: 0;">✅ Per completare l'iscrizione servono:</h3>
-                <div class="step-by-step">
-                    <div class="step completed">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h3>Modulo di iscrizione</h3>
-                            <p>Compilare il modulo online nel pulsante "Iscrizione 26/27"</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h3>Pagamento quota €30</h3>
-                            <p>Versare la quota di partecipazione tramite PayPal (link qui sotto)</p>
-                        </div>
-                    </div>
-                    
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h3>Conferma iscrizione</h3>
-                            <p>Riceverai conferma via email/WhatsApp una volta completati entrambi i passi</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
             <!-- PayPal placeholder -->
             <div class="paypal-placeholder">
                 <h3 style="color: #333; margin-top: 0;">💳 Pagamento tramite PayPal</h3>
-                <p>Il link per il pagamento sarà disponibile a breve.</p>
-                <p><strong>Nel frattempo:</strong></p>
-                <ol style="text-align: left; display: inline-block; margin: 20px auto;">
-                    <li>Compila il modulo di iscrizione</li>
-                    <li>Attendi comunicazione per il pagamento</li>
-                    <li>Verserai €30 quando il link sarà attivo</li>
-                </ol>
                 
                 <!-- Pulsante PayPal placeholder -->
                 <div style="margin: 30px 0;">
@@ -274,67 +165,33 @@
                         🅿️ PAGA CON PAYPAL (PROSSIMAMENTE)
                     </a>
                 </div>
-                
-                <p style="color: #666; font-size: 14px;">
-                    🔒 Pagamento sicuro tramite PayPal. Riceverai ricevuta via email.
-                </p>
             </div>
             
             <!-- Trasparenza premi -->
             <div class="transparency-box">
                 <h3 style="color: #856404; margin-top: 0;">🎯 Utilizzo della quota</h3>
-                <p><strong>Tutti i €30 della quota di iscrizione verranno utilizzati per:</strong></p>
-                <div class="prize-distribution">
-                    <h4 style="color: #28a745; margin-top: 0;">🏆 Distribuzione dei premi</h4>
-                    
-                    <div class="prize-list">
-                        <div class="prize-item">
-                            <div class="prize-icon">🥇</div>
-                            <h4 style="margin: 5px 0;">Vincitori Leghe</h4>
-                            <p style="margin: 0; font-size: 14px;">Premi per i primi classificati</p>
-                        </div>
-                        
-                        <div class="prize-item">
-                            <div class="prize-icon">🏆</div>
-                            <h4 style="margin: 5px 0;">Vincitori Coppe</h4>
-                            <p style="margin: 0; font-size: 14px;">Premi per le coppe</p>
-                        </div>
-                        
-                        <div class="prize-item">
-                            <div class="prize-icon">🎁</div>
-                            <h4 style="margin: 5px 0;">Premi speciali</h4>
-                            <p style="margin: 0; font-size: 14px;">Miglior allenatore, ecc.</p>
-                        </div>
-                        
-                        <div class="prize-item">
-                            <div class="prize-icon">⚽</div>
-                            <h4 style="margin: 5px 0;">Miglioramento torneo</h4>
-                            <p style="margin: 0; font-size: 14px;">Piattaforme e servizi</p>
-                        </div>
-                    </div>
-                    
-                    <p style="margin-top: 20px; color: #28a745; font-weight: bold;">
-                        💰 <strong>Totale montepremi:</strong> €30 × numero iscritti
-                    </p>
-                </div>
+                <p><strong>Tutti i €30 della quota di iscrizione verranno utilizzati per la distribuzione dei premi</strong></p>
+                
+                <p style="margin-top: 20px; color: #856404; font-weight: bold;">
+                    💰 <strong>Totale montepremi:</strong> €30 × numero iscritti
+                </p>
             </div>
             
             <!-- Informazioni aggiuntive -->
-            <div style="margin-top: 30px; background: #f8f9fa; padding: 20px; border-radius: 10px;">
-                <h3 style="color: #0055a4; margin-top: 0;">📝 Informazioni importanti</h3>
+            <div class="info-box">
+                <h3>📝 Informazioni importanti</h3>
                 <ul>
-                    <li><strong>Rimborsi:</strong> La quota non è rimborsabile dopo la scadenza</li>
+                    <li><strong>Rimborsi:</strong> Non è possibile chiedere il rimborso una volta che vengono fatti i gironi. Verrai invece rimborsato al 100% se non riusciremo a garantire la tua presenza.</li>
                     <li><strong>Pagamenti:</strong> Solo tramite PayPal (link ufficiale)</li>
-                    <li><strong>Conferma:</strong> Riceverai ricevuta di pagamento via email</li>
                     <li><strong>Problemi:</strong> Per difficoltà di pagamento, contatta lo staff</li>
                     <li><strong>Trasparenza:</strong> Renderemo noto il montepremi totale</li>
                 </ul>
             </div>
             
             <!-- Collegamento al modulo iscrizione -->
-            <div style="text-align: center; margin-top: 40px; padding: 20px; background: #e8f4fd; border-radius: 10px;">
+            <div class="modulo-link">
                 <h3 style="color: #0055a4; margin-top: 0;">📋 Non hai ancora compilato il modulo?</h3>
-                <p>Prima di pagare, assicurati di aver compilato il modulo di iscrizione:</p>
+                <p>Assicurati di aver compilato il modulo di iscrizione:</p>
                 <a href="iscrizione.html" style="display: inline-block; background: #0055a4; color: white; 
                    padding: 12px 25px; border-radius: 8px; text-decoration: none; margin-top: 10px;">
                     VAI AL MODULO ISCRIZIONE
