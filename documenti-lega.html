@@ -124,19 +124,19 @@
         
         <div class="content">
             <div class="documents-list">
-                <!-- Documento 1 -->
+                <!-- Documento 1 - Termini e condizioni (NUOVO LINK) -->
                 <div class="document-card">
                     <h3 class="document-title">
                         <span class="document-icon">📋</span>
                         Termini e condizioni
                     </h3>
-                    <a href="https://drive.google.com/uc?export=download&id=1P0_fQiFKq1IjCyEToVT515-Thpc1OtMe" 
+                    <a href="https://drive.google.com/uc?export=download&id=1XhFKWdlCoVjSmPATZ709jlyomqJoZBrI" 
                        class="download-btn" download>
                         <span class="download-icon">⬇️</span> Scarica Termini e condizioni
                     </a>
                 </div>
                 
-                <!-- Documento 2 -->
+                <!-- Documento 2 - Regolamento (invariato) -->
                 <div class="document-card">
                     <h3 class="document-title">
                         <span class="document-icon">📋</span>
@@ -177,7 +177,6 @@
         // Aggiungi conferma download
         document.querySelectorAll('.download-btn').forEach(btn => {
             btn.addEventListener('click', function(e) {
-                // Estrae il nome del documento dal testo del pulsante
                 const docName = this.textContent.replace('⬇️ Scarica ', '');
                 if (!confirm(`Stai per scaricare "${docName}". Vuoi continuare?`)) {
                     e.preventDefault();
