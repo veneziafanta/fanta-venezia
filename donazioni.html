@@ -56,9 +56,9 @@
             font-size: 64px;
             margin-bottom: 20px;
         }
-        .ko-fi-btn {
+        .paypal-btn {
             display: inline-block;
-            background: #29abe0;
+            background: #003087;
             color: white;
             padding: 20px 50px;
             border-radius: 50px;
@@ -67,14 +67,14 @@
             text-decoration: none;
             margin: 20px 0;
             transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(41, 171, 224, 0.3);
+            box-shadow: 0 5px 20px rgba(0, 48, 135, 0.3);
         }
-        .ko-fi-btn:hover {
-            background: #1e8cc4;
+        .paypal-btn:hover {
+            background: #002a75;
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(41, 171, 224, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 48, 135, 0.4);
         }
-        .ko-fi-icon {
+        .paypal-icon {
             margin-right: 10px;
             font-size: 26px;
         }
@@ -101,7 +101,6 @@
         .info-icon {
             font-size: 24px;
         }
-        /* PULSANTE INDIETRO */
         .back-container {
             text-align: center;
             margin-top: 40px;
@@ -125,7 +124,7 @@
             transform: translateY(-2px);
         }
         @media (max-width: 600px) {
-            .ko-fi-btn {
+            .paypal-btn {
                 padding: 18px 30px;
                 font-size: 20px;
             }
@@ -149,9 +148,9 @@
                 </p>
             </div>
             
-            <!-- Pulsante principale Ko-fi -->
-            <a href="https://ko-fi.com/fantavenezia" target="_blank" class="ko-fi-btn">
-                <span class="ko-fi-icon">💖</span> DONA SU KO-FI
+            <!-- Pulsante principale PayPal -->
+            <a href="https://www.paypal.com/pool/9qpiD7Uic6?sr=ancr" target="_blank" class="paypal-btn">
+                <span class="paypal-icon">💳</span> DONA CON PAYPAL
             </a>
             
             <!-- Sezione informazioni -->
@@ -169,7 +168,7 @@
                 <div class="info-box">
                     <h3><span class="info-icon">🔒</span> Come funziona?</h3>
                     <ul>
-                        <li>Ko-fi è una piattaforma sicura e affidabile</li>
+                        <li>PayPal è una piattaforma sicura e affidabile</li>
                         <li>Puoi donare con carta, PayPal o Satispay</li>
                         <li>Nessun obbligo di abbonamento</li>
                         <li>Donazione una tantum</li>
@@ -202,8 +201,8 @@
         }
         
         // Aggiungi conferma per apertura link esterno
-        document.querySelector('.ko-fi-btn').addEventListener('click', function(e) {
-            if (!confirm('Stai per essere reindirizzato a Ko-fi (sito esterno). Vuoi continuare?')) {
+        document.querySelector('.paypal-btn').addEventListener('click', function(e) {
+            if (!confirm('Stai per essere reindirizzato a PayPal (sito esterno). Vuoi continuare?')) {
                 e.preventDefault();
             }
         });
