@@ -129,7 +129,6 @@
             border: 2px dashed #0055a4;
             text-align: left;
         }
-        /* PULSANTE INDIETRO */
         .back-container {
             text-align: center;
             margin-top: 40px;
@@ -162,7 +161,6 @@
         </header>
         
         <div class="content">
-            <!-- Sezione password (visibile all'inizio) -->
             <div class="password-section" id="passwordSection">
                 <h2 style="color: #0055a4; text-align: center;">Inserisci la password staff</h2>
                 <input type="password" id="staffPassword" class="password-input" placeholder="Password">
@@ -172,24 +170,19 @@
                 </div>
             </div>
             
-            <!-- Contenuto staff (nascosto all'inizio) -->
             <div class="staff-content" id="staffContent">
-                <!-- Messaggio di successo -->
                 <div class="success-box">
                     <div class="success-icon">✅</div>
                     <h3 style="color: #28a745; margin-top: 0;">Iscrizioni attive!</h3>
                     <p>Le iscrizioni si stanno salvando correttamente sul Google Sheets.</p>
                 </div>
                 
-                <!-- Accesso ai dati -->
                 <div class="access-box">
                     <h3 style="color: #0055a4; margin-top: 0;">📊 Visualizza tutte le iscrizioni</h3>
                     <p>Per vedere l'elenco completo degli iscritti:</p>
-                    
                     <a href="https://docs.google.com/spreadsheets/" target="_blank" class="access-btn">
                         📋 APRI GOOGLE SHEETS
                     </a>
-                    
                     <div class="data-box">
                         <p>🔍 <strong>Dove trovare i dati:</strong></p>
                         <ol>
@@ -197,14 +190,12 @@
                             <li>Cerca il foglio: <code>"Iscrizioni FantaVenezia 26/27"</code></li>
                             <li>Oppure usa il link diretto dal tuo Google Form</li>
                         </ol>
-                        
                         <p style="margin-top: 15px; color: #0055a4;">
                             💡 <strong>Ogni nuova iscrizione appare automaticamente nel foglio!</strong>
                         </p>
                     </div>
                 </div>
                 
-                <!-- Istruzioni per lo staff -->
                 <div class="instructions">
                     <h4 style="margin-top: 0;">📝 Istruzioni per lo staff:</h4>
                     <ol style="text-align: left;">
@@ -213,14 +204,12 @@
                         <li><strong>Esporta:</strong> File → Scarica come Excel/PDF per backup</li>
                         <li><strong>Condividi:</strong> Puoi condividere il foglio con altri organizzatori</li>
                     </ol>
-                    
                     <div style="margin-top: 15px; padding: 10px; background: #ffeaa7; border-radius: 5px;">
                         <p>⚠️ <strong>Importante:</strong> Le iscrizioni si contano direttamente sul Google Sheets.</p>
                         <p>Qui vedi solo il link di accesso, non il numero di iscritti.</p>
                     </div>
                 </div>
                 
-                <!-- Suggerimenti -->
                 <div style="margin-top: 30px; text-align: center; color: #666; font-size: 14px;">
                     <p>📱 <strong>Per telefono:</strong> Scarica l'app "Fogli Google" per controllare ovunque</p>
                     <p>🔔 <strong>Notifiche:</strong> Attivale su Google Sheets per nuove iscrizioni</p>
@@ -229,7 +218,6 @@
             </div>
         </div>
         
-        <!-- PULSANTE INDIETRO -->
         <div class="back-container">
             <a href="area-riservata.html" class="back-btn">
                 ← INDIETRO
@@ -238,12 +226,6 @@
     </div>
     
     <script>
-        // Controlla se l'utente è loggato al sito principale
-        if (!localStorage.getItem('fantaLoggedIn')) {
-            window.location.href = 'index.html';
-        }
-        
-        // Password staff
         const STAFF_PASSWORD = "StaffFanta2024";
         
         function checkStaffPassword() {
@@ -253,38 +235,31 @@
             const staffContent = document.getElementById('staffContent');
             
             if (input === STAFF_PASSWORD) {
-                // Password corretta
                 passwordSection.style.display = 'none';
                 staffContent.style.display = 'block';
-                
-                // Salva che lo staff è loggato (per questa sessione)
                 sessionStorage.setItem('staffLoggedIn', 'true');
             } else {
-                // Password errata
                 error.style.display = 'block';
                 document.getElementById('staffPassword').value = '';
                 document.getElementById('staffPassword').focus();
             }
         }
         
-        // Se già loggato in questa sessione, mostra direttamente il contenuto
         if (sessionStorage.getItem('staffLoggedIn') === 'true') {
             document.getElementById('passwordSection').style.display = 'none';
             document.getElementById('staffContent').style.display = 'block';
         }
         
-        // Permetti login con tasto ENTER
         document.getElementById('staffPassword').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') checkStaffPassword();
         });
         
-        // Logout automatico dopo 2 ore
         setTimeout(() => {
             sessionStorage.removeItem('staffLoggedIn');
             if (confirm('Sessione scaduta. Vuoi riaccedere?')) {
                 location.reload();
             }
-        }, 7200000); // 2 ore
+        }, 7200000);
     </script>
 </body>
 </html>
