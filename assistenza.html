@@ -83,7 +83,27 @@
             border-radius: 8px;
             text-align: center;
         }
-        /* PULSANTE INDIETRO */
+        .email-btn {
+            display: inline-block;
+            background: #0055a4;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(0,85,164,0.3);
+            margin-top: 10px;
+        }
+        .email-btn:hover {
+            background: #003d82;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,85,164,0.4);
+        }
+        .email-btn i {
+            margin-right: 10px;
+        }
         .back-container {
             text-align: center;
             margin-top: 40px;
@@ -116,64 +136,50 @@
         </header>
         
         <div class="content">
-            <!-- Messaggio principale -->
             <div class="info-box">
                 <h2 style="color: #0055a4; margin-top: 0;">Se hai bisogno di assistenza</h2>
                 <p style="font-size: 18px; margin: 10px 0;">
                     Contatta il nostro staff tramite i canali ufficiali del gruppo.
                 </p>
+                <!-- PULSANTE MAIL -->
+                <a href="mailto:veneziafanta@gmail.com" class="email-btn">
+                    <i class="fas fa-envelope"></i> veneziafanta@gmail.com
+                </a>
             </div>
             
-            <!-- Sezione Team -->
             <div class="team-section">
                 <h2 class="section-title">Il Nostro Team</h2>
-                
                 <div class="organizzatori">
                     <h3 style="color: #0055a4; margin-top: 0;">Organizzatori</h3>
-                    
                     <div class="team-member">
                         <span class="member-icon">👤</span>
                         <span>Davide Galvan</span>
                     </div>
-                    
                     <div class="team-member">
                         <span class="member-icon">👤</span>
                         <span>Alessandro Gandini</span>
                     </div>
-                    
                     <div class="team-member">
                         <span class="member-icon">👤</span>
                         <span>Marco Molin Pradel</span>
                     </div>
-                    
                     <div class="team-member">
                         <span class="member-icon">👤</span>
                         <span>Andrea Favaro</span>
                     </div>
-                    
                     <div class="team-member">
                         <span class="member-icon">👤</span>
                         <span>Davide Travaglia</span>
                     </div>
                 </div>
             </div>
-            
-            <!-- Nota - RIMOSSE LE DUE RIGHE -->
         </div>
         
-        <!-- PULSANTE INDIETRO -->
         <div class="back-container">
             <a href="area-riservata.html" class="back-btn">
                 ← INDIETRO
             </a>
         </div>
     </div>
-    
-    <script>
-        // Controlla se l'utente è loggato
-        if (!localStorage.getItem('fantaLoggedIn')) {
-            window.location.href = 'index.html';
-        }
-    </script>
 </body>
 </html>
