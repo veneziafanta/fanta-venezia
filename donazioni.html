@@ -139,7 +139,6 @@
         </header>
         
         <div class="content">
-            <!-- Hero section -->
             <div class="donation-hero">
                 <div class="donation-icon">☕</div>
                 <h2 style="margin: 0 0 15px 0;">Supporta la nostra community</h2>
@@ -148,12 +147,10 @@
                 </p>
             </div>
             
-            <!-- Pulsante principale PayPal -->
             <a href="https://www.paypal.com/pool/9qpiD7Uic6?sr=ancr" target="_blank" class="paypal-btn">
                 <span class="paypal-icon">💳</span> DONA CON PAYPAL
             </a>
             
-            <!-- Sezione informazioni -->
             <div class="info-section">
                 <div class="info-box">
                     <h3><span class="info-icon">🎯</span> A cosa servono le donazioni?</h3>
@@ -164,7 +161,6 @@
                         <li>Eventuali costi di piattaforme e servizi</li>
                     </ul>
                 </div>
-                
                 <div class="info-box">
                     <h3><span class="info-icon">🔒</span> Come funziona?</h3>
                     <ul>
@@ -173,7 +169,6 @@
                         <li>Donazione una tantum</li>
                     </ul>
                 </div>
-                
                 <div class="info-box">
                     <h3><span class="info-icon">🙏</span> Trasparenza</h3>
                     <ul>
@@ -185,26 +180,11 @@
             </div>
         </div>
         
-        <!-- PULSANTE INDIETRO -->
         <div class="back-container">
             <a href="area-riservata.html" class="back-btn">
                 ← INDIETRO
             </a>
         </div>
     </div>
-    
-    <script>
-        // Controlla se l'utente è loggato
-        if (!localStorage.getItem('fantaLoggedIn')) {
-            window.location.href = 'index.html';
-        }
-        
-        // Aggiungi conferma per apertura link esterno
-        document.querySelector('.paypal-btn').addEventListener('click', function(e) {
-            if (!confirm('Stai per essere reindirizzato a PayPal (sito esterno). Vuoi continuare?')) {
-                e.preventDefault();
-            }
-        });
-    </script>
 </body>
 </html>
