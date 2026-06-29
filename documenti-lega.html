@@ -90,7 +90,6 @@
         .download-icon {
             margin-right: 8px;
         }
-        /* PULSANTE INDIETRO */
         .back-container {
             text-align: center;
             margin-top: 40px;
@@ -124,7 +123,6 @@
         
         <div class="content">
             <div class="documents-list">
-                <!-- Documento 1 - Termini e condizioni (NUOVO LINK) -->
                 <div class="document-card">
                     <h3 class="document-title">
                         <span class="document-icon">📋</span>
@@ -135,8 +133,6 @@
                         <span class="download-icon">⬇️</span> Scarica Termini e condizioni
                     </a>
                 </div>
-                
-                <!-- Documento 2 - Regolamento (invariato) -->
                 <div class="document-card">
                     <h3 class="document-title">
                         <span class="document-icon">📋</span>
@@ -148,8 +144,6 @@
                     </a>
                 </div>
             </div>
-            
-            <!-- Istruzioni -->
             <div style="margin-top: 30px; color: #666; font-size: 14px;">
                 <p>💡 <strong>Come scaricare:</strong></p>
                 <ol style="text-align: left;">
@@ -160,29 +154,11 @@
             </div>
         </div>
         
-        <!-- PULSANTE INDIETRO -->
         <div class="back-container">
             <a href="area-riservata.html" class="back-btn">
                 ← INDIETRO
             </a>
         </div>
     </div>
-    
-    <script>
-        // Controlla se l'utente è loggato
-        if (!localStorage.getItem('fantaLoggedIn')) {
-            window.location.href = 'index.html';
-        }
-        
-        // Aggiungi conferma download
-        document.querySelectorAll('.download-btn').forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                const docName = this.textContent.replace('⬇️ Scarica ', '');
-                if (!confirm(`Stai per scaricare "${docName}". Vuoi continuare?`)) {
-                    e.preventDefault();
-                }
-            });
-        });
-    </script>
 </body>
 </html>
