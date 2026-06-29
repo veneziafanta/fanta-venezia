@@ -12,7 +12,6 @@
             margin: 0;
             padding: 0;
         }
-        
         body {
             margin: 0;
             padding: 15px;
@@ -28,39 +27,32 @@
             justify-content: center;
             align-items: center;
         }
-        
-        /* MODIFICA SOLO PER DESKTOP: immagine più grande */
         @media (min-width: 768px) {
             body {
                 background: 
                     linear-gradient(rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
                     url('logo-fantavenezia.jpg');
-                background-size: 110% auto; /* INGRANDITA DEL 10% solo su desktop */
+                background-size: 110% auto;
                 background-position: center;
                 background-attachment: fixed;
                 background-repeat: no-repeat;
             }
         }
-        
         .container {
             width: 100%;
             max-width: 500px;
             text-align: center;
             animation: fadeIn 0.8s ease-out;
         }
-        
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        
-        /* HEADER CON SCRITTA COLORATA */
         .site-header {
             margin-bottom: 40px;
             position: relative;
             padding-bottom: 15px;
         }
-        
         .site-header::after {
             content: '';
             position: absolute;
@@ -71,7 +63,6 @@
             background: linear-gradient(90deg, #FF8C00, #000000, #008000);
             border-radius: 3px;
         }
-        
         .site-title {
             font-size: 44px;
             font-weight: 900;
@@ -86,26 +77,10 @@
                 -2px -2px 0 rgba(255, 255, 255, 0.3),
                 0 0 15px rgba(0, 0, 0, 0.7);
         }
-        
-        .title-part {
-            display: inline-block;
-        }
-        
-        .fant {
-            color: #FF8C00;
-            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-        }
-        
-        .aven {
-            color: #000000;
-            text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3);
-        }
-        
-        .ezia {
-            color: #008000;
-            text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
-        }
-        
+        .title-part { display: inline-block; }
+        .fant { color: #FF8C00; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2); }
+        .aven { color: #000000; text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.3); }
+        .ezia { color: #008000; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2); }
         .site-subtitle {
             color: rgba(0, 0, 0, 0.95);
             font-size: 16px;
@@ -119,8 +94,6 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             margin-top: 10px;
         }
-        
-        /* GRIGLIA PULSANTI PER MOBILE */
         .buttons-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -128,8 +101,6 @@
             width: 100%;
             margin: 0 auto 30px auto;
         }
-        
-        /* PULSANTI PERFETTAMENTE UGUALI */
         .menu-btn {
             background: rgba(255, 255, 255, 0.97);
             border: none;
@@ -152,12 +123,10 @@
             position: relative;
             overflow: hidden;
         }
-        
         .menu-btn:hover {
             transform: translateY(-5px) scale(1.03);
             box-shadow: 0 12px 28px rgba(0,0,0,0.25);
         }
-        
         .btn-icon {
             font-size: 32px;
             margin-bottom: 10px;
@@ -167,7 +136,6 @@
             justify-content: center;
             filter: drop-shadow(0 3px 5px rgba(0,0,0,0.15));
         }
-        
         .btn-label {
             font-size: 14px;
             font-weight: 700;
@@ -181,31 +149,24 @@
             width: 100%;
             padding: 0 5px;
         }
-        
-        /* COLORI BORDI */
-        .btn-trophy { border-top: 6px solid #FF8C00; }
-        .btn-help { border-top: 6px solid #000000; }
-        .btn-docs { border-top: 6px solid #008000; }
-        .btn-signup { border-top: 6px solid #FF8C00; }
-        .btn-fee { border-top: 6px solid #000000; }
-        .btn-donate { border-top: 6px solid #008000; }
-        
-        /* BACKGROUND LEGGERMENTE COLORATO PER PULSANTI */
-        .btn-trophy { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.97)); }
-        .btn-help { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.97)); }
-        .btn-docs { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.97)); }
-        .btn-signup { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.97)); }
-        .btn-fee { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.97)); }
-        .btn-donate { background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.97)); }
-        
+        .btn-trophy { border-top: 6px solid #FF8C00; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.97)); }
+        .btn-help { border-top: 6px solid #000000; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.97)); }
+        .btn-docs { border-top: 6px solid #008000; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.97)); }
+        .btn-signup { border-top: 6px solid #FF8C00; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(255, 248, 240, 0.97)); }
+        .btn-fee { border-top: 6px solid #000000; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(245, 245, 245, 0.97)); }
+        .btn-donate { border-top: 6px solid #008000; background: linear-gradient(to bottom, rgba(255, 255, 255, 0.98), rgba(240, 255, 240, 0.97)); }
         .btn-link {
             text-decoration: none;
             color: inherit;
             display: block;
             height: 100%;
         }
-        
-        /* STAFF BUTTON PER MOBILE */
+        .btn-trophy .btn-icon { color: #FF8C00; }
+        .btn-help .btn-icon { color: #000000; }
+        .btn-docs .btn-icon { color: #008000; }
+        .btn-signup .btn-icon { color: #FF8C00; }
+        .btn-fee .btn-icon { color: #000000; }
+        .btn-donate .btn-icon { color: #008000; }
         .staff-mini-btn {
             position: fixed;
             bottom: 15px;
@@ -225,14 +186,11 @@
             transition: all 0.3s;
             box-shadow: 0 5px 15px rgba(255, 140, 0, 0.4);
         }
-        
         .staff-mini-btn:hover {
             background: linear-gradient(135deg, #e67e00 0%, #cc7000 100%);
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(255, 140, 0, 0.6);
         }
-        
-        /* INFO BOX PER MOBILE */
         .info-box {
             background: rgba(255, 255, 255, 0.97);
             border: 2px solid #3498db;
@@ -245,7 +203,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             backdrop-filter: blur(5px);
         }
-        
         .info-highlight {
             color: #2c3e50;
             font-weight: 800;
@@ -260,22 +217,18 @@
             font-size: 17px;
             border: 2px solid rgba(255, 140, 0, 0.3);
         }
-        
         .info-box p {
             font-size: 15px;
             line-height: 1.5;
             color: #444;
             font-weight: 500;
         }
-        
         .info-box strong {
             color: #2c3e50;
             background: rgba(255, 140, 0, 0.1);
             padding: 2px 6px;
             border-radius: 4px;
         }
-        
-        /* LOGOUT PER MOBILE */
         .logout-section {
             text-align: center;
             margin-top: 40px;
@@ -283,7 +236,6 @@
             border-top: 2px solid rgba(255, 255, 255, 0.4);
             width: 100%;
         }
-        
         .logout-btn {
             background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
             color: white;
@@ -299,14 +251,11 @@
             width: 100%;
             max-width: 300px;
         }
-        
         .logout-btn:hover {
             background: linear-gradient(135deg, #27ae60 0%, #219653 100%);
             transform: translateY(-4px);
             box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
         }
-        
-        /* FOOTER PER MOBILE */
         .site-footer {
             text-align: center;
             color: rgba(0, 0, 0, 0.85);
@@ -320,152 +269,6 @@
             backdrop-filter: blur(5px);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
-        
-        /* Icone colorate */
-        .btn-trophy .btn-icon { color: #FF8C00; }
-        .btn-help .btn-icon { color: #000000; }
-        .btn-docs .btn-icon { color: #008000; }
-        .btn-signup .btn-icon { color: #FF8C00; }
-        .btn-fee .btn-icon { color: #000000; }
-        .btn-donate .btn-icon { color: #008000; }
-        
-        /* MEDIA QUERY PER SCHEMI PICCOLI */
-        @media (max-width: 380px) {
-            .site-title {
-                font-size: 38px;
-                gap: 1px;
-            }
-            
-            .buttons-grid {
-                grid-template-columns: 1fr;
-                max-width: 280px;
-                gap: 14px;
-            }
-            
-            .menu-btn {
-                height: 110px;
-                min-height: 110px;
-                max-height: 110px;
-                padding: 18px 10px;
-            }
-            
-            .btn-icon {
-                font-size: 30px;
-                margin-bottom: 8px;
-            }
-            
-            .btn-label {
-                font-size: 13px;
-                height: 32px;
-            }
-        }
-        
-        /* MEDIA QUERY PER TABLET (over 600px) */
-        @media (min-width: 600px) {
-            .container {
-                max-width: 550px;
-            }
-            
-            .site-title {
-                font-size: 50px;
-            }
-            
-            .site-subtitle {
-                font-size: 17px;
-                padding: 10px 25px;
-            }
-            
-            .buttons-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 18px;
-            }
-            
-            .menu-btn {
-                height: 125px;
-                min-height: 125px;
-                max-height: 125px;
-                padding: 22px 15px;
-            }
-            
-            .btn-icon {
-                font-size: 34px;
-            }
-            
-            .btn-label {
-                font-size: 14px;
-                height: 36px;
-            }
-        }
-        
-        /* MODIFICA PER DESKTOP (> 768px) */
-        @media (min-width: 768px) {
-            .container {
-                max-width: 700px;
-            }
-            
-            .site-title {
-                font-size: 56px;
-            }
-            
-            .site-subtitle {
-                font-size: 18px;
-                padding: 10px 30px;
-            }
-            
-            .buttons-grid {
-                gap: 20px;
-                max-width: 650px;
-            }
-            
-            .menu-btn {
-                height: 130px;
-                min-height: 130px;
-                max-height: 130px;
-                padding: 25px 15px;
-            }
-            
-            .btn-icon {
-                font-size: 36px;
-                margin-bottom: 12px;
-            }
-            
-            .btn-label {
-                font-size: 15px;
-                height: 38px;
-            }
-            
-            .info-box {
-                max-width: 650px;
-                margin-left: auto;
-                margin-right: auto;
-                padding: 25px;
-            }
-            
-            .logout-btn {
-                max-width: 350px;
-                padding: 16px 40px;
-                font-size: 16px;
-            }
-            
-            /* IMMAGINE DI SFONDO PIÙ GRANDE SOLO PER DESKTOP */
-            /* La modifica è già in cima al CSS nella regola @media (min-width: 768px) per body */
-        }
-        
-        /* MEDIA QUERY PER DESKTOP LARGE */
-        @media (min-width: 1024px) {
-            /* Per schermi molto grandi, possiamo ingrandire ulteriormente l'immagine */
-            body {
-                background-size: 115% auto;
-            }
-        }
-        
-        /* ANIMAZIONE CLICK */
-        .menu-btn:active {
-            transform: scale(0.98);
-            transition: transform 0.1s;
-        }
-        
-        /* SOTTOLINEA DECORATIVA SOTTO TITOLO */
         .title-underline {
             height: 4px;
             width: 80%;
@@ -473,11 +276,38 @@
             background: linear-gradient(90deg, transparent, #FF8C00, #000000, #008000, transparent);
             border-radius: 2px;
         }
+        @media (max-width: 380px) {
+            .site-title { font-size: 38px; }
+            .buttons-grid { grid-template-columns: 1fr; max-width: 280px; gap: 14px; }
+            .menu-btn { height: 110px; min-height: 110px; max-height: 110px; padding: 18px 10px; }
+            .btn-icon { font-size: 30px; margin-bottom: 8px; }
+            .btn-label { font-size: 13px; height: 32px; }
+        }
+        @media (min-width: 600px) {
+            .container { max-width: 550px; }
+            .site-title { font-size: 50px; }
+            .site-subtitle { font-size: 17px; padding: 10px 25px; }
+            .buttons-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; }
+            .menu-btn { height: 125px; min-height: 125px; max-height: 125px; padding: 22px 15px; }
+            .btn-icon { font-size: 34px; }
+            .btn-label { font-size: 14px; height: 36px; }
+        }
+        @media (min-width: 768px) {
+            .container { max-width: 700px; }
+            .site-title { font-size: 56px; }
+            .site-subtitle { font-size: 18px; padding: 10px 30px; }
+            .buttons-grid { gap: 20px; max-width: 650px; }
+            .menu-btn { height: 130px; min-height: 130px; max-height: 130px; padding: 25px 15px; }
+            .btn-icon { font-size: 36px; margin-bottom: 12px; }
+            .btn-label { font-size: 15px; height: 38px; }
+            .info-box { max-width: 650px; margin-left: auto; margin-right: auto; padding: 25px; }
+            .logout-btn { max-width: 350px; padding: 16px 40px; font-size: 16px; }
+        }
+        .menu-btn:active { transform: scale(0.98); transition: transform 0.1s; }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- HEADER CON SCRITTA COLORATA -->
         <header class="site-header">
             <h1 class="site-title">
                 <span class="title-part fant">FANT</span>
@@ -488,7 +318,6 @@
             <p class="site-subtitle">Il fantacalcio dei ferrovieri</p>
         </header>
         
-        <!-- GRIGLIA PULSANTI -->
         <div class="buttons-grid">
             <a href="albo-d-oro.html" class="btn-link">
                 <button class="menu-btn btn-trophy">
@@ -496,35 +325,30 @@
                     <div class="btn-label">Albo d'Oro</div>
                 </button>
             </a>
-            
             <a href="assistenza.html" class="btn-link">
                 <button class="menu-btn btn-help">
                     <div class="btn-icon"><i class="fas fa-hands-helping"></i></div>
                     <div class="btn-label">Assistenza</div>
                 </button>
             </a>
-            
             <a href="documenti-lega.html" class="btn-link">
                 <button class="menu-btn btn-docs">
                     <div class="btn-icon"><i class="fas fa-file-alt"></i></div>
                     <div class="btn-label">Documenti</div>
                 </button>
             </a>
-            
             <a href="iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-signup">
                     <div class="btn-icon"><i class="fas fa-edit"></i></div>
                     <div class="btn-label">Iscrizione</div>
                 </button>
             </a>
-            
             <a href="quota-iscrizione.html" class="btn-link">
                 <button class="menu-btn btn-fee">
                     <div class="btn-icon"><i class="fas fa-euro-sign"></i></div>
                     <div class="btn-label">Quota €30</div>
                 </button>
             </a>
-            
             <a href="donazioni.html" class="btn-link">
                 <button class="menu-btn btn-donate">
                     <div class="btn-icon"><i class="fas fa-heart"></i></div>
@@ -533,7 +357,6 @@
             </a>
         </div>
         
-        <!-- INFO BOX -->
         <div class="info-box">
             <div class="info-highlight">📋 Procedura di Iscrizione</div>
             <p>1. Compila il modulo <strong>"Iscrizione"</strong><br>
@@ -541,114 +364,47 @@
                3. Quando verrai inserito nel gruppo WhatsApp puoi considerarti iscritto</p>
         </div>
         
-        <!-- LOGOUT -->
         <div class="logout-section">
             <button class="logout-btn" onclick="logout()">
                 <i class="fas fa-sign-out-alt"></i> ESCI DALL'AREA RISERVATA
             </button>
         </div>
         
-        <!-- FOOTER -->
         <footer class="site-footer">
             <p>FantaVenezia © 2026 • Accesso riservato ai partecipanti</p>
-            <p style="font-size: 12px; margin-top: 6px; color: rgba(0, 0, 0, 0.7);">
-                
-            </p>
+            <p style="font-size: 12px; margin-top: 6px; color: rgba(0, 0, 0, 0.7);"></p>
         </footer>
     </div>
     
-    <!-- PULSANTE AREA STAFF -->
     <a href="area-staff.html" class="staff-mini-btn">
         <i class="fas fa-lock"></i>
         <span>Area Staff</span>
     </a>
 
     <script>
-        // Verifica login
-        if (!localStorage.getItem('fantaLoggedIn')) {
-            window.location.href = 'index.html';
-        }
-        
-        // Logout con animazione
         function logout() {
             const btn = document.querySelector('.logout-btn');
-            const originalText = btn.innerHTML;
-            
-            // Effetto di caricamento
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Uscita in corso...';
             btn.disabled = true;
-            
             setTimeout(() => {
-                localStorage.removeItem('fantaLoggedIn');
                 window.location.href = 'index.html';
             }, 800);
         }
-        
-        // Effetto click sui pulsanti
         document.querySelectorAll('.menu-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 this.style.transform = 'scale(0.97)';
-                setTimeout(() => {
-                    this.style.transform = '';
-                }, 200);
+                setTimeout(() => { this.style.transform = ''; }, 200);
             });
         });
-        
-        // Animazione al caricamento
         window.addEventListener('load', function() {
             document.querySelector('.container').style.opacity = '0';
             document.querySelector('.container').style.transform = 'translateY(20px)';
-            
             setTimeout(() => {
                 document.querySelector('.container').style.transition = 'opacity 0.8s ease-out, transform 0.8s ease-out';
                 document.querySelector('.container').style.opacity = '1';
                 document.querySelector('.container').style.transform = 'translateY(0)';
             }, 100);
-            
-            // Verifica se l'immagine si carica
-            const bgImage = new Image();
-            bgImage.src = 'logo-fantavenezia.jpg';
-            bgImage.onerror = function() {
-                console.error('Immagine di sfondo non trovata');
-                // Fallback per desktop
-                if (window.innerWidth >= 768) {
-                    document.body.style.background = 'linear-gradient(135deg, #FF8C00 0%, #000000 50%, #008000 100%)';
-                }
-            };
         });
-        
-        // Adatta layout in base all'orientamento
-        function handleOrientation() {
-            if (window.innerHeight > window.innerWidth) {
-                // Verticale
-                document.querySelector('.buttons-grid').style.gridTemplateColumns = 'repeat(2, 1fr)';
-            } else {
-                // Orizzontale
-                document.querySelector('.buttons-grid').style.gridTemplateColumns = 'repeat(3, 1fr)';
-            }
-        }
-        
-        // Regola la dimensione dell'immagine su desktop al resize
-        function handleResize() {
-            if (window.innerWidth >= 768) {
-                // Per desktop: puoi regolare la percentuale in base alla dimensione dello schermo
-                if (window.innerWidth >= 1024) {
-                    document.body.style.backgroundSize = '115% auto';
-                } else {
-                    document.body.style.backgroundSize = '110% auto';
-                }
-            } else {
-                // Per mobile: reset a cover
-                document.body.style.backgroundSize = 'cover';
-            }
-        }
-        
-        window.addEventListener('resize', handleResize);
-        window.addEventListener('orientationchange', handleOrientation);
-        
-        // Inizializza
-        handleOrientation();
-        handleResize(); // Imposta la dimensione corretta all'inizio
     </script>
 </body>
 </html>
